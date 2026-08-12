@@ -1,0 +1,40 @@
+name: Privacy or legal
+description: A question or correction about the Privacy Policy or the Terms of Service.
+title: "Privacy/legal: "
+labels: ["privacy-legal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository publishes Sard's Terms of Service and Privacy Policy, and this form is the
+        way to raise anything about them — including telling us that something in them is wrong.
+
+        **This is a public tracker.** Please do not post personal data here. If what you need to
+        say cannot be said in public, say so in the issue and we will find another way.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is this about?
+      options:
+        - The Privacy Policy
+        - The Terms of Service
+        - How Sard handles data
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Your question, or what you believe is wrong
+      description: >
+        If you are pointing at a specific clause, its number is enough — every clause on the site
+        has its own link.
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything else worth knowing

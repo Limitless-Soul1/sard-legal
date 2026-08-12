@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Download Sard, or read its source
+    url: https://github.com/Limitless-Soul1/Sard
+    about: The Sard application itself lives here. This link is for downloading and reading the source — to report anything, please use one of the forms above.
+  - name: Terms of Service and Privacy Policy
+    url: https://limitless-soul1.github.io/sard-legal/
+    about: The published documents these forms relate to.

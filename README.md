@@ -22,9 +22,11 @@ Three static pages, one stylesheet, one small script. No build step, no framewor
 manager — editing a file and pushing it is the whole workflow.
 
 ```
-index.html          Home — introduces Sard and links to both documents
+index.html          Home — introduces Sard, links to both documents, Get Sard, contact
 terms.html          Terms of Service
 privacy.html        Privacy Policy
+report.html         Composes a report and hands it to GitHub prefilled
+.github/ISSUE_TEMPLATE/  The issue forms those reports land in
 assets/sard.css     Sard's design tokens and every component on these pages
 assets/sard.js      Language, the theme control, the reading rail, clause anchors
 assets/fonts/       The application's own faces, subset to web weight
@@ -57,13 +59,34 @@ All four are progressive enhancements. With scripting off the theme control is h
 renders in Sard, the rail and the anchors never appear, and the documents read exactly as they
 always did.
 
-## Contact
+## Reporting, and why the form does not submit
 
-The contact links in both documents point at **this repository's** issue tracker —
-`github.com/Limitless-Soul1/sard-legal/issues` — not the application's. Legal and privacy questions
-about the published documents belong here; bug reports about the reader belong in the application
-repository. The links to the LICENCE and the "project on GitHub" footer link still point at the
-application, because that is where both of those actually live.
+Everything reportable — bugs, feedback, questions, anything about the Terms or the Privacy Policy —
+goes to **this repository's** tracker, `github.com/Limitless-Soul1/sard-legal/issues`. The links to
+the LICENCE and the "project on GitHub" footer link still point at the application, because that is
+where both of those actually live.
+
+`report.html` composes a report in Sard's own interface and then hands it to GitHub's issue form
+**with every field already filled in**, through query parameters. It does not post the issue itself.
+That was a deliberate choice, not a shortcut:
+
+- Posting directly needs a credential that can write to the repository. This site is static and
+  entirely public, so that credential would have to live behind a serverless proxy — which then
+  needs its own secret store, CORS rules, a captcha and a rate limiter, because it would be an
+  anonymous write path into the repository that someone has to defend forever.
+- It would make attachments **worse**. GitHub's REST API has no endpoint for uploading an issue
+  attachment at all; the web composer uses an internal one. A proxy would have to put files in some
+  other bucket and link to them. Handing off means drag-and-drop upload works properly, in the one
+  place that can actually accept it.
+- Issues would be authored by a bot rather than by the person reporting, so nobody could be replied
+  to, and GitHub's own anti-abuse would no longer apply.
+
+The cost is one extra click and a GitHub account. `Copy as text` covers anyone who does not want one.
+
+**The field names are a contract.** The query parameters `description` and `details` in
+`assets/sard.js` are the `id`s of the fields in `.github/ISSUE_TEMPLATE/*.yml`. Renaming a field in
+one place without the other silently stops the prefill — the link still works, it just arrives
+empty.
 
 ## Design
 

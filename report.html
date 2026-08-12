@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-lang="en"
+      data-title-en="Report an issue — Sard"
+      data-title-ar="الإبلاغ عن مشكلة — سَرْد">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report an issue — Sard</title>
+<meta name="description" content="Report a bug, send feedback, or ask a question about Sard. Your report is composed here and opened in GitHub ready to submit.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Report an issue — Sard">
+<meta property="og:description" content="Report a bug, send feedback, or ask a question about Sard.">
+<meta property="og:image" content="assets/sard-bird.png">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="preload" href="assets/fonts/plex-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/sard.css">
+<script src="assets/sard.js"></script>
+</head>
+<body>
+<div class="desk">
+<div class="sheet">
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="chrome">
+    <a class="brand" href="./" aria-label="Sard">
+      <img src="assets/sard-bird.png" alt="" aria-hidden="true">
+      <span class="wordmark"><b>Sard</b><i aria-hidden="true"></i><em lang="ar">سَرْد</em></span>
+    </a>
+    <nav class="nav" aria-label="Documents">
+      <a href="./"><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a>
+      <a href="terms.html"><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الاستخدام</span></a>
+      <a href="privacy.html"><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a>
+      <a href="report.html" aria-current="page"><span class="lang-en">Report an issue</span><span class="lang-ar">الإبلاغ عن مشكلة</span></a>
+    </nav>
+    <div class="chrome-tools">
+      <button class="tool" id="langToggle" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"></path>
+        </svg>
+        <span class="lang-en" lang="ar">العربية</span><span class="lang-ar" lang="en">English</span>
+      </button>
+      <div id="themeControl" hidden></div>
+    </div>
+  </header>
+
+  <main>
+  <!-- ══════════════════════════ ENGLISH ══════════════════════════ -->
+  <section class="doc lang-en">
+    <span class="eyebrow">Report an issue</span>
+    <h1 style="margin:0 0 12px;font:600 clamp(1.5rem,3.4vw,2rem)/1.28 var(--display);letter-spacing:-.01em">Tell us what happened</h1>
+    <p class="lede">Write your report here and it will be handed to GitHub with every field already
+      filled in, so you can add screenshots and submit it in one step.</p>
+
+    <form class="form" id="reportForm" novalidate>
+      <div class="field">
+        <span class="field-label" id="typeLabel">What kind of report is this?</span>
+        <div class="choices" role="radiogroup" aria-labelledby="typeLabel" id="typeChoices"></div>
+      </div>
+
+      <div class="field">
+        <label for="rTitle">Title</label>
+        <p class="hint">One line that says what this is about.</p>
+        <input class="input" id="rTitle" name="title" type="text" maxlength="120"
+               placeholder="Page turns stop working after using read-aloud">
+      </div>
+
+      <div class="field">
+        <label for="rBody">Description</label>
+        <p class="hint" id="bodyHint">What you did, what you expected, and what happened instead.</p>
+        <textarea class="textarea" id="rBody" name="body" rows="8"
+                  placeholder="1. I opened an EPUB and started read-aloud&#10;2. I expected …&#10;3. Instead, …"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="rDetails">Version and system <span style="font-weight:400;color:var(--muted)">— optional</span></label>
+        <p class="hint">Sard's version (Settings → About), your version of Windows, and anything else
+          that seems relevant.</p>
+        <textarea class="textarea" id="rDetails" name="details" rows="3" style="min-height:5rem"
+                  placeholder="Sard 1.2.2 · Windows 11 · EPUB, Arabic, read-aloud on"></textarea>
+      </div>
+
+      <div class="handoff">
+        <p><b>Screenshots and files.</b> Add them on the next screen — GitHub's own composer takes
+          images and log files by drag-and-drop, and uploads them for you. That is the only place an
+          attachment can be added properly, so this page does not pretend to take one.</p>
+        <p><b>What happens when you continue.</b> Nothing is sent from this page. The button opens
+          GitHub's report form for <b>sard-legal</b> with your text already in it; you review it, add
+          any files, and press the button there. The issue is posted under your own GitHub account,
+          which is what lets us reply to you.</p>
+        <div class="actions">
+          <a class="btn btn-primary" id="rSubmit" href="https://github.com/Limitless-Soul1/sard-legal/issues"
+             target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2A10 10 0 0 0 8.8 21.5c.5.1.7-.2.7-.5v-1.7C6.7 19.9 6.1 18 6.1 18c-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"></path></svg>
+            <span>Continue to GitHub</span>
+          </a>
+          <button class="btn btn-ghost" id="rCopy" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>
+            <span>Copy as text</span>
+          </button>
+        </div>
+        <p style="margin-top:12px"><span id="rNote"></span></p>
+      </div>
+    </form>
+
+    <h2 style="margin-top:40px">If you would rather not use GitHub</h2>
+    <p>Submitting an issue needs a free GitHub account. If you do not have one and do not want one,
+      use <b>Copy as text</b> above and send it by whatever route suits you — the copied text carries
+      everything the form asked for.</p>
+
+    <h2>Which repository this goes to</h2>
+    <p>Reports go to <a href="https://github.com/Limitless-Soul1/sard-legal/issues">sard-legal</a>,
+      which is this site's repository and the front door for everything: bugs, feedback, questions,
+      and anything about the Terms or the Privacy Policy. Sard's own source lives
+      <a href="https://github.com/Limitless-Soul1/Sard">in a separate repository</a>, which is where
+      you download the application — not where you need to file this.</p>
+  </section>
+
+  <!-- ══════════════════════════ العربية ══════════════════════════ -->
+  <section class="doc lang-ar" lang="ar" dir="rtl">
+    <span class="eyebrow">الإبلاغ عن مشكلة</span>
+    <h1 style="margin:0 0 12px;font:600 clamp(1.625rem,3.7vw,2.125rem)/1.45 var(--display);">أخبِرنا بما جرى</h1>
+    <p class="lede">اكتب بلاغك هنا، ثمّ يُسلَّم إلى GitHub وقد امتلأت خاناته كلّها، فلا يبقى عليك
+      إلّا إرفاق الصور وإرساله في خطوة واحدة.</p>
+
+    <form class="form" id="reportFormAr" novalidate>
+      <div class="field">
+        <span class="field-label" id="typeLabelAr">ما نوع هذا البلاغ؟</span>
+        <div class="choices" role="radiogroup" aria-labelledby="typeLabelAr" id="typeChoicesAr"></div>
+      </div>
+
+      <div class="field">
+        <label for="rTitleAr">العنوان</label>
+        <p class="hint">سطر واحد يبيّن موضوع البلاغ.</p>
+        <input class="input" id="rTitleAr" type="text" maxlength="120"
+               placeholder="تقليب الصفحات يتوقّف بعد استعمال القراءة الصوتية">
+      </div>
+
+      <div class="field">
+        <label for="rBodyAr">الوصف</label>
+        <p class="hint" id="bodyHintAr">ما الذي فعلتَه، وما الذي توقّعتَه، وما الذي حدث بدلًا منه.</p>
+        <textarea class="textarea" id="rBodyAr" rows="8"
+                  placeholder="١. فتحتُ كتاب EPUB وشغّلتُ القراءة الصوتية&#10;٢. توقّعتُ …&#10;٣. لكنّ الذي حدث …"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="rDetailsAr">الإصدار والنظام <span style="font-weight:400;color:var(--muted)">— اختياري</span></label>
+        <p class="hint">إصدار سَرْد (الإعدادات ← عن البرنامج)، وإصدار ويندوز لديك، وكلّ ما تراه
+          ذا صلة.</p>
+        <textarea class="textarea" id="rDetailsAr" rows="3" style="min-height:5rem"
+                  placeholder="سَرْد 1.2.2 · ويندوز 11 · EPUB، عربي، القراءة الصوتية تعمل"></textarea>
+      </div>
+
+      <div class="handoff">
+        <p><b>الصور والملفّات.</b> أضِفها في الشاشة التالية؛ فمحرّر GitHub نفسه يقبل الصور وملفّات
+          السجلّ بالسحب والإفلات ويرفعها عنك. وهو الموضع الوحيد الذي يصحّ فيه الإرفاق، ولذلك لا
+          تتظاهر هذه الصفحة بأنّها تقبله.</p>
+        <p><b>ماذا يحدث حين تتابع.</b> لا يُرسَل شيء من هذه الصفحة. يفتح الزرّ استمارةَ البلاغ في
+          <b>sard-legal</b> ونصّك فيها، فتراجعه وتُرفق ما شئت ثمّ تضغط الإرسال هناك. ويُنشَر البلاغ
+          باسم حسابك أنت على GitHub، وبذلك يمكننا الردّ عليك.</p>
+        <div class="actions">
+          <a class="btn btn-primary" id="rSubmitAr" href="https://github.com/Limitless-Soul1/sard-legal/issues"
+             target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2A10 10 0 0 0 8.8 21.5c.5.1.7-.2.7-.5v-1.7C6.7 19.9 6.1 18 6.1 18c-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"></path></svg>
+            <span>المتابعة إلى GitHub</span>
+          </a>
+          <button class="btn btn-ghost" id="rCopyAr" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>
+            <span>نسخ النصّ</span>
+          </button>
+        </div>
+        <p style="margin-top:12px"><span id="rNoteAr"></span></p>
+      </div>
+    </form>
+
+    <h2 style="margin-top:40px">إن كنت تفضّل ألّا تستعمل GitHub</h2>
+    <p>يحتاج إرسال البلاغ إلى حساب مجّاني على GitHub. فإن لم يكن لديك حساب ولم ترغب في إنشائه،
+      فاستعمل <b>نسخ النصّ</b> أعلاه وأرسِله بالطريقة التي تناسبك؛ فالنصّ المنسوخ يحمل كلّ ما
+      طلبته الاستمارة.</p>
+
+    <h2>إلى أيّ مستودع يذهب هذا</h2>
+    <p>تذهب البلاغات إلى <a href="https://github.com/Limitless-Soul1/sard-legal/issues">sard-legal</a>،
+      وهو مستودع هذا الموقع وبابُ كلّ شيء: العلل والاقتراحات والأسئلة وكلّ ما يتّصل بالشروط أو
+      بسياسة الخصوصية. أمّا شفرة سَرْد نفسها فتقيم
+      <a href="https://github.com/Limitless-Soul1/Sard">في مستودع منفصل</a>، وهو موضع تنزيل التطبيق
+      لا موضع تقديم البلاغ.</p>
+  </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <span class="lang-en">© 2026 the Sard project — a desktop ebook reader.</span>
+      <span class="lang-ar" lang="ar">© 2026 مشروع سَرْد — قارئ كتب إلكترونية لسطح المكتب.</span>
+    </div>
+    <div class="foot-links">
+      <a href="./"><span class="lang-en">Home</span><span class="lang-ar" lang="ar">الرئيسية</span></a>
+      <a href="terms.html"><span class="lang-en">Terms</span><span class="lang-ar" lang="ar">الشروط</span></a>
+      <a href="privacy.html"><span class="lang-en">Privacy</span><span class="lang-ar" lang="ar">الخصوصية</span></a>
+      <a href="https://github.com/Limitless-Soul1/Sard"><span class="lang-en">The project on GitHub</span><span class="lang-ar" lang="ar">المشروع على GitHub</span></a>
+    </div>
+  </footer>
+</div>
+</div>
+</body>
+</html>

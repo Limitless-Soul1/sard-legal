@@ -1,0 +1,29 @@
+name: Question or general contact
+description: Ask something, or get in touch about anything not covered by the other forms.
+title: "Question: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask away. There is no wrong question here, and "I could not work out how to …" is a
+        perfectly good one — if something was hard to find, that is usually worth knowing.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like to know?
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything that gives it context
+      description: What you were doing at the time, what you had already tried, and so on.
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Screenshots
+      description: Drag any images straight into this box if they help.

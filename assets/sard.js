@@ -243,12 +243,194 @@
     };
   }
 
+  /* ═══ THE REPORT FORM ═════════════════════════════════════════════════════
+     Why this page composes a report but does not submit it.
+
+     Submitting straight to the GitHub API needs a credential that can write to
+     the repository. This site is static, served from GitHub Pages, and anything
+     it ships is public — so that credential would have to live behind a
+     serverless proxy, which then needs its own secret store, CORS rules, a
+     captcha and a rate limiter, because it would be an anonymous write path
+     into the repository that has to be defended forever.
+
+     It would also make attachments worse, not better: GitHub's REST API has no
+     endpoint for uploading an issue attachment at all. The web composer uses an
+     internal one. A proxy would therefore have to put files in some other
+     bucket and link them, and every issue would be authored by a bot instead of
+     by the person reporting it, so nobody could be replied to.
+
+     Handing the composed text to GitHub's own form avoids all of that, and
+     attachments work properly because they happen in the one place that can
+     actually accept them. The cost is one extra click and a GitHub account.
+     ═══════════════════════════════════════════════════════════════════════ */
+  var REPO = "https://github.com/Limitless-Soul1/sard-legal";
+
+  var TYPES = [
+    { id: "bug",      template: "bug.yml",      prefix: "Bug: ",           en: "Bug",             ar: "علّة" },
+    { id: "feedback", template: "feedback.yml", prefix: "Feedback: ",      en: "Feedback",        ar: "اقتراح" },
+    { id: "question", template: "question.yml", prefix: "Question: ",      en: "Question",        ar: "سؤال" },
+    { id: "privacy",  template: "privacy.yml",  prefix: "Privacy/legal: ", en: "Privacy & legal", ar: "الخصوصية والشروط" },
+    { id: "other",    template: null,           prefix: "",                en: "Other",           ar: "غير ذلك" }
+  ];
+
+  /* GitHub rejects a request line that is too long, and browsers cap it too.
+     Rather than let a long report fail on arrival, the page says so first. */
+  var URL_LIMIT = 7000;
+
+  var R = {
+    en: {
+      hint: {
+        bug: "What you did, what you expected, and what happened instead.",
+        feedback: "Describe the idea, and what it would let you do that you cannot do today.",
+        question: "What would you like to know?",
+        privacy: "Your question, or what you believe is wrong. A clause number is enough.",
+        other: "Whatever you would like to tell us."
+      },
+      needTitle: "Add a title and a description to continue.",
+      ready: "Opens GitHub's report form with everything above already filled in.",
+      tooLong: "This report is too long to carry in a link. Use Copy as text, then paste it into GitHub.",
+      copied: "Copied. Paste it wherever suits you.",
+      copyFailed: "Copying was blocked — select the text above and copy it manually."
+    },
+    ar: {
+      hint: {
+        bug: "ما الذي فعلتَه، وما الذي توقّعتَه، وما الذي حدث بدلًا منه.",
+        feedback: "صِف الفكرة، وما الذي ستتيحه لك ممّا لا تستطيعه اليوم.",
+        question: "ما الذي تودّ معرفته؟",
+        privacy: "سؤالك، أو ما تراه خطأً. ويكفي أن تذكر رقم البند.",
+        other: "ما تودّ إخبارنا به."
+      },
+      needTitle: "أضِف عنوانًا ووصفًا للمتابعة.",
+      ready: "يفتح استمارة البلاغ في GitHub وقد امتلأت بما كتبتَه أعلاه.",
+      tooLong: "هذا البلاغ أطول من أن يُحمَل في رابط. استعمل «نسخ النصّ» ثمّ ألصِقه في GitHub.",
+      copied: "نُسِخ. ألصِقه حيث تشاء.",
+      copyFailed: "تعذّر النسخ — حدّد النصّ أعلاه وانسخه يدويًّا."
+    }
+  };
+
+  function buildReport(l) {
+    var suffix = l === "ar" ? "Ar" : "";
+    var form = document.getElementById("reportForm" + suffix);
+    if (!form) return;
+
+    var choices = document.getElementById("typeChoices" + suffix);
+    var titleEl = document.getElementById("rTitle" + suffix);
+    var bodyEl = document.getElementById("rBody" + suffix);
+    var detailsEl = document.getElementById("rDetails" + suffix);
+    var hintEl = document.getElementById("bodyHint" + suffix);
+    var link = document.getElementById("rSubmit" + suffix);
+    var copyBtn = document.getElementById("rCopy" + suffix);
+    var note = document.getElementById("rNote" + suffix);
+    var chosen = "bug";
+
+    TYPES.forEach(function (t) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "choice";
+      b.setAttribute("role", "radio");
+      b.setAttribute("data-type", t.id);
+      var dot = document.createElement("span");
+      dot.className = "choice-dot";
+      dot.setAttribute("aria-hidden", "true");
+      var label = document.createElement("span");
+      label.textContent = t[l];
+      b.appendChild(dot);
+      b.appendChild(label);
+      b.addEventListener("click", function () { chosen = t.id; update(); });
+      choices.appendChild(b);
+    });
+
+    function type() {
+      for (var i = 0; i < TYPES.length; i++) if (TYPES[i].id === chosen) return TYPES[i];
+      return TYPES[0];
+    }
+
+    /* The plain-text form, used for Copy and for the untemplated "Other". */
+    function asText() {
+      var t = type();
+      var out = (titleEl.value || "").trim();
+      out += "\n\n" + (bodyEl.value || "").trim();
+      var d = (detailsEl.value || "").trim();
+      if (d) out += "\n\n---\n\n" + (l === "ar" ? "الإصدار والنظام" : "Version and system") + "\n\n" + d;
+      return out;
+    }
+
+    function githubUrl() {
+      var t = type();
+      var title = (titleEl.value || "").trim();
+      var q = [];
+      if (t.template) {
+        q.push("template=" + encodeURIComponent(t.template));
+        q.push("title=" + encodeURIComponent(t.prefix + title));
+        /* These names are the field ids in .github/ISSUE_TEMPLATE/*.yml.
+           Renaming one there without renaming it here silently stops prefilling. */
+        q.push("description=" + encodeURIComponent((bodyEl.value || "").trim()));
+        var d = (detailsEl.value || "").trim();
+        if (d) q.push("details=" + encodeURIComponent(d));
+      } else {
+        q.push("title=" + encodeURIComponent(title));
+        q.push("body=" + encodeURIComponent((bodyEl.value || "").trim() +
+          ((detailsEl.value || "").trim() ? "\n\n---\n\n" + detailsEl.value.trim() : "")));
+      }
+      return REPO + "/issues/new?" + q.join("&");
+    }
+
+    function update() {
+      var l2 = lang();
+      var s = R[l2] || R.en;
+      Array.prototype.forEach.call(choices.children, function (c) {
+        c.setAttribute("aria-checked", c.getAttribute("data-type") === chosen ? "true" : "false");
+      });
+      if (hintEl) hintEl.textContent = s.hint[chosen];
+
+      var filled = (titleEl.value || "").trim() && (bodyEl.value || "").trim();
+      var url = githubUrl();
+      var tooLong = url.length > URL_LIMIT;
+
+      link.href = tooLong ? REPO + "/issues/new?template=" + (type().template || "") : url;
+      link.setAttribute("aria-disabled", filled ? "false" : "true");
+      note.textContent = !filled ? s.needTitle : (tooLong ? s.tooLong : s.ready);
+      note.className = tooLong && filled ? "copied" : "";
+    }
+
+    if (copyBtn) {
+      copyBtn.addEventListener("click", function () {
+        var s = R[lang()] || R.en;
+        var text = asText();
+        var done = function () { note.textContent = s.copied; note.className = "copied"; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () {
+            note.textContent = s.copyFailed; note.className = "";
+          });
+        } else {
+          /* Older browsers: a throwaway textarea is still the only way. */
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.setAttribute("readonly", "");
+          ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); done(); }
+          catch (e) { note.textContent = s.copyFailed; }
+          document.body.removeChild(ta);
+        }
+      });
+    }
+
+    [titleEl, bodyEl, detailsEl].forEach(function (el) {
+      el.addEventListener("input", update);
+    });
+    update();
+    return update;
+  }
+
   /* ---- Wire everything once the document exists -------------------------- */
   function ready() {
     applyLang(lang());
     var syncTheme = buildThemeControl();
     var syncAnchors = buildAnchors();
     var measureRail = buildRail();
+    /* Both languages of the report page are in the document at once, so each
+       gets its own wired copy; only one is ever visible. */
+    var updateReports = [buildReport("en"), buildReport("ar")].filter(Boolean);
 
     var langBtn = document.getElementById("langToggle");
     if (langBtn) {
@@ -257,6 +439,7 @@
         write(LANG_KEY, lang());
         if (syncTheme) syncTheme();
         if (syncAnchors) syncAnchors();
+        updateReports.forEach(function (u) { u(); });
         /* The two languages are not the same length, so the scroll span moves. */
         if (measureRail) measureRail();
       });

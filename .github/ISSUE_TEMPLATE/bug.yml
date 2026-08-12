@@ -1,0 +1,54 @@
+name: Bug report
+description: Something in Sard, or on this site, is not working as it should.
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report this. The more precisely you can say what happened,
+        the sooner it can be fixed.
+
+        **Please do not include anything private** — book contents, file paths with your name in
+        them, or personal details. Everything written here is public.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+      placeholder: |
+        1. I opened a book and …
+        2. I expected …
+        3. Instead, …
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Version and system
+      description: >
+        Sard's version (Settings → About), your version of Windows, and anything else that seems
+        relevant — the file type you were reading, the theme you were using, whether read-aloud
+        was running.
+      placeholder: |
+        Sard 1.2.2
+        Windows 11 23H2
+        EPUB, Arabic, read-aloud on
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Screenshots or files
+      description: >
+        Drag any images or files straight into this box and GitHub will upload them for you.
+        A screenshot of the problem is often worth more than a description of it.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I am using the most recent version of Sard I can install.
+        - label: I have not included anything private in this report.

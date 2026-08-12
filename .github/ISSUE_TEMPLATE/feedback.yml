@@ -1,0 +1,33 @@
+name: Feedback or a suggestion
+description: An idea, a rough edge, or something you wish Sard did differently.
+title: "Feedback: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggestions are welcome, including small ones. Sard is a reading application before it is
+        anything else, so the most useful feedback usually describes **what you were trying to
+        read, and what got in the way**.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like to see?
+      description: Describe the idea, and what it would let you do that you cannot do today.
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: What are you working around at the moment?
+      description: >
+        How do you handle this today, if at all? Knowing the workaround often says more about the
+        problem than the proposal does.
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Sketches or screenshots
+      description: Drag any images straight into this box if they help explain the idea.
