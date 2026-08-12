@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-lang="en"
+      data-title-en="Privacy Policy — Sard"
+      data-title-ar="سياسة الخصوصية — سَرْد">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Sard</title>
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The Privacy Policy for Sard, a desktop ebook reader. What Sard stores, where it stores it, and the only occasions on which it reaches the network.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Privacy Policy — Sard">
+<meta property="og:description" content="What Sard stores, where it stores it, and the only occasions on which it reaches the network.">
+<meta property="og:image" content="assets/sard-bird.png">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="preload" href="assets/fonts/plex-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/sard.css">
+<script src="assets/sard.js"></script>
+</head>
+<body>
+<div class="desk">
+<div class="sheet">
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="chrome">
+    <a class="brand" href="./" aria-label="Sard">
+      <img src="assets/sard-bird.png" alt="" aria-hidden="true">
+      <span class="wordmark"><b>Sard</b><i aria-hidden="true"></i><em lang="ar">سَرْد</em></span>
+    </a>
+    <nav class="nav" aria-label="Documents">
+      <a href="./"><span class="lang-en">Home</span><span class="lang-ar">الرئيسية</span></a>
+      <a href="terms.html"><span class="lang-en">Terms of Service</span><span class="lang-ar">شروط الاستخدام</span></a>
+      <a href="privacy.html" aria-current="page"><span class="lang-en">Privacy Policy</span><span class="lang-ar">سياسة الخصوصية</span></a>
+    </nav>
+    <div class="chrome-tools">
+      <button class="tool" id="langToggle" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"></path>
+        </svg>
+        <span class="lang-en" lang="ar">العربية</span><span class="lang-ar" lang="en">English</span>
+      </button>
+      <button class="tool" id="themeToggle" type="button" aria-label="Switch theme">
+        <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+        <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden>
+          <circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4l1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+  <!-- ══════════════════════════ ENGLISH ══════════════════════════ -->
+  <article class="doc lang-en">
+    <span class="eyebrow">Privacy Policy</span>
+    <h1 style="margin:0 0 12px;font:600 clamp(1.5rem,3.4vw,2rem)/1.28 var(--display);letter-spacing:-.01em">What Sard knows about you</h1>
+    <p class="lede">Almost nothing, and none of it reaches us. Sard is a desktop application with no
+      account system and no server behind it. This page describes precisely what it stores and the
+      only occasions on which it uses the network.</p>
+    <div class="stamp"><span>Version 1.0</span><span>In effect 12 August 2026</span></div>
+
+    <div class="note">
+      <p><b>The short version.</b> Your library, your reading positions, your notes and your
+      highlights are files on your own computer. The Sard project has no server, receives no data,
+      and could not read your library if it wanted to. Two features reach the internet: read-aloud,
+      which sends the text being spoken to Microsoft's voice service, and the update check, which
+      asks GitHub whether a newer version exists.</p>
+    </div>
+
+    <h2>1 · What Sard is</h2>
+    <p>Sard is a desktop ebook reader for EPUB and PDF files, currently released for Windows. It runs
+      entirely on your computer. There is no Sard account, no Sard server, and no cloud service to
+      sign in to — so there is no place for us to hold information about you even in principle.</p>
+
+    <h2>2 · What Sard stores, and where</h2>
+    <p>Everything Sard remembers is written to a folder on your own device. On Windows that folder is:</p>
+    <p><code>%APPDATA%\com.sard.app</code></p>
+    <p>Inside it, Sard keeps:</p>
+    <ul>
+      <li><strong>Your books.</strong> When you import a file, Sard copies it into that folder so
+        your library does not break when you move the original.</li>
+      <li><strong>A database</strong> holding your reading positions, bookmarks, highlights, notes,
+        tags, shelves and book details.</li>
+      <li><strong>Photo cards</strong> you choose to save — images Sard renders from a passage you
+        picked.</li>
+      <li><strong>Your settings</strong> — theme, typography, reading preferences, chosen voices — and
+        any custom fonts or background images you add yourself.</li>
+    </ul>
+    <p>This information is <em>stored</em>, not <em>collected</em>. It stays on your device, it is
+      never uploaded, and no part of it is sent to the Sard project or to anyone else.</p>
+
+    <h2>3 · When Sard uses the internet</h2>
+    <p>Two features, and nothing else. The reading surface itself is sealed off from the network by
+      the application's content security policy, so opening and reading a book never causes a
+      request to leave your machine.</p>
+
+    <h3>Read-aloud</h3>
+    <p>Sard's read-aloud voices come from Microsoft's online Edge voice service. While you are
+      listening, Sard sends <strong>the passage being read</strong> to that service over an encrypted
+      connection and receives spoken audio back. It also fetches the list of available voices so you
+      can choose one.</p>
+    <p>This means the text of the book you are listening to leaves your device — that is unavoidable
+      for an online voice, and it is worth knowing before you use the feature. Sard sends no account,
+      no name, no book title and no identifier alongside it, because it has none to send. What
+      Microsoft does with the request is governed by
+      <a href="https://privacy.microsoft.com/privacystatement">Microsoft's privacy statement</a>, not
+      by this one. If you never use read-aloud, no text ever leaves your device.</p>
+
+    <h3>Checking for updates</h3>
+    <p>Sard asks GitHub whether a newer release exists — at most once a day while the application is
+      open, and whenever you press the check button yourself. The request reads a small public file
+      from the Sard releases page and contains nothing about you or your library. As with any web
+      request, GitHub can see the IP address it came from.</p>
+
+    <h2>4 · Discord Rich Presence — planned, not yet available</h2>
+    <p>A future version of Sard is intended to be able to show your reading activity in Discord, so
+      your Discord status can display the Sard mark alongside what you are currently reading — the
+      book's title, and your reading status or chapter.</p>
+    <p>When that feature arrives it will be <strong>optional and switched off unless you turn it
+      on</strong>, and you will be able to turn it off again at any time. While it is on, the
+      information described above is sent to Discord and shown to whoever can see your Discord
+      profile; Discord's handling of it is governed by
+      <a href="https://discord.com/privacy">Discord's privacy policy</a>. Turning the feature off
+      stops Sard sending anything to Discord.</p>
+    <div class="note">
+      <p><b>To be exact:</b> this feature is not in the current version of Sard. It is described here
+      in advance so the behaviour is documented before it ships, not because it is running today.
+      This section will be updated with the specifics when the feature is released.</p>
+    </div>
+
+    <h2>5 · What Sard never does</h2>
+    <ul>
+      <li>No accounts, no sign-in, no profiles.</li>
+      <li>No analytics, no telemetry, no usage tracking, no crash reporting sent anywhere.</li>
+      <li>No advertising, and no advertising identifiers.</li>
+      <li>No selling, sharing or licensing of anything about you — we hold nothing to sell.</li>
+      <li>No cloud sync. Your library is not copied to any server.</li>
+      <li>No reading of your other files. Sard opens the files you give it, and nothing else.</li>
+    </ul>
+
+    <h2>6 · You are in control</h2>
+    <p>Because everything lives on your device, you do not have to ask us for anything:</p>
+    <ul>
+      <li>Delete a book, a note or a highlight inside Sard and it is gone from your database.</li>
+      <li>Delete the folder named in section 2 and every trace of your library and settings is gone.</li>
+      <li>Uninstalling Sard stops all of the above, including update checks.</li>
+      <li>Read-aloud only sends anything while you are actually using it. Not using it sends nothing.</li>
+    </ul>
+    <p>If you live somewhere with data-protection rights such as access, correction or erasure, those
+      rights are exercised against whoever holds your data — and for your Sard library, that is you.
+      We hold no copy to give you, correct, or delete.</p>
+
+    <h2>7 · Children</h2>
+    <p>Sard is suitable for readers of any age and does not collect information from anyone,
+      children included. It has no account system, no messaging, no social features and no
+      advertising.</p>
+
+    <h2>8 · This website</h2>
+    <p>These pages are hosted on GitHub Pages. They set no cookies and run no analytics. The only
+      thing stored in your browser is your choice of language and light or dark theme, kept in local
+      storage on your own device so the page remembers it next time.</p>
+    <p>The fonts and the images are served from this site itself, so viewing these pages does not
+      contact any third party. GitHub, as the host, may record standard server-log information such
+      as your IP address; that is described in
+      <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">GitHub's privacy statement</a>.</p>
+
+    <h2>9 · Changes to this policy</h2>
+    <p>If Sard's behaviour changes, this page changes with it — in particular when Discord Rich
+      Presence ships. The version number and date at the top always describe the text below them,
+      and the current version always lives at this address.</p>
+
+    <h2>10 · Getting in touch</h2>
+    <p>Questions about privacy in Sard can be raised on the project's issue tracker:
+      <a href="https://github.com/Limitless-Soul1/Sard/issues">github.com/Limitless-Soul1/Sard/issues</a>.</p>
+  </article>
+
+  <!-- ══════════════════════════ العربية ══════════════════════════ -->
+  <article class="doc lang-ar" lang="ar" dir="rtl">
+    <span class="eyebrow">سياسة الخصوصية</span>
+    <h1 style="margin:0 0 12px;font:600 clamp(1.625rem,3.7vw,2.125rem)/1.45 var(--display);">ما الذي يعرفه سَرْد عنك</h1>
+    <p class="lede">لا شيء تقريبًا، ولا يصل إلينا منه شيء. سَرْد تطبيق لسطح المكتب بلا نظام حسابات
+      ولا خادم خلفه. وتصف هذه الصفحة بدقّة ما الذي يحفظه، والحالات الوحيدة التي يستعمل فيها الشبكة.</p>
+    <div class="stamp"><span>الإصدار 1.0</span><span>سارية من 12 أغسطس 2026</span></div>
+
+    <div class="note">
+      <p><b>باختصار.</b> مكتبتك ومواضع قراءتك وملاحظاتك وتظليلاتك ملفّاتٌ على حاسوبك أنت. ومشروع
+      سَرْد لا يملك خادمًا، ولا يستقبل أيّ بيانات، ولا يستطيع قراءة مكتبتك حتّى لو أراد. وثمّة
+      ميزتان تتّصلان بالإنترنت: القراءة الصوتية، وهي تُرسل النصّ المنطوق إلى خدمة الأصوات من
+      مايكروسوفت، والتحقّق من التحديثات، وهو يسأل GitHub إن كان ثمّة إصدار أحدث.</p>
+    </div>
+
+    <h2>١ · ما هو سَرْد</h2>
+    <p>سَرْد قارئ كتب إلكترونية لسطح المكتب، يفتح ملفّات EPUB وPDF، وهو متاح حاليًّا لنظام ويندوز.
+      يعمل بالكامل على حاسوبك. ولا يوجد حساب في سَرْد، ولا خادم لسَرْد، ولا خدمة سحابية تُسجّل
+      الدخول إليها — فلا مكان لدينا أصلًا نحفظ فيه معلومات عنك.</p>
+
+    <h2>٢ · ما الذي يحفظه سَرْد وأين</h2>
+    <p>كلّ ما يتذكّره سَرْد يُكتب في مجلّد على جهازك أنت. وهذا المجلّد في ويندوز هو:</p>
+    <p><code>%APPDATA%\com.sard.app</code></p>
+    <p>ويحفظ سَرْد داخله:</p>
+    <ul>
+      <li><strong>كتبك.</strong> عند استيراد ملفّ ينسخه سَرْد إلى ذلك المجلّد، حتّى لا تنكسر مكتبتك
+        إذا نقلتَ الملفّ الأصلي.</li>
+      <li><strong>قاعدة بيانات</strong> تحوي مواضع قراءتك وعلاماتك المرجعية وتظليلاتك وملاحظاتك
+        ووسومك ورفوفك وتفاصيل كتبك.</li>
+      <li><strong>البطاقات المصوّرة</strong> التي تختار حفظها — صورٌ يرسمها سَرْد من مقطعٍ تنتقيه.</li>
+      <li><strong>إعداداتك</strong> — السمة والخطوط وتفضيلات القراءة والأصوات المختارة — وأيّ خطوط
+        أو صور خلفية تضيفها بنفسك.</li>
+    </ul>
+    <p>هذه المعلومات <em>محفوظة</em> لا <em>مجموعة</em>. تبقى على جهازك، ولا تُرفَع أبدًا، ولا
+      يُرسَل أيّ جزء منها إلى مشروع سَرْد ولا إلى أيّ جهة أخرى.</p>
+
+    <h2>٣ · متى يستعمل سَرْد الإنترنت</h2>
+    <p>ميزتان اثنتان لا ثالث لهما. أمّا سطح القراءة نفسه فمعزول عن الشبكة بسياسة أمن المحتوى في
+      التطبيق، فلا يُسبّب فتحُ كتابٍ وقراءتُه أيّ طلبٍ يغادر جهازك.</p>
+
+    <h3>القراءة الصوتية</h3>
+    <p>أصوات القراءة في سَرْد تأتي من خدمة الأصوات من مايكروسوفت عبر الإنترنت. وأثناء استماعك يُرسل
+      سَرْد <strong>المقطع المقروء</strong> إلى تلك الخدمة عبر اتّصال مُعمّى، ويستقبل منها الصوت
+      المنطوق. كما يجلب قائمة الأصوات المتاحة لتختار منها.</p>
+    <p>وهذا يعني أنّ نصّ الكتاب الذي تستمع إليه يغادر جهازك — وهو أمر لا مفرّ منه مع صوتٍ يعمل عبر
+      الإنترنت، ويستحقّ أن تعرفه قبل استعمال الميزة. ولا يُرسل سَرْد معه أيّ حساب ولا اسم ولا عنوان
+      كتاب ولا مُعرّف، إذ لا يملك شيئًا من ذلك أصلًا. وما تفعله مايكروسوفت بهذا الطلب يخضع
+      <a href="https://privacy.microsoft.com/privacystatement">لبيان الخصوصية الخاصّ بمايكروسوفت</a>
+      لا لهذه السياسة. وإن لم تستعمل القراءة الصوتية قطّ، فلن يغادر جهازك أيّ نصّ.</p>
+
+    <h3>التحقّق من التحديثات</h3>
+    <p>يسأل سَرْد موقع GitHub إن كان ثمّة إصدار أحدث — مرّة واحدة في اليوم على الأكثر ما دام التطبيق
+      مفتوحًا، وكلّما ضغطتَ زرّ التحقّق بنفسك. ويقرأ الطلبُ ملفًّا عامًّا صغيرًا من صفحة إصدارات
+      سَرْد، ولا يحمل شيئًا عنك ولا عن مكتبتك. وكما هو الحال في أيّ طلب على الويب، يستطيع GitHub
+      رؤية عنوان IP الذي جاء منه.</p>
+
+    <h2>٤ · تكامل Discord — مُخطَّط له ولم يتوفّر بعد</h2>
+    <p>يُنتوى أن يتمكّن إصدار مستقبليّ من سَرْد من عرض نشاط قراءتك في Discord، بحيث تُظهر حالتُك
+      هناك علامةَ سَرْد إلى جانب ما تقرؤه حاليًّا — عنوان الكتاب، وحالة قراءتك أو الفصل الذي أنت
+      فيه.</p>
+    <p>وحين تصل هذه الميزة ستكون <strong>اختيارية ومُعطَّلة ما لم تُفعّلها أنت</strong>، ويمكنك
+      تعطيلها متى شئت. وما دامت مُفعَّلة تُرسَل المعلومات الموصوفة أعلاه إلى Discord وتظهر لكلّ من
+      يرى ملفّك الشخصي هناك؛ ويخضع تعامل Discord معها
+      <a href="https://discord.com/privacy">لسياسة الخصوصية الخاصّة بـDiscord</a>. وتعطيل الميزة
+      يوقف إرسال سَرْد أيّ شيء إلى Discord.</p>
+    <div class="note">
+      <p><b>توخّيًا للدقّة:</b> هذه الميزة ليست في الإصدار الحالي من سَرْد. وقد وُصفت هنا مسبقًا
+      ليكون سلوكها موثّقًا قبل إطلاقها، لا لأنّها تعمل اليوم. وسيُحدَّث هذا البند بالتفاصيل عند
+      إصدارها.</p>
+    </div>
+
+    <h2>٥ · ما لا يفعله سَرْد أبدًا</h2>
+    <ul>
+      <li>لا حسابات ولا تسجيل دخول ولا ملفّات شخصية.</li>
+      <li>لا تحليلات ولا تتبُّع ولا رصد للاستعمال ولا تقارير أعطال تُرسَل إلى أيّ مكان.</li>
+      <li>لا إعلانات ولا مُعرّفات إعلانية.</li>
+      <li>لا بيع ولا مشاركة ولا ترخيص لأيّ شيء يخصّك — فلا نملك شيئًا نبيعه.</li>
+      <li>لا مزامنة سحابية. مكتبتك لا تُنسَخ إلى أيّ خادم.</li>
+      <li>لا اطّلاع على ملفّاتك الأخرى. سَرْد يفتح الملفّات التي تعطيه إيّاها، ولا شيء سواها.</li>
+    </ul>
+
+    <h2>٦ · القرار بيدك</h2>
+    <p>لأنّ كلّ شيء يعيش على جهازك، فلستَ مضطرًّا إلى طلب أيّ شيء منّا:</p>
+    <ul>
+      <li>احذف كتابًا أو ملاحظة أو تظليلًا من داخل سَرْد، يزُل من قاعدة بياناتك.</li>
+      <li>احذف المجلّد المذكور في البند الثاني، يزُل كلّ أثر لمكتبتك وإعداداتك.</li>
+      <li>إزالة تثبيت سَرْد توقف كلّ ما سبق، بما فيه التحقّق من التحديثات.</li>
+      <li>القراءة الصوتية لا تُرسل شيئًا إلّا أثناء استعمالك لها فعلًا. وتركُها يعني ألّا يُرسَل شيء.</li>
+    </ul>
+    <p>وإن كنت تعيش حيث تكفل لك القوانين حقوقًا في حماية البيانات كالاطّلاع أو التصحيح أو المحو،
+      فهذه الحقوق تُمارَس تجاه من يحتفظ ببياناتك — وفي حالة مكتبة سَرْد، فذاك أنت. ولا نملك نحن
+      نسخةً نُطلعك عليها أو نُصحّحها أو نمحوها.</p>
+
+    <h2>٧ · الأطفال</h2>
+    <p>سَرْد صالح للقرّاء من كلّ الأعمار، ولا يجمع معلومات من أحد، والأطفال في ذلك سواء. فليس فيه
+      نظام حسابات ولا مراسلة ولا ميزات اجتماعية ولا إعلانات.</p>
+
+    <h2>٨ · هذا الموقع</h2>
+    <p>هذه الصفحات مُستضافة على GitHub Pages. لا تضع أيّ ملفّات تعريف ارتباط ولا تُشغّل أيّ
+      تحليلات. والشيء الوحيد المحفوظ في متصفّحك هو اختيارك للّغة وللسمة الفاتحة أو الداكنة، ويُحفظ
+      في التخزين المحلّي على جهازك لتتذكّره الصفحة في المرّة القادمة.</p>
+    <p>والخطوط والصور تُقدَّم من هذا الموقع نفسه، فتصفّح هذه الصفحات لا يتّصل بأيّ طرف ثالث. أمّا
+      GitHub بصفته المستضيف فقد يُسجّل معلومات سجلّات الخوادم المعتادة كعنوان IP، وهو موصوف في
+      <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">بيان الخصوصية الخاصّ بـGitHub</a>.</p>
+
+    <h2>٩ · تغييرات هذه السياسة</h2>
+    <p>إذا تغيّر سلوك سَرْد تغيّرت هذه الصفحة معه، ولا سيّما عند إطلاق تكامل Discord. ورقم الإصدار
+      وتاريخه في الأعلى يصفان دائمًا النصّ الذي تحتهما، ويبقى النصّ الساري على هذا العنوان.</p>
+
+    <h2>١٠ · للتواصل</h2>
+    <p>يمكن طرح الأسئلة المتعلّقة بالخصوصية في سَرْد على صفحة المسائل في مستودع المشروع:
+      <a href="https://github.com/Limitless-Soul1/Sard/issues">github.com/Limitless-Soul1/Sard/issues</a>.</p>
+  </article>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <span class="lang-en">© 2026 the Sard project. Sard is a desktop ebook reader.</span>
+      <span class="lang-ar" lang="ar">© 2026 مشروع سَرْد. سَرْد قارئ كتب إلكترونية لسطح المكتب.</span>
+    </div>
+    <div class="foot-links">
+      <a href="./"><span class="lang-en">Home</span><span class="lang-ar" lang="ar">الرئيسية</span></a>
+      <a href="terms.html"><span class="lang-en">Terms</span><span class="lang-ar" lang="ar">الشروط</span></a>
+      <a href="https://github.com/Limitless-Soul1/Sard"><span class="lang-en">The project on GitHub</span><span class="lang-ar" lang="ar">المشروع على GitHub</span></a>
+    </div>
+  </footer>
+</div>
+</div>
+</body>
+</html>

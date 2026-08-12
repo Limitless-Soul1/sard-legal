@@ -1,0 +1,341 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Sard — legal & public information pages
+   Built on Sard's own design tokens. Light is Ivory (the application's
+   DEFAULT_LIGHT); dark is Charcoal. Both are real Sard themes, not
+   approximations, so these pages read as part of the application.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ---- The application's own bundled faces, subset to web weight ---- */
+@font-face{font-family:"SardUILatin";src:url("fonts/plex-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:"SardUILatin";src:url("fonts/plex-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:"SardUILatin";src:url("fonts/plex-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap;}
+/* Arabic is routed by unicode-range inside one stack, so a mixed string shapes
+   correctly with no markup — the same mechanism the application uses. */
+@font-face{font-family:"SardUIArabic";src:url("fonts/plex-ar-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;
+  unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F;}
+@font-face{font-family:"SardUIArabic";src:url("fonts/plex-ar-600.woff2") format("woff2");font-weight:500 700;font-style:normal;font-display:swap;
+  unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F;}
+@font-face{font-family:"Literata";src:url("fonts/literata-var.woff2") format("woff2");font-weight:200 900;font-style:normal;font-display:swap;}
+
+/* ═══ TOKENS ══════════════════════════════════════════════════════════════
+   Eight colour tokens. Every other surface on these pages is a color-mix of
+   one of them — rule 1 of the theme kit.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  --paper-bg:#F5EEDD; --app-bg:#E7DCC4; --chrome-bg:#EAE0CA;
+  --chrome-border:rgba(43,37,33,.10);
+  --text:#2B2521; --muted:#8A7E6E; --accent:#9C5A3C; --selection:rgba(156,90,60,.20);
+  --sh-page:0 0 30px rgba(60,40,16,.10), -1px 0 0 rgba(43,37,33,.05), 1px 0 0 rgba(43,37,33,.05);
+  --sh-raise:0 6px 18px rgba(40,28,14,.16);
+  --sh-float:0 16px 42px rgba(40,28,14,.24);
+  --grain-blend:multiply; --grain-op:.035;
+  --gilt:#C9A15E;
+
+  --ui:"SardUILatin","SardUIArabic",system-ui,"Segoe UI",sans-serif;
+  --display:"Literata","SardUIArabic",Georgia,serif;
+
+  --measure:68ch;
+  /* The easing family, named as the kit names it */
+  --arrive:cubic-bezier(.22,1,.36,1);
+  --press:cubic-bezier(.32,.72,.32,1);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper-bg:#1C1C1E; --app-bg:#161617; --chrome-bg:#161617;
+    --chrome-border:rgba(255,255,255,.07);
+    --text:#DCD9D2; --muted:#8A8881; --accent:#C98A5E; --selection:rgba(201,138,94,.28);
+    --sh-page:inset 1px 0 0 rgba(255,255,255,.05), inset -1px 0 0 rgba(255,255,255,.05);
+    --sh-raise:0 6px 18px rgba(0,0,0,.40);
+    --sh-float:0 16px 42px rgba(0,0,0,.50);
+    --grain-blend:screen; --grain-op:.020;
+    --gilt:#D8B678;
+  }
+}
+:root[data-theme="dark"]{
+  --paper-bg:#1C1C1E; --app-bg:#161617; --chrome-bg:#161617;
+  --chrome-border:rgba(255,255,255,.07);
+  --text:#DCD9D2; --muted:#8A8881; --accent:#C98A5E; --selection:rgba(201,138,94,.28);
+  --sh-page:inset 1px 0 0 rgba(255,255,255,.05), inset -1px 0 0 rgba(255,255,255,.05);
+  --sh-raise:0 6px 18px rgba(0,0,0,.40);
+  --sh-float:0 16px 42px rgba(0,0,0,.50);
+  --grain-blend:screen; --grain-op:.020;
+  --gilt:#D8B678;
+}
+
+*{box-sizing:border-box;}
+::selection{background:var(--selection);}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; background:var(--app-bg); color:var(--text);
+  font-family:var(--ui); font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+
+/* ═══ THE DESK AND THE PAGE ═══════════════════════════════════════════════
+   Sard's founding image: a page resting on a desk. The desk shows in the
+   margins; the page is opaque and carries the text.
+   ═══════════════════════════════════════════════════════════════════════ */
+.desk{min-height:100vh; display:flex; justify-content:center; padding:0 clamp(0px,3vw,48px);}
+.sheet{
+  position:relative; width:100%; max-width:940px;
+  background:var(--paper-bg); box-shadow:var(--sh-page);
+  padding:0 clamp(20px,5vw,64px) 0;
+}
+.grain{
+  position:absolute; inset:0; pointer-events:none; z-index:0;
+  opacity:var(--grain-op); mix-blend-mode:var(--grain-blend);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.sheet > *:not(.grain){position:relative; z-index:1;}
+
+/* ═══ CHROME — the top bar ════════════════════════════════════════════════ */
+.chrome{
+  position:sticky; top:0; z-index:40;
+  margin-inline:calc(-1 * clamp(20px,5vw,64px));
+  padding:0 clamp(14px,4vw,26px);
+  display:flex; align-items:center; gap:14px; min-height:64px; flex-wrap:wrap;
+  background:color-mix(in srgb, var(--chrome-bg) 96%, transparent);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--chrome-border);
+}
+.brand{display:flex; align-items:center; gap:9px; flex:none; padding:10px 0; text-decoration:none; color:inherit;}
+/* The hoopoe mirrors so it always faces INTO the content, never off the edge. */
+.brand img{height:27px; width:auto;}
+[dir="rtl"] .brand img{transform:scaleX(-1);}
+/* The wordmark's internal order never flips — it is pinned LTR on itself. */
+.wordmark{display:inline-flex; align-items:baseline; gap:7px; direction:ltr;}
+.wordmark b{font:700 1.0625rem/1 var(--ui); letter-spacing:.01em;}
+.wordmark i{width:1.5px; height:17px; align-self:center; border-radius:2px; background:color-mix(in srgb,var(--text) 28%,transparent);}
+.wordmark em{font:600 1.25rem/1 "SardUIArabic",sans-serif; font-style:normal;}
+
+.nav{display:flex; gap:2px; flex-wrap:wrap; flex:1 1 auto; min-width:0;}
+.nav a{
+  font:500 .75rem/1 var(--ui); color:var(--muted); text-decoration:none;
+  padding:8px 10px; border-radius:6px; white-space:nowrap;
+  transition:color 150ms linear, background-color 150ms linear;
+}
+.nav a:hover{color:var(--text); background:color-mix(in srgb,var(--accent) 12%,transparent);}
+.nav a[aria-current="page"]{color:var(--text); font-weight:600;}
+.chrome-tools{display:flex; align-items:center; gap:6px; flex:none;}
+.tool{
+  display:inline-flex; align-items:center; justify-content:center; gap:7px; cursor:pointer;
+  min-height:34px; padding:0 12px; border-radius:9px;
+  border:1px solid var(--chrome-border); background:color-mix(in srgb,var(--text) 5%,transparent);
+  color:var(--text); font:600 .75rem var(--ui);
+  transition:background-color 150ms linear, border-color 150ms linear;
+}
+.tool:hover{background:color-mix(in srgb,var(--text) 9%,transparent);}
+.tool svg{width:15px; height:15px; flex:none;}
+/* Arabic never gets letterspacing or faux-bold — kit rule 4 */
+[data-lang="ar"] .tool{letter-spacing:0;}
+
+:where(a,button,summary):focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px;}
+
+/* ═══ MASTHEAD ════════════════════════════════════════════════════════════ */
+.mast{padding:clamp(44px,7vw,86px) 0 clamp(30px,4vw,46px); text-align:center;}
+.mast-hero{position:relative; display:inline-flex; align-items:center; justify-content:center;}
+.mast-halo{
+  position:absolute; left:50%; top:54%; transform:translate(-50%,-50%);
+  width:290px; height:210px; pointer-events:none; filter:blur(4px);
+  background:radial-gradient(50% 50% at 50% 50%, rgba(232,195,106,.38), transparent 70%);
+}
+.mast-bird{position:relative; height:98px; width:auto; filter:drop-shadow(0 10px 18px rgba(40,28,14,.20));}
+[dir="rtl"] .mast-bird{transform:scaleX(-1);}
+/* The lockup: Latin, a quiet ink divider, Arabic. Monochrome — the divider is
+   never the accent. The Arabic is set larger so the two read at one weight. */
+.lockup{display:flex; align-items:center; justify-content:center; gap:20px; margin:8px 0 14px; direction:ltr;}
+.lockup-latin{font:600 clamp(2.125rem,5.5vw,3rem)/1 var(--display); letter-spacing:.01em;}
+.lockup-bar{width:1px; height:clamp(32px,4.6vw,46px); background:var(--text); opacity:.28;}
+.lockup-ar{font:600 clamp(2.375rem,6.4vw,3.5rem)/1 "SardUIArabic",sans-serif; transform:translateY(-2px);}
+.mast-rule{display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:20px;}
+.mast-rule span:first-child{width:60px; height:1px; background:linear-gradient(to left,color-mix(in srgb,var(--text) 26%,transparent),transparent);}
+.mast-rule span:last-child{width:60px; height:1px; background:linear-gradient(to right,color-mix(in srgb,var(--text) 26%,transparent),transparent);}
+.mast-dot{font-size:.625rem; line-height:1; color:var(--gilt);}
+.mast h1{
+  margin:0 0 14px; font:600 clamp(1.5rem,3.4vw,2.125rem)/1.28 var(--display);
+  text-wrap:balance; letter-spacing:-.01em;
+}
+.mast .lede{margin:0 auto; max-width:56ch; font:400 clamp(.9375rem,1.4vw,1.0625rem)/1.72 var(--ui); color:var(--muted); text-wrap:pretty;}
+.mast-meta{
+  margin-top:24px; display:flex; flex-wrap:wrap; gap:8px 10px; justify-content:center;
+  font:500 .6875rem var(--ui); color:var(--muted);
+}
+.mast-meta span{
+  padding:5px 12px; border-radius:999px; border:1px solid var(--chrome-border);
+  background:color-mix(in srgb,var(--text) 4%,transparent);
+}
+
+/* Arabic goes up one step in size and one in weight — kit rule 4 */
+[data-lang="ar"] .mast h1{font-weight:600; font-size:clamp(1.625rem,3.7vw,2.25rem); line-height:1.45;}
+[data-lang="ar"] .mast .lede{font-size:clamp(1rem,1.5vw,1.125rem); line-height:1.9;}
+
+/* ═══ DOCUMENT CARDS (homepage) ═══════════════════════════════════════════ */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(266px,1fr)); gap:16px; margin:0 0 12px;}
+.card{
+  display:flex; flex-direction:column; gap:9px;
+  padding:22px 24px 24px; border-radius:11px; text-decoration:none; color:inherit;
+  border:1px solid var(--chrome-border);
+  background:color-mix(in srgb,var(--text) 3%,transparent);
+  transition:border-color 160ms linear, background-color 160ms linear, transform 160ms var(--press);
+}
+.card:hover{
+  border-color:color-mix(in srgb,var(--accent) 45%,transparent);
+  background:color-mix(in srgb,var(--accent) 7%,transparent);
+  transform:translateY(-1px);
+}
+.card-ico{
+  width:38px; height:38px; border-radius:9px; display:grid; place-items:center; margin-bottom:3px;
+  border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);
+  background:color-mix(in srgb,var(--accent) 10%,transparent);
+  color:var(--accent);
+}
+.card-ico svg{width:19px; height:19px;}
+.card h2{margin:0; font:600 1.0625rem/1.35 var(--display); letter-spacing:-.005em;}
+.card p{margin:0; font-size:.875rem; line-height:1.6; color:var(--muted); max-width:none;}
+.card-go{
+  margin-top:4px; font:600 .75rem var(--ui); color:var(--accent);
+  display:inline-flex; align-items:center; gap:6px;
+}
+/* A chevron means direction, so it mirrors with the interface — kit §10.2 */
+.card-go svg{width:13px; height:13px;}
+[dir="rtl"] .card-go svg{transform:scaleX(-1);}
+[data-lang="ar"] .card h2{font-size:1.125rem; line-height:1.5;}
+[data-lang="ar"] .card p{font-size:.9375rem; line-height:1.85;}
+
+/* ═══ DOCUMENT BODY ═══════════════════════════════════════════════════════ */
+.doc{padding:clamp(30px,4vw,44px) 0 0; max-width:var(--measure);}
+.eyebrow{
+  font:700 .6875rem var(--ui); letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent); display:block; margin-bottom:9px;
+}
+/* Arabic is never uppercased or letterspaced — kit §10.2 */
+[data-lang="ar"] .eyebrow{text-transform:none; letter-spacing:0; font-size:.8125rem;}
+
+.doc h2{
+  margin:40px 0 12px; font:600 1.3125rem/1.35 var(--display);
+  letter-spacing:-.005em; scroll-margin-top:88px;
+}
+.doc h2:first-of-type{margin-top:26px;}
+.doc h3{margin:26px 0 9px; font:600 .9375rem/1.4 var(--ui);}
+.doc p{margin:0 0 14px; max-width:var(--measure); text-wrap:pretty;}
+.doc ul{margin:0 0 16px; padding-inline-start:1.2rem; max-width:var(--measure);}
+.doc li{margin-bottom:8px;}
+.doc li::marker{color:var(--accent);}
+.doc a{color:var(--accent); text-underline-offset:2px;}
+.doc strong{font-weight:600; color:var(--text);}
+.doc .lede{margin:0 0 4px; font-size:1.0625rem; line-height:1.75; color:var(--muted); text-wrap:pretty;}
+.doc code{
+  font-family:ui-monospace,"Cascadia Mono",Consolas,monospace; font-size:.8125em;
+  background:color-mix(in srgb,var(--text) 7%,transparent); padding:.14em .4em; border-radius:4px;
+  word-break:break-word;
+}
+[data-lang="ar"] .doc{font-size:1.0625rem;}
+[data-lang="ar"] .doc p,[data-lang="ar"] .doc li{line-height:1.9;}
+[data-lang="ar"] .doc h2{font-size:1.4375rem; line-height:1.5;}
+[data-lang="ar"] .doc h3{font-size:1.0625rem; line-height:1.55;}
+[data-lang="ar"] .doc .lede{font-size:1.125rem; line-height:1.95;}
+/* Arabic numerals inside Arabic prose still read as Western digits here, which
+   is what a legal date needs — but they must not be reordered by bidi. */
+.doc time,.num{unicode-bidi:isolate;}
+
+/* The stamp — issue date and version */
+.stamp{
+  display:flex; flex-wrap:wrap; gap:8px 10px; margin:0 0 6px;
+  font:500 .6875rem var(--ui); color:var(--muted);
+}
+.stamp span{
+  padding:5px 11px; border-radius:999px; border:1px solid var(--chrome-border);
+  background:color-mix(in srgb,var(--text) 4%,transparent);
+}
+[data-lang="ar"] .stamp{font-size:.8125rem;}
+
+/* A note — the accent-tinted aside */
+.note{
+  max-width:var(--measure); margin:0 0 18px; padding:14px 17px; border-radius:9px;
+  border:1px solid color-mix(in srgb,var(--accent) 26%,transparent);
+  background:color-mix(in srgb,var(--accent) 8%,transparent);
+  font-size:.9375rem; line-height:1.65;
+}
+.note p:last-child{margin-bottom:0;}
+.note b{color:var(--accent);}
+[data-lang="ar"] .note{font-size:1rem; line-height:1.9;}
+
+/* A TODO — deliberately visible. Colour is never the only signal, so it also
+   carries the word itself in a badge — kit rule 7. */
+.todo{
+  max-width:var(--measure); margin:0 0 18px; padding:14px 17px; border-radius:9px;
+  border:1px dashed color-mix(in srgb,#b05220 46%,transparent);
+  background:color-mix(in srgb,#b05220 8%,transparent);
+  font-size:.9375rem; line-height:1.65;
+}
+.todo-badge{
+  display:inline-block; font:700 .5625rem var(--ui); letter-spacing:.09em; text-transform:uppercase;
+  padding:3px 8px; border-radius:999px; margin-inline-end:9px; vertical-align:1px;
+  color:#fff; background:#b05220;
+}
+[data-lang="ar"] .todo{font-size:1rem; line-height:1.9;}
+[data-lang="ar"] .todo-badge{letter-spacing:0; font-size:.625rem;}
+
+/* The "at a glance" facts list */
+.facts{list-style:none; margin:0 0 18px; padding:0; max-width:var(--measure);}
+.facts li{
+  display:flex; gap:11px; align-items:flex-start; margin-bottom:11px; font-size:.9375rem; line-height:1.6;
+}
+.facts .mark{
+  flex:none; width:19px; height:19px; margin-top:2px; border-radius:50%;
+  display:grid; place-items:center; font-size:.6875rem; font-weight:700;
+}
+.facts .yes{background:color-mix(in srgb,var(--accent) 16%,transparent); color:var(--accent);}
+.facts .no{background:color-mix(in srgb,var(--text) 8%,transparent); color:var(--muted);}
+.facts .mark svg{width:11px; height:11px;}
+[data-lang="ar"] .facts li{font-size:1rem; line-height:1.85;}
+
+/* ═══ FOOTER ══════════════════════════════════════════════════════════════ */
+.foot{
+  margin-top:clamp(44px,6vw,72px);
+  margin-inline:calc(-1 * clamp(20px,5vw,64px));
+  padding:26px clamp(20px,5vw,64px) 34px;
+  border-top:1px solid var(--chrome-border);
+  display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; justify-content:space-between;
+  font-size:.75rem; color:var(--muted);
+}
+.foot a{color:var(--muted); text-decoration:none; border-bottom:1px solid transparent; transition:color 150ms linear, border-color 150ms linear;}
+.foot a:hover{color:var(--accent); border-bottom-color:color-mix(in srgb,var(--accent) 40%,transparent);}
+.foot-links{display:flex; flex-wrap:wrap; gap:8px 16px;}
+[data-lang="ar"] .foot{font-size:.8125rem;}
+
+/* ═══ LANGUAGE SWITCHING ══════════════════════════════════════════════════
+   Both languages ship in the document so a single URL serves both — which is
+   what the Discord Developer Portal needs. With JavaScript off, English shows.
+   ═══════════════════════════════════════════════════════════════════════ */
+[data-lang="en"] .lang-ar{display:none;}
+[data-lang="ar"] .lang-en{display:none;}
+
+/* ═══ MOTION — reduced-motion turns movement off, keeps feedback ═══════════ */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+  .card:hover{transform:none;}
+}
+
+/* ═══ FORCED COLOURS — the decoration turns off completely ════════════════ */
+@media (forced-colors:active){
+  .grain,.mast-halo{display:none;}
+  .card,.note,.todo,.tool{border-color:CanvasText;}
+}
+
+/* ═══ NARROW ══════════════════════════════════════════════════════════════ */
+@media (max-width:560px){
+  .chrome{min-height:56px; gap:8px; padding-block:8px;}
+  .nav{order:3; flex-basis:100%;}
+  .mast-bird{height:76px;}
+  .foot{flex-direction:column; align-items:flex-start;}
+}
+
+/* ═══ PRINT — the desk falls away, the page remains ═══════════════════════ */
+@media print{
+  body{background:#fff; color:#000;}
+  .chrome,.foot,.grain,.mast-halo,.chrome-tools{display:none;}
+  .sheet{box-shadow:none; max-width:none; padding:0;}
+  .doc{max-width:none;}
+  .card{break-inside:avoid;}
+}
