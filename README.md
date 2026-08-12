@@ -26,7 +26,7 @@ index.html          Home — introduces Sard and links to both documents
 terms.html          Terms of Service
 privacy.html        Privacy Policy
 assets/sard.css     Sard's design tokens and every component on these pages
-assets/sard.js      Language, the theme organ, the reading rail, clause anchors
+assets/sard.js      Language, the theme control, the reading rail, clause anchors
 assets/fonts/       The application's own faces, subset to web weight
 assets/sard-bird.png  The hoopoe mark
 ```
@@ -36,14 +36,15 @@ assets/sard-bird.png  The hoopoe mark
 Four things move, and each earns its place. Everything else is static on purpose — these are legal
 documents first.
 
-- **The theme organ** in the top bar offers Sard's **sixteen real papers**. Choosing one repaints the
-  whole site, because a theme in Sard is a token set rather than a skin — the page demonstrates that
-  rather than asserting it. The values live in `THEMES` in `assets/sard.js` and are copied from
-  `src/theme/themes.ts` in the application repository; `scratchpad/verify-themes.mjs` in the original
-  working notes diffed all ten fields of all sixteen against the source. Do not hand-edit them.
-  Unset means *follow the system*, which is the honest default; the menu's reset returns to it.
+- **The theme control** in the top bar offers **two papers**: **Sard**, the default, and
+  **Charcoal**, the night alternative. Both are defined in the stylesheet, so applying one is a single
+  `data-theme` attribute and the tokens have exactly one home. Sard's values are the application's
+  Ivory set (its `DEFAULT_LIGHT`), shown here under the product's own name.
+  The site **always opens on Sard**, whatever the visitor's system is set to — there is deliberately
+  no `prefers-color-scheme` default, because the opening paper is a decision rather than an
+  inheritance. A chosen theme is remembered and carries across pages.
 - **The reader specimen** on the home page shows the page resting on the desk, with a Latin line in
-  Literata and an Arabic line in Amiri. It repaints with the organ, which is what makes the organ
+  Literata and an Arabic line in Amiri. It repaints with the theme, which is what makes the control
   worth having. It is also the only place these pages show what Sard actually is.
 - **The reading rail** is a two-pixel hairline of progress through the Terms and the Privacy Policy.
   It occupies no reading space and shifts nothing when it moves.
@@ -52,16 +53,26 @@ documents first.
   `id` would collide. The hash `#s7` is resolved against whichever language is showing, so one link
   serves both readers.
 
-All four are progressive enhancements. With scripting off the organ is hidden, the rail and the
-anchors never appear, and the documents read exactly as they always did.
+All four are progressive enhancements. With scripting off the theme control is hidden, the site
+renders in Sard, the rail and the anchors never appear, and the documents read exactly as they
+always did.
+
+## Contact
+
+The contact links in both documents point at **this repository's** issue tracker —
+`github.com/Limitless-Soul1/sard-legal/issues` — not the application's. Legal and privacy questions
+about the published documents belong here; bug reports about the reader belong in the application
+repository. The links to the LICENCE and the "project on GitHub" footer link still point at the
+application, because that is where both of those actually live.
 
 ## Design
 
 The pages are built from Sard's own design tokens rather than a separate visual identity, so they
 read as part of the application:
 
-- **Light is Ivory**, the application's default light theme; **dark is Charcoal**. Both are real Sard
-  themes, taken from `src/theme/themes.ts` in the application repository — not approximations.
+- **Sard** (the default) is the application's Ivory token set, its `DEFAULT_LIGHT`; **Charcoal** is
+  the night theme. Both are real Sard themes, taken from `src/theme/themes.ts` in the application
+  repository — not approximations. The site offers these two and no others.
 - The **desk-and-page** model: the browser background is the desk, the centred opaque sheet is the
   page, and the grain overlay sits on top of it.
 - Typography is the application's: **IBM Plex Sans** and **IBM Plex Sans Arabic** for the interface,
