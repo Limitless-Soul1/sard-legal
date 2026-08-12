@@ -26,10 +26,34 @@ index.html          Home — introduces Sard and links to both documents
 terms.html          Terms of Service
 privacy.html        Privacy Policy
 assets/sard.css     Sard's design tokens and every component on these pages
-assets/sard.js      Language and theme switching
+assets/sard.js      Language, the theme organ, the reading rail, clause anchors
 assets/fonts/       The application's own faces, subset to web weight
 assets/sard-bird.png  The hoopoe mark
 ```
+
+## Interaction
+
+Four things move, and each earns its place. Everything else is static on purpose — these are legal
+documents first.
+
+- **The theme organ** in the top bar offers Sard's **sixteen real papers**. Choosing one repaints the
+  whole site, because a theme in Sard is a token set rather than a skin — the page demonstrates that
+  rather than asserting it. The values live in `THEMES` in `assets/sard.js` and are copied from
+  `src/theme/themes.ts` in the application repository; `scratchpad/verify-themes.mjs` in the original
+  working notes diffed all ten fields of all sixteen against the source. Do not hand-edit them.
+  Unset means *follow the system*, which is the honest default; the menu's reset returns to it.
+- **The reader specimen** on the home page shows the page resting on the desk, with a Latin line in
+  Literata and an Arabic line in Amiri. It repaints with the organ, which is what makes the organ
+  worth having. It is also the only place these pages show what Sard actually is.
+- **The reading rail** is a two-pixel hairline of progress through the Terms and the Privacy Policy.
+  It occupies no reading space and shifts nothing when it moves.
+- **Clause anchors** make every numbered section linkable, because legal text gets quoted. A heading
+  carries `data-section="7"` rather than an `id`: both languages are in the document at once, so an
+  `id` would collide. The hash `#s7` is resolved against whichever language is showing, so one link
+  serves both readers.
+
+All four are progressive enhancements. With scripting off the organ is hidden, the rail and the
+anchors never appear, and the documents read exactly as they always did.
 
 ## Design
 
@@ -41,8 +65,9 @@ read as part of the application:
 - The **desk-and-page** model: the browser background is the desk, the centred opaque sheet is the
   page, and the grain overlay sits on top of it.
 - Typography is the application's: **IBM Plex Sans** and **IBM Plex Sans Arabic** for the interface,
-  routed per script by `unicode-range`, with **Literata** for display. All three are OFL-licensed;
-  the notices are kept beside the fonts in `assets/fonts/`.
+  routed per script by `unicode-range`, with **Literata** for display and **Amiri** for the Arabic
+  line of the reader specimen. All are OFL-licensed; the notices are kept beside the fonts in
+  `assets/fonts/`.
 - The visual source of truth is the Sard Theme Kit. Where these pages and the kit ever disagree, the
   kit is right.
 
@@ -56,8 +81,16 @@ The root element carries `lang`, `dir` and `data-lang`; the stylesheet shows one
 the other. With JavaScript disabled the English text is served, so the documents are never blank.
 
 Arabic follows the application's own rules — it goes up one step in size and weight, it is never
-uppercased or letterspaced, and the layout mirrors through logical properties. The hoopoe flips so
-it always faces into the content; the wordmark's internal order never flips.
+uppercased or letterspaced, and the layout mirrors through logical properties. The wordmark's
+internal order never flips.
+
+**The artwork never mirrors.** RTL moves the layout — the bar, the navigation, the cards, the text —
+but the hoopoe keeps one fixed orientation in both languages, and no `transform: scaleX(-1)` may be
+put back on it. A flipped mark is a different mark, and a reader switching language sees it change.
+Directional UI, such as the chevron on a document card, does still mirror: it means *onward*, and
+onward depends on the direction. Note that this is a **deliberate departure** from the Theme Kit,
+which mirrors the bird inside the application so it faces into the content; the kit governs the
+application, and this is the decision for this site.
 
 A reader's language and theme choice is kept in `localStorage`. A link may also force a language
 with `?lang=ar` or `?lang=en`.
@@ -75,6 +108,19 @@ They only need rebuilding if the pages start using a character outside the subse
 pyftsubset <source.ttf> --unicodes=<ranges> --layout-features='*' --flavor=woff2 \
   --desubroutinize --output-file=assets/fonts/<name>.woff2
 ```
+
+**Amiri is the exception.** It sets exactly one line — the Arabic line of the reader specimen — so it
+is cut to that line's characters with `--text=` rather than to the whole Arabic block, which costs
+34 KB instead of 119 KB. **If you change the Arabic specimen text in `index.html`, the new characters
+will not be in the font** and will fall back to a system face. Re-subset with the new string:
+
+```
+pyftsubset Amiri-Regular.ttf --text="<the specimen line>" --layout-features='*' \
+  --flavor=woff2 --desubroutinize --output-file=assets/fonts/amiri-400.woff2
+```
+
+Dropping `--layout-features='*'` produces a font in which Arabic does not join at all. Always check a
+subset with tashkīl before shipping it.
 
 ## Editing the documents
 

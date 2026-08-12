@@ -18,6 +18,7 @@
 <script src="assets/sard.js"></script>
 </head>
 <body>
+<div class="rail" id="rail" aria-hidden="true"></div>
 <div class="desk">
 <div class="sheet">
   <div class="grain" aria-hidden="true"></div>
@@ -39,14 +40,7 @@
         </svg>
         <span class="lang-en" lang="ar">العربية</span><span class="lang-ar" lang="en">English</span>
       </button>
-      <button class="tool" id="themeToggle" type="button" aria-label="Switch theme">
-        <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
-        </svg>
-        <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4l1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
-        </svg>
-      </button>
+      <div class="organ" id="organ" hidden></div>
     </div>
   </header>
 
@@ -68,12 +62,12 @@
       asks GitHub whether a newer version exists.</p>
     </div>
 
-    <h2>1 · What Sard is</h2>
+    <h2 data-section="1">1 · What Sard is</h2>
     <p>Sard is a desktop ebook reader for EPUB and PDF files, currently released for Windows. It runs
       entirely on your computer. There is no Sard account, no Sard server, and no cloud service to
       sign in to — so there is no place for us to hold information about you even in principle.</p>
 
-    <h2>2 · What Sard stores, and where</h2>
+    <h2 data-section="2">2 · What Sard stores, and where</h2>
     <p>Everything Sard remembers is written to a folder on your own device. On Windows that folder is:</p>
     <p><code>%APPDATA%\com.sard.app</code></p>
     <p>Inside it, Sard keeps:</p>
@@ -90,7 +84,7 @@
     <p>This information is <em>stored</em>, not <em>collected</em>. It stays on your device, it is
       never uploaded, and no part of it is sent to the Sard project or to anyone else.</p>
 
-    <h2>3 · When Sard uses the internet</h2>
+    <h2 data-section="3">3 · When Sard uses the internet</h2>
     <p>Two features, and nothing else. The reading surface itself is sealed off from the network by
       the application's content security policy, so opening and reading a book never causes a
       request to leave your machine.</p>
@@ -113,7 +107,7 @@
       from the Sard releases page and contains nothing about you or your library. As with any web
       request, GitHub can see the IP address it came from.</p>
 
-    <h2>4 · Discord Rich Presence — planned, not yet available</h2>
+    <h2 data-section="4">4 · Discord Rich Presence — planned, not yet available</h2>
     <p>A future version of Sard is intended to be able to show your reading activity in Discord, so
       your Discord status can display the Sard mark alongside what you are currently reading — the
       book's title, and your reading status or chapter.</p>
@@ -129,7 +123,7 @@
       This section will be updated with the specifics when the feature is released.</p>
     </div>
 
-    <h2>5 · What Sard never does</h2>
+    <h2 data-section="5">5 · What Sard never does</h2>
     <ul>
       <li>No accounts, no sign-in, no profiles.</li>
       <li>No analytics, no telemetry, no usage tracking, no crash reporting sent anywhere.</li>
@@ -139,7 +133,7 @@
       <li>No reading of your other files. Sard opens the files you give it, and nothing else.</li>
     </ul>
 
-    <h2>6 · You are in control</h2>
+    <h2 data-section="6">6 · You are in control</h2>
     <p>Because everything lives on your device, you do not have to ask us for anything:</p>
     <ul>
       <li>Delete a book, a note or a highlight inside Sard and it is gone from your database.</li>
@@ -151,12 +145,12 @@
       rights are exercised against whoever holds your data — and for your Sard library, that is you.
       We hold no copy to give you, correct, or delete.</p>
 
-    <h2>7 · Children</h2>
+    <h2 data-section="7">7 · Children</h2>
     <p>Sard is suitable for readers of any age and does not collect information from anyone,
       children included. It has no account system, no messaging, no social features and no
       advertising.</p>
 
-    <h2>8 · This website</h2>
+    <h2 data-section="8">8 · This website</h2>
     <p>These pages are hosted on GitHub Pages. They set no cookies and run no analytics. The only
       thing stored in your browser is your choice of language and light or dark theme, kept in local
       storage on your own device so the page remembers it next time.</p>
@@ -165,12 +159,12 @@
       as your IP address; that is described in
       <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">GitHub's privacy statement</a>.</p>
 
-    <h2>9 · Changes to this policy</h2>
+    <h2 data-section="9">9 · Changes to this policy</h2>
     <p>If Sard's behaviour changes, this page changes with it — in particular when Discord Rich
       Presence ships. The version number and date at the top always describe the text below them,
       and the current version always lives at this address.</p>
 
-    <h2>10 · Getting in touch</h2>
+    <h2 data-section="10">10 · Getting in touch</h2>
     <p>Questions about privacy in Sard can be raised on the project's issue tracker:
       <a href="https://github.com/Limitless-Soul1/Sard/issues">github.com/Limitless-Soul1/Sard/issues</a>.</p>
   </article>
@@ -190,12 +184,12 @@
       مايكروسوفت، والتحقّق من التحديثات، وهو يسأل GitHub إن كان ثمّة إصدار أحدث.</p>
     </div>
 
-    <h2>١ · ما هو سَرْد</h2>
+    <h2 data-section="1">١ · ما هو سَرْد</h2>
     <p>سَرْد قارئ كتب إلكترونية لسطح المكتب، يفتح ملفّات EPUB وPDF، وهو متاح حاليًّا لنظام ويندوز.
       يعمل بالكامل على حاسوبك. ولا يوجد حساب في سَرْد، ولا خادم لسَرْد، ولا خدمة سحابية تُسجّل
       الدخول إليها — فلا مكان لدينا أصلًا نحفظ فيه معلومات عنك.</p>
 
-    <h2>٢ · ما الذي يحفظه سَرْد وأين</h2>
+    <h2 data-section="2">٢ · ما الذي يحفظه سَرْد وأين</h2>
     <p>كلّ ما يتذكّره سَرْد يُكتب في مجلّد على جهازك أنت. وهذا المجلّد في ويندوز هو:</p>
     <p><code>%APPDATA%\com.sard.app</code></p>
     <p>ويحفظ سَرْد داخله:</p>
@@ -211,7 +205,7 @@
     <p>هذه المعلومات <em>محفوظة</em> لا <em>مجموعة</em>. تبقى على جهازك، ولا تُرفَع أبدًا، ولا
       يُرسَل أيّ جزء منها إلى مشروع سَرْد ولا إلى أيّ جهة أخرى.</p>
 
-    <h2>٣ · متى يستعمل سَرْد الإنترنت</h2>
+    <h2 data-section="3">٣ · متى يستعمل سَرْد الإنترنت</h2>
     <p>ميزتان اثنتان لا ثالث لهما. أمّا سطح القراءة نفسه فمعزول عن الشبكة بسياسة أمن المحتوى في
       التطبيق، فلا يُسبّب فتحُ كتابٍ وقراءتُه أيّ طلبٍ يغادر جهازك.</p>
 
@@ -231,7 +225,7 @@
       سَرْد، ولا يحمل شيئًا عنك ولا عن مكتبتك. وكما هو الحال في أيّ طلب على الويب، يستطيع GitHub
       رؤية عنوان IP الذي جاء منه.</p>
 
-    <h2>٤ · تكامل Discord — مُخطَّط له ولم يتوفّر بعد</h2>
+    <h2 data-section="4">٤ · تكامل Discord — مُخطَّط له ولم يتوفّر بعد</h2>
     <p>يُنتوى أن يتمكّن إصدار مستقبليّ من سَرْد من عرض نشاط قراءتك في Discord، بحيث تُظهر حالتُك
       هناك علامةَ سَرْد إلى جانب ما تقرؤه حاليًّا — عنوان الكتاب، وحالة قراءتك أو الفصل الذي أنت
       فيه.</p>
@@ -246,7 +240,7 @@
       إصدارها.</p>
     </div>
 
-    <h2>٥ · ما لا يفعله سَرْد أبدًا</h2>
+    <h2 data-section="5">٥ · ما لا يفعله سَرْد أبدًا</h2>
     <ul>
       <li>لا حسابات ولا تسجيل دخول ولا ملفّات شخصية.</li>
       <li>لا تحليلات ولا تتبُّع ولا رصد للاستعمال ولا تقارير أعطال تُرسَل إلى أيّ مكان.</li>
@@ -256,7 +250,7 @@
       <li>لا اطّلاع على ملفّاتك الأخرى. سَرْد يفتح الملفّات التي تعطيه إيّاها، ولا شيء سواها.</li>
     </ul>
 
-    <h2>٦ · القرار بيدك</h2>
+    <h2 data-section="6">٦ · القرار بيدك</h2>
     <p>لأنّ كلّ شيء يعيش على جهازك، فلستَ مضطرًّا إلى طلب أيّ شيء منّا:</p>
     <ul>
       <li>احذف كتابًا أو ملاحظة أو تظليلًا من داخل سَرْد، يزُل من قاعدة بياناتك.</li>
@@ -268,11 +262,11 @@
       فهذه الحقوق تُمارَس تجاه من يحتفظ ببياناتك — وفي حالة مكتبة سَرْد، فذاك أنت. ولا نملك نحن
       نسخةً نُطلعك عليها أو نُصحّحها أو نمحوها.</p>
 
-    <h2>٧ · الأطفال</h2>
+    <h2 data-section="7">٧ · الأطفال</h2>
     <p>سَرْد صالح للقرّاء من كلّ الأعمار، ولا يجمع معلومات من أحد، والأطفال في ذلك سواء. فليس فيه
       نظام حسابات ولا مراسلة ولا ميزات اجتماعية ولا إعلانات.</p>
 
-    <h2>٨ · هذا الموقع</h2>
+    <h2 data-section="8">٨ · هذا الموقع</h2>
     <p>هذه الصفحات مُستضافة على GitHub Pages. لا تضع أيّ ملفّات تعريف ارتباط ولا تُشغّل أيّ
       تحليلات. والشيء الوحيد المحفوظ في متصفّحك هو اختيارك للّغة وللسمة الفاتحة أو الداكنة، ويُحفظ
       في التخزين المحلّي على جهازك لتتذكّره الصفحة في المرّة القادمة.</p>
@@ -280,11 +274,11 @@
       GitHub بصفته المستضيف فقد يُسجّل معلومات سجلّات الخوادم المعتادة كعنوان IP، وهو موصوف في
       <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">بيان الخصوصية الخاصّ بـGitHub</a>.</p>
 
-    <h2>٩ · تغييرات هذه السياسة</h2>
+    <h2 data-section="9">٩ · تغييرات هذه السياسة</h2>
     <p>إذا تغيّر سلوك سَرْد تغيّرت هذه الصفحة معه، ولا سيّما عند إطلاق تكامل Discord. ورقم الإصدار
       وتاريخه في الأعلى يصفان دائمًا النصّ الذي تحتهما، ويبقى النصّ الساري على هذا العنوان.</p>
 
-    <h2>١٠ · للتواصل</h2>
+    <h2 data-section="10">١٠ · للتواصل</h2>
     <p>يمكن طرح الأسئلة المتعلّقة بالخصوصية في سَرْد على صفحة المسائل في مستودع المشروع:
       <a href="https://github.com/Limitless-Soul1/Sard/issues">github.com/Limitless-Soul1/Sard/issues</a>.</p>
   </article>

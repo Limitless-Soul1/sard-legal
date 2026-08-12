@@ -18,6 +18,7 @@
 <script src="assets/sard.js"></script>
 </head>
 <body>
+<div class="rail" id="rail" aria-hidden="true"></div>
 <div class="desk">
 <div class="sheet">
   <div class="grain" aria-hidden="true"></div>
@@ -39,14 +40,7 @@
         </svg>
         <span class="lang-en" lang="ar">العربية</span><span class="lang-ar" lang="en">English</span>
       </button>
-      <button class="tool" id="themeToggle" type="button" aria-label="Switch theme">
-        <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
-        </svg>
-        <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4l1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
-        </svg>
-      </button>
+      <div class="organ" id="organ" hidden></div>
     </div>
   </header>
 
@@ -65,13 +59,13 @@
       perfect. Please don't sell it, repackage it, or pass it off as your own.</p>
     </div>
 
-    <h2>1 · Who these terms are between</h2>
+    <h2 data-section="1">1 · Who these terms are between</h2>
     <p>They are between you and the Sard project ("Sard", "we"). They cover the Sard desktop
       application, this website, and any official Sard integration with another service. By
       installing or using Sard you accept them. If you don't, simply don't use it — there is nothing
       to cancel and no account to close.</p>
 
-    <h2>2 · What you may do</h2>
+    <h2 data-section="2">2 · What you may do</h2>
     <p>You may download, install and use Sard free of charge for your own personal, non-commercial
       reading, on as many of your own devices as you like. You may look at the source code, and
       modify it privately for yourself.</p>
@@ -79,7 +73,7 @@
       licence. The full text is the authority on this, and it is short:
       <a href="https://github.com/Limitless-Soul1/Sard/blob/main/LICENSE">read the LICENSE file</a>.</p>
 
-    <h2>3 · What we ask you not to do</h2>
+    <h2 data-section="3">3 · What we ask you not to do</h2>
     <ul>
       <li>Don't sell Sard, or charge anyone for it.</li>
       <li>Don't redistribute it, publicly or privately, modified or unmodified — point people at the
@@ -90,12 +84,12 @@
         came from is always fine.</li>
     </ul>
 
-    <h2>4 · Your books are your own</h2>
+    <h2 data-section="4">4 · Your books are your own</h2>
     <p>Sard does not sell, host, supply or recommend any books. It opens files that are already on
       your device. You are responsible for the files you import and for having the right to read
       them, and copyright law applies to them exactly as it did before Sard was involved.</p>
 
-    <h2>5 · Read-aloud and other outside services</h2>
+    <h2 data-section="5">5 · Read-aloud and other outside services</h2>
     <p>Sard's read-aloud feature speaks your book using Microsoft's online voice service, which means
       the text being read is sent to Microsoft while you listen. Using that feature means using their
       service under their terms as well as these. The
@@ -104,7 +98,7 @@
       will be optional and switched off unless you turn it on — and using it will mean accepting
       Discord's own terms alongside these.</p>
 
-    <h2>6 · Sard is offered as it is</h2>
+    <h2 data-section="6">6 · Sard is offered as it is</h2>
     <p>Sard is given to you free, with no warranty of any kind, express or implied — including any
       implied warranty of merchantability, fitness for a particular purpose, or non-infringement.
       We can't promise it will be uninterrupted, error-free, or right for what you need it for.</p>
@@ -112,7 +106,7 @@
       and highlights on your device, and a device can fail for reasons that have nothing to do with
       us.</p>
 
-    <h2>7 · Limits of responsibility</h2>
+    <h2 data-section="7">7 · Limits of responsibility</h2>
     <p>To the fullest extent the law allows, the Sard project and its authors are not liable for any
       indirect, incidental, special or consequential damages, or for lost data, lost profits, or
       business interruption, arising out of your use of Sard — even if we were told such damage was
@@ -120,17 +114,17 @@
     <p>Nothing here tries to exclude liability that cannot lawfully be excluded, such as liability
       for death or personal injury caused by negligence, or for fraud.</p>
 
-    <h2>8 · Changes</h2>
+    <h2 data-section="8">8 · Changes</h2>
     <p>Sard changes as it is developed, and these terms may change with it. When they do, the version
       number and date at the top of this page change too, and the current text always lives at this
       address. Continuing to use Sard after a change means accepting the revised terms.</p>
 
-    <h2>9 · If these terms are broken</h2>
+    <h2 data-section="9">9 · If these terms are broken</h2>
     <p>If the terms are broken, the permission granted in section 2 ends. In practice that means
       stopping use of Sard and deleting your copies of it. Nothing else about your device or your
       files is affected — we have no access to either.</p>
 
-    <h2>10 · Governing law</h2>
+    <h2 data-section="10">10 · Governing law</h2>
     <div class="todo">
       <p><span class="todo-badge">TODO</span> The governing law and the courts for any dispute have
       not been set yet, because they depend on where the project is based — which is information only
@@ -140,7 +134,7 @@
     <p>Until this is filled in, nothing in these terms limits any right you have under the consumer
       law of the country you live in.</p>
 
-    <h2>11 · Getting in touch</h2>
+    <h2 data-section="11">11 · Getting in touch</h2>
     <p>Questions about these terms, and anything else about Sard, are best raised on the project's
       issue tracker:
       <a href="https://github.com/Limitless-Soul1/Sard/issues">github.com/Limitless-Soul1/Sard/issues</a>.</p>
@@ -160,19 +154,19 @@
       أو تنسبه إلى نفسك.</p>
     </div>
 
-    <h2>١ · بين مَن ومَن</h2>
+    <h2 data-section="1">١ · بين مَن ومَن</h2>
     <p>هذه الشروط بينك وبين مشروع سَرْد. وهي تشمل تطبيق سَرْد لسطح المكتب، وهذا الموقع، وأيّ تكامل
       رسميّ بين سَرْد وخدمة أخرى. وباستعمالك سَرْد فأنت تقبلها. وإن لم تقبلها فلا تستعمله ببساطة؛
       فليس ثمّة اشتراك تُلغيه ولا حساب تُغلقه.</p>
 
-    <h2>٢ · ما يحقّ لك</h2>
+    <h2 data-section="2">٢ · ما يحقّ لك</h2>
     <p>لك أن تُنزّل سَرْد وتُثبّته وتستعمله مجّانًا لقراءتك الشخصية غير التجارية، على ما شئت من
       أجهزتك. ولك أن تطّلع على شفرته المصدرية وأن تُعدّلها لنفسك على وجه الخصوص.</p>
     <p>الشفرة منشورة برخصة «مصدر متاح»، وهي ليست رخصة مفتوحة المصدر. والنصّ الكامل هو المرجع في
       ذلك، وهو قصير:
       <a href="https://github.com/Limitless-Soul1/Sard/blob/main/LICENSE">اقرأ ملفّ LICENSE</a>.</p>
 
-    <h2>٣ · ما نرجو ألّا تفعله</h2>
+    <h2 data-section="3">٣ · ما نرجو ألّا تفعله</h2>
     <ul>
       <li>ألّا تبيع سَرْد ولا تتقاضى عنه أجرًا من أحد.</li>
       <li>ألّا تُعيد توزيعه، علنًا أو سرًّا، مُعدَّلًا أو غير مُعدَّل — بل دُلَّ الناس على الإصدارات
@@ -182,43 +176,43 @@
         أنّه عملنا، أو للإيحاء بأنّنا نُزكّيه. أمّا ذكر سَرْد لبيان مصدر شيءٍ ما فمقبول دائمًا.</li>
     </ul>
 
-    <h2>٤ · كتبك ملكك أنت</h2>
+    <h2 data-section="4">٤ · كتبك ملكك أنت</h2>
     <p>سَرْد لا يبيع كتبًا ولا يستضيفها ولا يوفّرها ولا يوصي بها. هو يفتح ملفّات موجودة أصلًا على
       جهازك. وأنت المسؤول عن الملفّات التي تستوردها وعن حقّك في قراءتها، ويسري عليها قانون حقوق
       النشر تمامًا كما كان يسري قبل دخول سَرْد في الأمر.</p>
 
-    <h2>٥ · القراءة الصوتية والخدمات الخارجية</h2>
+    <h2 data-section="5">٥ · القراءة الصوتية والخدمات الخارجية</h2>
     <p>تنطق ميزةُ القراءة الصوتية كتابَك عبر خدمة الأصوات من مايكروسوفت، ما يعني أنّ النصّ المقروء
       يُرسَل إلى مايكروسوفت أثناء استماعك. واستعمال هذه الميزة يعني استعمال خدمتهم بشروطهم إلى جانب
       شروطنا هذه. وتشرح <a href="privacy.html">سياسة الخصوصية</a> ما الذي يُرسَل بالضبط.</p>
     <p>وإن اتّصل إصدار مستقبليّ من سَرْد بـDiscord لعرض ما تقرؤه، فستكون تلك الميزة اختيارية
       ومُعطَّلة ما لم تُفعّلها أنت — واستعمالها يعني قبول شروط Discord نفسها إلى جانب هذه الشروط.</p>
 
-    <h2>٦ · سَرْد يُقدَّم كما هو</h2>
+    <h2 data-section="6">٦ · سَرْد يُقدَّم كما هو</h2>
     <p>سَرْد يُقدَّم إليك مجّانًا، دون أيّ ضمان من أيّ نوع، صريحٍ كان أو ضمنيًّا — بما في ذلك أيّ
       ضمان ضمنيّ بالرواج التجاري أو الملاءمة لغرض بعينه أو عدم انتهاك حقوق الغير. ولا يسعنا أن نعِد
       بأنّه سيعمل بلا انقطاع أو بلا خطأ أو أنّه يناسب ما تريده منه.</p>
     <p>احتفظ بنسخ احتياطية ممّا يُؤسفك فقدُه. فسَرْد يحفظ مكتبتك وملاحظاتك وتظليلاتك على جهازك،
       والجهاز قد يتعطّل لأسبابٍ لا صلة لنا بها.</p>
 
-    <h2>٧ · حدود المسؤولية</h2>
+    <h2 data-section="7">٧ · حدود المسؤولية</h2>
     <p>إلى أقصى ما يسمح به القانون، لا يتحمّل مشروع سَرْد ولا مؤلّفوه مسؤولية أيّ أضرار غير مباشرة
       أو عَرَضية أو خاصّة أو تبعية، ولا فقدان بيانات أو أرباح أو تعطّل عمل، ناشئة عن استعمالك
       سَرْد — حتّى لو كنّا قد أُبلغنا باحتمال وقوع ذلك الضرر.</p>
     <p>وليس في هذه الشروط ما يسعى إلى استبعاد مسؤولية لا يجيز القانون استبعادها، كالمسؤولية عن
       الوفاة أو الإصابة الجسدية الناجمة عن الإهمال، أو عن الاحتيال.</p>
 
-    <h2>٨ · التغييرات</h2>
+    <h2 data-section="8">٨ · التغييرات</h2>
     <p>سَرْد يتغيّر مع تطويره، وقد تتغيّر هذه الشروط معه. وحين يحدث ذلك يتغيّر رقم الإصدار وتاريخه
       في أعلى هذه الصفحة، ويبقى النصّ الساري دائمًا على هذا العنوان. واستمرارك في استعمال سَرْد بعد
       التغيير يعني قبولك الشروط المُعدَّلة.</p>
 
-    <h2>٩ · عند مخالفة الشروط</h2>
+    <h2 data-section="9">٩ · عند مخالفة الشروط</h2>
     <p>إذا خُولفت هذه الشروط انتهى الإذن الممنوح في البند الثاني. وهذا يعني عمليًّا التوقّف عن
       استعمال سَرْد وحذف نُسخك منه. ولا يتأثّر شيء آخر في جهازك ولا في ملفّاتك — فلا سبيل لنا
       إلى أيٍّ منهما.</p>
 
-    <h2>١٠ · القانون الحاكم</h2>
+    <h2 data-section="10">١٠ · القانون الحاكم</h2>
     <div class="todo">
       <p><span class="todo-badge">TODO</span> لم يُحدَّد بعدُ القانون الحاكم ولا المحاكم المختصّة
       بأيّ نزاع، لأنّ ذلك يتوقّف على مقرّ المشروع — وهي معلومة لا يملكها إلّا صاحب المشروع. وقد
@@ -227,7 +221,7 @@
     <p>وإلى أن يُستكمل هذا البند، ليس في هذه الشروط ما يحدّ من أيّ حقّ يكفله لك قانون حماية
       المستهلك في بلد إقامتك.</p>
 
-    <h2>١١ · للتواصل</h2>
+    <h2 data-section="11">١١ · للتواصل</h2>
     <p>أفضل مكان لطرح الأسئلة عن هذه الشروط، وعن سَرْد عمومًا، هو صفحة المسائل في مستودع المشروع:
       <a href="https://github.com/Limitless-Soul1/Sard/issues">github.com/Limitless-Soul1/Sard/issues</a>.</p>
   </article>
