@@ -88,6 +88,23 @@ The cost is one extra click and a GitHub account. `Copy as text` covers anyone w
 one place without the other silently stops the prefill — the link still works, it just arrives
 empty.
 
+
+## Two rules the layout depends on
+
+**Every inline `<svg>` carries `width` and `height` attributes.** A `viewBox` alone gives an SVG no
+intrinsic size, so if the stylesheet does not arrive — a flaky connection, a blocker, a bad cache —
+each icon expands to fill its container. Measured on this page before the fix: icons at **1264x1264**,
+the Get Sard section at **5418px** instead of 320, and the document at **25565px** instead of 2595.
+A CSS `width` always beats the attribute, so styled rendering is identical; the attribute only
+decides what a reader sees when the CSS is missing. Do not remove them from new icons.
+
+**Get Sard and Contact are a matched pair, not two stacked posters.** They sit side by side directly
+under the document cards, so the four things a visitor needs — what Sard is, where to download it,
+where the source is, where to report — are all within the first screen and a half. The mark in each
+panel is a **40px supporting tile beside the content**, capped with `max-width`/`max-height` so it
+cannot grow back into artwork; the heading, the sentence and the actions are the section. Actions run
+primary -> ghost -> quiet, with exactly one accent-filled button on the page.
+
 ## Design
 
 The pages are built from Sard's own design tokens rather than a separate visual identity, so they

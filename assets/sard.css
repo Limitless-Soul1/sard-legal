@@ -334,24 +334,65 @@ body{
 .btn.btn-primary:hover{background:color-mix(in srgb,var(--accent) 86%, var(--text)); color:var(--paper-bg);}
 .btn.btn-ghost{background:transparent; color:var(--text); border-color:var(--chrome-border);}
 .btn.btn-ghost:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent); color:var(--accent);}
+/* The third level: a bare action with no box at all, for the secondary
+   destination in a panel that already has a filled or outlined primary. */
+.btn.btn-quiet{background:transparent; color:var(--muted); border-color:transparent; padding-inline:10px;}
+.btn.btn-quiet:hover{color:var(--accent); background:color-mix(in srgb,var(--accent) 10%,transparent);}
 .btn[aria-disabled="true"]{opacity:.45; pointer-events:none;}
 [data-lang="ar"] .btn{font-size:.9375rem; letter-spacing:0;}
 
-/* A bordered aside that holds an offer without shouting it. */
+/* ═══ THE TWO PANELS ══════════════════════════════════════════════════════
+   Get Sard and Contact sit side by side directly under the document cards, so
+   the four things a visitor needs — what Sard is, where to download it, where
+   the source is, where to report — are all inside the first screen and a half.
+
+   The mark is a SUPPORTING element at the same 38–42 px as the document cards'
+   icon, set beside the content rather than above it. It must never grow into
+   artwork: the heading, the sentence and the actions are the section.
+   ═══════════════════════════════════════════════════════════════════════ */
+.panels{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;}
 .panel{
   border:1px solid var(--chrome-border); border-radius:11px;
   background:color-mix(in srgb,var(--text) 3%,transparent);
-  padding:clamp(20px,3vw,28px) clamp(20px,3vw,30px);
+  padding:20px 22px;
 }
-.panel h2{margin:0 0 8px; font:600 1.1875rem/1.35 var(--display); letter-spacing:-.005em;}
-.panel p{margin:0; color:var(--muted); font-size:.9375rem; line-height:1.65; max-width:60ch;}
+.panel-split{display:flex; gap:15px; align-items:flex-start;}
+.panel-ico{
+  width:40px; height:40px; border-radius:9px; flex:none; display:grid; place-items:center;
+  border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);
+  background:color-mix(in srgb,var(--accent) 9%,transparent);
+  color:var(--accent);
+}
+/* A hard ceiling, so no future edit can turn the mark back into a poster. */
+.panel-ico svg{width:20px; height:20px; max-width:20px; max-height:20px;}
+.panel-body{min-width:0; flex:1 1 auto;}
+.panel h2{margin:0 0 6px; font:600 1.0625rem/1.35 var(--display); letter-spacing:-.005em;}
+.panel .eyebrow{margin-bottom:5px;}
+.panel p{margin:0; color:var(--muted); font-size:.875rem; line-height:1.6; max-width:44ch;}
+/* Tight enough that a primary and a quiet action share one line inside a
+   two-up column — the two panels then read as a matched pair rather than one
+   wrapping and the other not. */
+.panel .actions{margin-top:14px; gap:6px;}
+.panel .btn{min-height:36px; padding:0 12px; font-size:.8125rem;}
+.panel .btn.btn-quiet{padding-inline:8px;}
 .panel .meta{
-  margin-top:14px; font:500 .6875rem var(--ui); color:var(--muted);
-  display:flex; flex-wrap:wrap; gap:6px 14px;
+  margin:10px 0 0; font:500 .6875rem var(--ui); color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:4px 12px; max-width:none;
 }
-[data-lang="ar"] .panel h2{font-size:1.25rem; line-height:1.5;}
-[data-lang="ar"] .panel p{font-size:1rem; line-height:1.9;}
-[data-lang="ar"] .panel .meta{font-size:.8125rem;}
+[data-lang="ar"] .panel h2{font-size:1.125rem; line-height:1.5;}
+[data-lang="ar"] .panel p{font-size:.9375rem; line-height:1.85;}
+[data-lang="ar"] .panel .btn{font-size:.875rem;}
+[data-lang="ar"] .panel .meta{font-size:.75rem;}
+/* Below the two-up breakpoint the mark stays beside the text, not above it —
+   stacking it is what made the section tall in the first place. */
+@media (max-width:420px){
+  .panel{padding:17px 18px;}
+  .panel-split{gap:13px;}
+  .panel-ico{width:34px; height:34px; border-radius:8px;}
+  .panel-ico svg{width:17px; height:17px;}
+  .panel .actions{flex-direction:column; align-items:stretch;}
+  .panel .btn{width:100%;}
+}
 
 /* ═══ THE REPORT FORM ═════════════════════════════════════════════════════
    Composes a report here, then hands it to GitHub's own composer with every
