@@ -78,6 +78,8 @@
     return systemIsDark() ? "dark" : "light";
   }
 
+  /* Which of the two icons is shown is decided in the stylesheet — see the note
+     beside `.ico-sun` there. All this has to do is keep the label truthful. */
   function syncThemeButton() {
     var btn = document.getElementById("themeToggle");
     if (!btn) return;
@@ -86,11 +88,6 @@
     btn.setAttribute("aria-label",
       dark ? (lang === "ar" ? "التبديل إلى السمة الفاتحة" : "Switch to the light theme")
            : (lang === "ar" ? "التبديل إلى السمة الداكنة" : "Switch to the dark theme"));
-    /* Show the icon of the theme the button would move you to. */
-    var sun = btn.querySelector(".ico-sun");
-    var moon = btn.querySelector(".ico-moon");
-    if (sun) sun.hidden = !dark;
-    if (moon) moon.hidden = dark;
   }
 
   /* ---- Run before paint ------------------------------------------------- */

@@ -126,6 +126,23 @@ body{
 }
 .tool:hover{background:color-mix(in srgb,var(--text) 9%,transparent);}
 .tool svg{width:15px; height:15px; flex:none;}
+
+/* The theme button shows the icon of the theme it would move you TO.
+   This is done in CSS, not by toggling `hidden` on the SVG: `hidden` is an
+   HTML-namespace attribute, so neither the UA rule nor the IDL property has any
+   effect on an <svg>, and both icons would show. Driving it from the same
+   three-way pattern as the tokens also means it is correct before any script
+   runs, and correct with scripting off. */
+.ico-sun{display:none;}
+.ico-moon{display:block;}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .ico-sun{display:block;}
+  :root:not([data-theme="light"]) .ico-moon{display:none;}
+}
+:root[data-theme="dark"] .ico-sun{display:block;}
+:root[data-theme="dark"] .ico-moon{display:none;}
+:root[data-theme="light"] .ico-sun{display:none;}
+:root[data-theme="light"] .ico-moon{display:block;}
 /* Arabic never gets letterspacing or faux-bold — kit rule 4 */
 [data-lang="ar"] .tool{letter-spacing:0;}
 
