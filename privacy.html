@@ -53,14 +53,15 @@
     <p class="lede">Almost nothing, and none of it reaches us. Sard is a desktop application with no
       account system and no server behind it. This page describes precisely what it stores and the
       only occasions on which it uses the network.</p>
-    <div class="stamp"><span>Version 1.0</span><span>In effect 12 August 2026</span></div>
+    <div class="stamp"><span>Version 1.1</span><span>In effect 12 August 2026</span></div>
 
     <div class="note">
       <p><b>The short version.</b> Your library, your reading positions, your notes and your
       highlights are files on your own computer. The Sard project has no server, receives no data,
       and could not read your library if it wanted to. Two features reach the internet: read-aloud,
       which sends the text being spoken to Microsoft's voice service, and the update check, which
-      asks GitHub whether a newer version exists.</p>
+      asks GitHub whether a newer version exists. Discord Rich Presence, which is on by default and
+      can be switched off in settings, shows the book you are reading on your Discord profile.</p>
     </div>
 
     <h2 data-section="1">1 · What Sard is</h2>
@@ -86,9 +87,11 @@
       never uploaded, and no part of it is sent to the Sard project or to anyone else.</p>
 
     <h2 data-section="3">3 · When Sard uses the internet</h2>
-    <p>Two features, and nothing else. The reading surface itself is sealed off from the network by
-      the application's content security policy, so opening and reading a book never causes a
-      request to leave your machine.</p>
+    <p>Two features reach the internet, and nothing else. The reading surface itself is sealed off
+      from the network by the application's content security policy, so opening and reading a book
+      never causes a request to leave your machine. A third feature — Discord Rich Presence, in
+      section 4 — does send your reading activity off your device, but by way of the Discord
+      application already running on it rather than by contacting the internet itself.</p>
 
     <h3>Read-aloud</h3>
     <p>Sard's read-aloud voices come from Microsoft's online Edge voice service. While you are
@@ -108,21 +111,24 @@
       from the Sard releases page and contains nothing about you or your library. As with any web
       request, GitHub can see the IP address it came from.</p>
 
-    <h2 data-section="4">4 · Discord Rich Presence — planned, not yet available</h2>
-    <p>A future version of Sard is intended to be able to show your reading activity in Discord, so
-      your Discord status can display the Sard mark alongside what you are currently reading — the
-      book's title, and your reading status or chapter.</p>
-    <p>When that feature arrives it will be <strong>optional and switched off unless you turn it
-      on</strong>, and you will be able to turn it off again at any time. While it is on, the
-      information described above is sent to Discord and shown to whoever can see your Discord
-      profile; Discord's handling of it is governed by
-      <a href="https://discord.com/privacy">Discord's privacy policy</a>. Turning the feature off
-      stops Sard sending anything to Discord.</p>
-    <div class="note">
-      <p><b>To be exact:</b> this feature is not in the current version of Sard. It is described here
-      in advance so the behaviour is documented before it ships, not because it is running today.
-      This section will be updated with the specifics when the feature is released.</p>
-    </div>
+    <h2 data-section="4">4 · Discord Rich Presence</h2>
+    <p>Sard can show your reading activity on your Discord profile: the Sard mark, the title of the
+      book you are reading, and your chapter or your progress through it. While no book is open it
+      shows only that Sard is running.</p>
+    <p><strong>This is switched on by default</strong>, and you can switch it off at any time in
+      Sard's settings, under Presence. Switching it off takes effect at once — the activity is
+      removed from your Discord profile immediately, rather than lingering until you close the book.
+      Switching it back on restores it without waiting for you to turn a page.</p>
+    <p>There are four separate switches, so you can keep the feature on while narrowing what it says:
+      the activity itself, the book's title, the chapter and progress, and the "browsing the library"
+      activity shown when no book is open. The first three are enforced inside Sard's core rather
+      than only in its interface, so a switched-off title cannot be sent even in error.</p>
+    <p>What is sent is <strong>the book's title and your position in it — nothing else</strong>. No
+      notes, no highlights, no searches, no file names, and nothing about the rest of your library.
+      Sard passes this to the Discord application running on your own machine; Discord then shows it
+      to whoever can see your profile, and Discord's handling of it is governed by
+      <a href="https://discord.com/privacy">Discord's privacy policy</a>, not by this one. If Discord
+      is not running, Sard sends nothing and nothing is stored anywhere.</p>
 
     <h2 data-section="5">5 · What Sard never does</h2>
     <ul>
@@ -161,9 +167,8 @@
       <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">GitHub's privacy statement</a>.</p>
 
     <h2 data-section="9">9 · Changes to this policy</h2>
-    <p>If Sard's behaviour changes, this page changes with it — in particular when Discord Rich
-      Presence ships. The version number and date at the top always describe the text below them,
-      and the current version always lives at this address.</p>
+    <p>If Sard's behaviour changes, this page changes with it. The version number and date at the top
+      always describe the text below them, and the current version always lives at this address.</p>
 
     <h2 data-section="10">10 · Getting in touch</h2>
     <p>Questions about privacy in Sard can be raised on the project's issue tracker:
@@ -176,13 +181,15 @@
     <h1 style="margin:0 0 12px;font:600 clamp(1.625rem,3.7vw,2.125rem)/1.45 var(--display);">ما الذي يعرفه سَرْد عنك</h1>
     <p class="lede">لا شيء تقريبًا، ولا يصل إلينا منه شيء. سَرْد تطبيق لسطح المكتب بلا نظام حسابات
       ولا خادم خلفه. وتصف هذه الصفحة بدقّة ما الذي يحفظه، والحالات الوحيدة التي يتّصل فيها بالإنترنت.</p>
-    <div class="stamp"><span>الإصدار 1.0</span><span>سارية من 12 أغسطس 2026</span></div>
+    <div class="stamp"><span>الإصدار 1.1</span><span>سارية من 12 أغسطس 2026</span></div>
 
     <div class="note">
       <p><b>باختصار.</b> مكتبتك ومواضع قراءتك وملاحظاتك وتظليلاتك ملفّاتٌ على حاسوبك وحده. ومشروع
       سَرْد لا يملك خادمًا، ولا يستقبل أيّ بيانات، ولا يستطيع قراءة مكتبتك حتّى لو أراد. وثمّة
       ميزتان تتّصلان بالإنترنت: القراءة الصوتية، وهي تُرسل النصّ المنطوق إلى خدمة الأصوات من
-      مايكروسوفت، والتحقّق من التحديثات، وهو يسأل GitHub إن كان ثمّة إصدار أحدث.</p>
+      مايكروسوفت، والتحقّق من التحديثات، وهو يسأل GitHub إن كان ثمّة إصدار أحدث. أمّا تكامل
+      Discord — وهو مُفعَّل افتراضيًّا ويمكن تعطيله من الإعدادات — فيعرض الكتاب الذي تقرؤه في
+      ملفّك الشخصي على Discord.</p>
     </div>
 
     <h2 data-section="1">١ · ما هو سَرْد</h2>
@@ -207,8 +214,10 @@
       يُرسَل أيّ جزء منها إلى مشروع سَرْد ولا إلى أيّ جهة أخرى.</p>
 
     <h2 data-section="3">٣ · متى يستعمل سَرْد الإنترنت</h2>
-    <p>ميزتان لا ثالثة لهما. أمّا سطح القراءة نفسه فمعزول عن الشبكة بسياسة أمن المحتوى في
-      التطبيق، فلا يُسبّب فتحُ كتابٍ وقراءتُه أيّ طلبٍ يغادر جهازك.</p>
+    <p>ميزتان تتّصلان بالإنترنت لا ثالثة لهما. أمّا سطح القراءة نفسه فمعزول عن الشبكة بسياسة أمن
+      المحتوى في التطبيق، فلا يُسبّب فتحُ كتابٍ وقراءتُه أيّ طلبٍ يغادر جهازك. وثمّة ميزة ثالثة —
+      تكامل Discord في البند ٤ — تُخرج نشاط قراءتك من جهازك، لكن عبر تطبيق Discord العامل عليه لا
+      باتّصالها بالإنترنت بنفسها.</p>
 
     <h3>القراءة الصوتية</h3>
     <p>أصوات القراءة في سَرْد تأتي من خدمة الأصوات من مايكروسوفت عبر الإنترنت. وأثناء استماعك يُرسل
@@ -226,20 +235,21 @@
       سَرْد، ولا يحمل شيئًا عنك ولا عن مكتبتك. وكما هو الحال في أيّ طلب على الويب، يستطيع GitHub
       رؤية عنوان IP الذي جاء منه.</p>
 
-    <h2 data-section="4">٤ · تكامل Discord — مُخطَّط له ولم يتوفّر بعد</h2>
-    <p>يُنتوى أن يتمكّن إصدار مستقبليّ من سَرْد من عرض نشاط قراءتك في Discord، بحيث تُظهر حالتُك
-      هناك علامةَ سَرْد إلى جانب ما تقرؤه حاليًّا — عنوان الكتاب، وحالة قراءتك أو الفصل الذي أنت
-      فيه.</p>
-    <p>وحين تصل هذه الميزة ستكون <strong>اختيارية ومُعطَّلة ما لم تُفعّلها أنت</strong>، ويمكنك
-      تعطيلها متى شئت. وما دامت مُفعَّلة تُرسَل المعلومات الموصوفة أعلاه إلى Discord وتظهر لكلّ من
-      يرى ملفّك الشخصي هناك؛ ويخضع تعامل Discord معها
-      <a href="https://discord.com/privacy">لسياسة الخصوصية الخاصّة بـDiscord</a>. وتعطيل الميزة
-      يوقف إرسال سَرْد أيّ شيء إلى Discord.</p>
-    <div class="note">
-      <p><b>توخّيًا للدقّة:</b> هذه الميزة ليست في الإصدار الحالي من سَرْد. وقد وُصفت هنا مسبقًا
-      ليكون سلوكها موثّقًا قبل إطلاقها، لا لأنّها تعمل اليوم. وسيُحدَّث هذا البند بالتفاصيل عند
-      إصدارها.</p>
-    </div>
+    <h2 data-section="4">٤ · تكامل Discord</h2>
+    <p>يستطيع سَرْد عرض نشاط قراءتك في ملفّك الشخصي على Discord: علامة سَرْد، وعنوان الكتاب الذي
+      تقرؤه، والفصل الذي أنت فيه أو مقدار ما قطعته منه. وما دام لا كتاب مفتوحًا فلا يظهر إلا أنّ
+      سَرْد يعمل.</p>
+    <p><strong>هذه الميزة مُفعَّلة افتراضيًّا</strong>، ويمكنك تعطيلها متى شئت من إعدادات سَرْد،
+      في قسم النشاط. والتعطيل يسري فورًا — يُزال النشاط من ملفّك على Discord في الحال، لا عند إغلاق
+      الكتاب. وإعادة تفعيلها تُرجعه دون انتظار انتقالك إلى صفحة جديدة.</p>
+    <p>وثمّة أربعة مفاتيح منفصلة، فتُبقي الميزة عاملة وتُضيّق ما تقوله: النشاط نفسه، وعنوان الكتاب،
+      والفصل والتقدّم، ونشاط «تصفّح المكتبة» الذي يظهر حين لا كتاب مفتوحًا. والثلاثة الأولى مطبَّقة
+      في نواة سَرْد لا في واجهته وحدها، فلا يمكن إرسال عنوانٍ عُطِّل إظهاره ولو خطأً.</p>
+    <p>والمُرسَل هو <strong>عنوان الكتاب وموضعك فيه — لا غير</strong>. لا ملاحظات ولا تظليلات ولا
+      عمليات بحث ولا أسماء ملفّات ولا شيء عن بقيّة مكتبتك. ويُسلّم سَرْد ذلك إلى تطبيق Discord
+      العامل على جهازك، ثمّ يعرضه Discord لكلّ من يرى ملفّك الشخصي؛ ويخضع تعامل Discord معها
+      <a href="https://discord.com/privacy">لسياسة الخصوصية الخاصّة بـDiscord</a> لا لهذه السياسة.
+      وإن لم يكن Discord يعمل فلا يُرسِل سَرْد شيئًا ولا يُخزَّن شيء في أيّ مكان.</p>
 
     <h2 data-section="5">٥ · ما لا يفعله سَرْد أبدًا</h2>
     <ul>
@@ -276,8 +286,8 @@
       <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">بيان الخصوصية الخاصّ بـGitHub</a>.</p>
 
     <h2 data-section="9">٩ · تغييرات هذه السياسة</h2>
-    <p>إذا تغيّر سلوك سَرْد تغيّرت هذه الصفحة معه، ولا سيّما عند إطلاق تكامل Discord. ورقم الإصدار
-      وتاريخه في الأعلى يصفان دائمًا النصّ الذي تحتهما، ويبقى النصّ الساري على هذا العنوان.</p>
+    <p>إذا تغيّر سلوك سَرْد تغيّرت هذه الصفحة معه. ورقم الإصدار وتاريخه في الأعلى يصفان دائمًا
+      النصّ الذي تحتهما، ويبقى النصّ الساري على هذا العنوان.</p>
 
     <h2 data-section="10">١٠ · للتواصل</h2>
     <p>يمكن طرح الأسئلة المتعلّقة بالخصوصية في سَرْد على صفحة المسائل في مستودع المشروع:
