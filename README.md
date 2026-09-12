@@ -176,11 +176,29 @@ subset with tashkīl before shipping it.
 ## Editing the documents
 
 The text is plain HTML — edit it directly. When either document changes in substance, update the
-version number and the date in the `.stamp` block at the top of that page, in **both** languages.
+version number and the date in the `.stamp` block at the top of that page, in **both** languages,
+**and** the matching `sard-legal-version` meta tag in that page's `<head>`.
+
+### The revision, for programs
+
+`revision.json` at the repository root names the current pair and is the single thing a program
+should read:
+
+```json
+{ "revision": "terms-1.1+privacy-1.2", "documents": { "terms": { "version": "1.1" }, … } }
+```
+
+The combined `revision` string identifies the exact pair of documents a reader is asked to accept.
+It changes whenever either document's version changes, so a stale pair can never look current.
+
+Three places carry the same fact and must move together: the visible `.stamp` (for a person), the
+`sard-legal-version` meta (for a program reading one page), and `revision.json` (for a program
+reading the repository). The Sard application vendors a stamped snapshot rather than copying text,
+so that it can state which revision it contains and fail loudly if the two ever disagree.
 
 Anything that cannot be stated accurately is marked with a visible `TODO` block rather than filled
-in with a guess. There is one open at the time of writing: the governing law in section 10 of the
-Terms.
+in with a guess. There are none open at the time of writing — the governing law in section 10 of the
+Terms was the last, and it is now settled.
 
 ## Publishing
 
