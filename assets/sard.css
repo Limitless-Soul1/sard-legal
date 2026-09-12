@@ -485,33 +485,35 @@ body{
 .doc li::marker{color:var(--accent);}
 .doc a{color:var(--accent); text-underline-offset:2px;}
 
-/* ---- Contact -------------------------------------------------------------------
-   Two marks and two names, at the weight of everything else on the page rather than
-   as a row of social buttons. Quieter than `.btn` on purpose: no fill, no lift, and
-   the ink only resolves on hover.
+/* ---- The project's accounts ----------------------------------------------------
+   Inside the panel the page already gives the Contact eyebrow to, rather than in a
+   section of their own at the foot: the site had designated a place for this, and a
+   second "Contact" heading above the footer read as an afterthought because it was
+   one.
 
-   `a.contact-link` is (0,1,1) — the same weight as `.doc a` two lines above, which paints
-   every link in the accent. A tie is settled by ORDER, so this block sits AFTER it rather
-   than doubling a class, which was the first attempt and changed nothing: at (0,1,1) and
-   172 lines earlier it lost the tie and the pills came out accent-on-parchment.
+   The panel's closing band, not its smallest print. The names carry the body ink at
+   the weight of a heading, the marks carry the accent the panel's own icon and
+   eyebrow use, and the rule runs the width of the text column so the two anchor its
+   ends. Still no fill, no border, no lift — the prominence is ink and size, which is
+   how the rest of the page makes something matter.
 
-   A shared minimum width because the two names are seven and fifteen characters: left
-   to their contents they read as two unrelated controls instead of one pair. */
-.contact{display:flex; flex-wrap:wrap; gap:10px; margin:0 0 6px;}
-a.contact-link{
-  display:inline-flex; align-items:center; justify-content:center; gap:9px;
-  min-width:186px; min-height:42px; padding:0 16px; border-radius:9px;
-  border:1px solid var(--chrome-border); background:transparent;
-  color:var(--muted); font:500 .875rem var(--ui); text-decoration:none;
-  transition:background-color 160ms linear, border-color 160ms linear, color 160ms linear;
+   After `.doc a` on purpose: both are (0,1,1) and a tie is settled by order, so a
+   block placed earlier loses and the names come out as ordinary accent links. */
+.accounts{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:10px 26px; margin:16px 0 0; padding-top:13px;
+  border-top:1px solid color-mix(in srgb,var(--text) 13%,transparent);
 }
-a.contact-link:hover{
-  background:color-mix(in srgb,var(--text) 4%,transparent);
-  border-color:color-mix(in srgb,var(--text) 22%,transparent);
-  color:var(--text);
+a.account{
+  display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+  color:var(--text); font:600 .9375rem var(--ui);
+  transition:color 160ms linear;
 }
-a.contact-link:focus-visible{outline:2px solid var(--accent); outline-offset:2px; color:var(--text);}
-.contact-link svg{width:16px; height:16px; flex:none;}
+a.account svg{width:17px; height:17px; flex:none; color:var(--accent);}
+a.account .account-name{text-underline-offset:3px;}
+a.account:hover{color:var(--accent);}
+a.account:hover .account-name{text-decoration:underline;}
+a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
 .doc strong{font-weight:600; color:var(--text);}
 .doc .lede{margin:0 0 4px; font-size:1.0625rem; line-height:1.75; color:var(--muted); text-wrap:pretty;}
 .doc code{
