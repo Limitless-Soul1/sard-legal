@@ -16,11 +16,6 @@
 @font-face{font-family:"SardUIArabic";src:url("fonts/plex-ar-600.woff2") format("woff2");font-weight:500 700;font-style:normal;font-display:swap;
   unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F;}
 @font-face{font-family:"Literata";src:url("fonts/literata-var.woff2") format("woff2");font-weight:200 900;font-style:normal;font-display:swap;}
-/* Amiri is Sard's default Arabic READING face, as distinct from the interface
-   face above. It is here for one reason — the Arabic line of the reader specimen
-   — and is cut to that line's characters, so it costs 34 KB rather than 119 KB. */
-@font-face{font-family:"Amiri";src:url("fonts/amiri-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;
-  unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F;}
 
 /* ═══ TOKENS ══════════════════════════════════════════════════════════════
    Eight colour tokens. Every other surface on these pages is a color-mix of
@@ -42,34 +37,99 @@
 
   --ui:"SardUILatin","SardUIArabic",system-ui,"Segoe UI",sans-serif;
   --display:"Literata","SardUIArabic",Georgia,serif;
-  /* The book stack — Literata for Latin, Amiri for Arabic, exactly as the
-     application sets a book. Used only by the reader specimen. */
-  --book:"Literata","Amiri",Georgia,serif;
 
   --measure:68ch;
   /* The easing family, named as the kit names it */
   --arrive:cubic-bezier(.22,1,.36,1);
   --slide:cubic-bezier(.22,.61,.36,1);
   --press:cubic-bezier(.32,.72,.32,1);
+  /* The long arrival, for things that take most of a second to settle */
+  --settle:cubic-bezier(.16,1,.3,1);
+
+  /* Running text that is secondary but still meant to be read. --muted alone
+     sits near 3.4:1 on the paper, which suits a caption and not a paragraph;
+     this mix keeps its warmth and clears 6:1 on both papers. Declared on the
+     root, so it follows whichever paper is applied there. */
+  --ink-2:color-mix(in srgb, var(--text) 58%, var(--muted));
+
+  /* The accent as INK — links, eyebrows, small marks — and the label on an accent FILL. Most looks
+     use the accent itself for the first and the paper for the second; a look whose accent is too
+     dark or too light to read as text on its own paper names its own pair below. */
+  --accent-ink:var(--accent);
+  --on-accent:var(--paper-bg);
 }
-/* Charcoal — the night paper, and the only alternative to Sard. The site opens
-   on Sard and stays there until the reader asks for Charcoal, so there is no
-   `prefers-color-scheme` default: the opening paper is a decision, not an
-   inheritance. `color-scheme` is set per theme instead of by meta tag, so the
-   scrollbars and form controls follow the chosen paper rather than the OS. */
+/* ═══ THE LOOKS ═══════════════════════════════════════════════════════════
+   Sard opens on its own paper; every other look is chosen. There is no
+   `prefers-color-scheme` default — the opening paper is a decision, not an
+   inheritance. Each look is the eight colour tokens of a real Sard look, keyed
+   by `data-theme-id`; `data-theme="dark"` adds what every night paper shares.
+   `color-scheme` follows the look, so scrollbars and form controls do too.
+
+   A look with a picture shows it on the desk, behind the sheet, the way the
+   application shows a look's picture behind the library.
+   ═══════════════════════════════════════════════════════════════════════ */
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --paper-bg:#1C1C1E; --app-bg:#161617; --chrome-bg:#161617;
-  --chrome-border:rgba(255,255,255,.07);
-  --text:#DCD9D2; --muted:#8A8881; --accent:#C98A5E; --selection:rgba(201,138,94,.28);
   --sh-page:inset 1px 0 0 rgba(255,255,255,.05), inset -1px 0 0 rgba(255,255,255,.05);
   --sh-raise:0 6px 18px rgba(0,0,0,.40);
   --sh-float:0 16px 42px rgba(0,0,0,.50);
   --grain-blend:screen; --grain-op:.020;
   --gilt:#D8B678;
 }
+/* Charcoal — the application's own night theme. */
+:root[data-theme-id="charcoal"]{
+  --paper-bg:#1C1C1E; --app-bg:#161617; --chrome-bg:#161617;
+  --chrome-border:rgba(255,255,255,.07);
+  --text:#DCD9D2; --muted:#8A8881; --accent:#C98A5E; --selection:rgba(201,138,94,.28);
+}
+/* Ember & Iron — true black with ember accents, over a station at dusk. */
+:root[data-theme-id="ember"]{
+  --paper-bg:#000000; --app-bg:#0E0E0E; --chrome-bg:#0E0E0E;
+  --chrome-border:rgba(255,255,255,.10);
+  --text:#CFC8BA; --muted:#7C776E; --accent:#C98A5E; --selection:rgba(201,138,94,.30);
+  --gilt:#D1B58B;
+  --desk-art:url("looks/art-ember.webp");
+}
+/* RedRose — slate and crimson. The crimson is a fill colour; as text it is
+   lifted until it reads on the slate. */
+:root[data-theme-id="redrose"]{
+  --paper-bg:#2B3540; --app-bg:#1E2328; --chrome-bg:#282F36;
+  --chrome-border:rgba(235,215,179,.12);
+  --text:#EBD7B3; --muted:#A39B8A; --accent:#CE2D2D; --selection:rgba(206,45,45,.24);
+  --accent-ink:#F2857A; --on-accent:#FFFFFF; --gilt:#E2B46F;
+  --desk-art:url("looks/art-redrose.webp");
+}
+/* Ninth Wave — deep sea and flame, after Aivazovsky. */
+:root[data-theme-id="ninthwave"]{
+  --paper-bg:#101B1A; --app-bg:#0A1211; --chrome-bg:#0D1716;
+  --chrome-border:rgba(232,220,200,.10);
+  --text:#E6DCCB; --muted:#86918B; --accent:#E8783C; --selection:rgba(232,120,60,.26);
+  --gilt:#F0A35E;
+  --desk-art:url("looks/art-ninthwave.webp");
+}
+/* Sierra — mist and morning light, after Bierstadt. The ochre is deepened a
+   step for text, and a fill carries a white label. */
+:root[data-theme-id="sierra"]{
+  --paper-bg:#EFEEE8; --app-bg:#E2E1D9; --chrome-bg:#E8E7E0;
+  --chrome-border:rgba(31,38,34,.12);
+  --text:#1F2622; --muted:#666C65; --accent:#8C6B2F; --selection:rgba(140,107,47,.22);
+  --accent-ink:#7A5C24; --on-accent:#FFFFFF; --gilt:#B58E45;
+  --desk-art:url("looks/art-sierra.webp");
+}
+
+/* The picture sits on its own fixed layer under the desk, so the page scrolls over
+   it without repainting it, and a look without one draws nothing at all. */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:var(--desk-art, none) center / cover no-repeat;
+}
+body{isolation:isolate;}
+@media print{body::before{display:none;}}
 
 *{box-sizing:border-box;}
+/* `hidden` must win over any display a component sets, or content the script
+   has not filled yet shows up empty. */
+[hidden]{display:none !important;}
 ::selection{background:var(--selection);}
 html{-webkit-text-size-adjust:100%;}
 body{
@@ -83,6 +143,8 @@ body{
    margins; the page is opaque and carries the text.
    ═══════════════════════════════════════════════════════════════════════ */
 .desk{min-height:100vh; display:flex; justify-content:center; padding:0 clamp(0px,3vw,48px);}
+:root:is([data-theme-id="ember"],[data-theme-id="redrose"],[data-theme-id="ninthwave"],[data-theme-id="sierra"]) body{background:var(--app-bg);}
+:root:is([data-theme-id="ember"],[data-theme-id="redrose"],[data-theme-id="ninthwave"],[data-theme-id="sierra"]) .sheet{box-shadow:0 0 0 1px var(--chrome-border), 0 24px 80px rgba(0,0,0,.45);}
 .sheet{
   position:relative; width:100%; max-width:940px;
   background:var(--paper-bg); box-shadow:var(--sh-page);
@@ -97,14 +159,23 @@ body{
 
 /* ═══ CHROME — the top bar ════════════════════════════════════════════════ */
 .chrome{
-  position:sticky; top:0; z-index:40;
   margin-inline:calc(-1 * clamp(20px,5vw,64px));
   padding:0 clamp(14px,4vw,26px);
   display:flex; align-items:center; gap:14px; min-height:64px; flex-wrap:wrap;
-  background:color-mix(in srgb, var(--chrome-bg) 96%, transparent);
-  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  /* Opaque, and no backdrop blur: blurring what scrolls under a sticky bar is a
+     known source of flicker in Chromium on a fast scroll, and at this opacity it
+     was never visible anyway. */
+  background:var(--chrome-bg);
   border-bottom:1px solid var(--chrome-border);
+  transition:box-shadow 240ms ease;
 }
+/* Sticky, through `.sheet >` on purpose: `.sheet > *:not(.grain)` gives every
+   child of the sheet `position:relative`, and a bare `.chrome` loses to it — the
+   bar used to scroll away with the page and arrive last on the way back up. */
+.sheet > .chrome{position:sticky; top:0; z-index:40;}
+/* Once the page is moving under it, the bar lifts — and only then. */
+.chrome.is-stuck{box-shadow:0 10px 24px -18px rgba(40,28,14,.45);}
+[data-theme="dark"] .chrome.is-stuck{box-shadow:0 10px 24px -16px rgba(0,0,0,.85);}
 .brand{display:flex; align-items:center; gap:9px; flex:none; padding:10px 0; text-decoration:none; color:inherit;}
 /* THE ARTWORK NEVER MIRRORS.
    RTL moves the layout — the bar, the nav, the cards, the text — but the hoopoe
@@ -121,7 +192,7 @@ body{
 
 .nav{display:flex; gap:2px; flex-wrap:wrap; flex:1 1 auto; min-width:0;}
 .nav a{
-  font:500 .75rem/1 var(--ui); color:var(--muted); text-decoration:none;
+  font:500 .8125rem/1 var(--ui); color:var(--muted); text-decoration:none;
   padding:8px 10px; border-radius:6px; white-space:nowrap;
   transition:color 150ms linear, background-color 150ms linear;
 }
@@ -138,42 +209,48 @@ body{
 .tool:hover{background:color-mix(in srgb,var(--text) 9%,transparent);}
 .tool svg{width:15px; height:15px; flex:none;}
 
-/* ═══ THE THEME CONTROL ═══════════════════════════════════════════════════
-   Two papers, so a segmented control rather than a menu: both names are always
-   visible, the current one is always obvious, and choosing the other is one
-   click rather than two. This is the kit's segmented control, painted with the
-   real paper of each theme.
+/* ═══ THE LOOK PICKER ═════════════════════════════════════════════════════
+   Six looks, so a menu rather than a segmented control: the button shows the
+   look being worn, and the menu shows every look as a small piece of its own
+   paper, with its accent and — where it has one — its picture.
    ═══════════════════════════════════════════════════════════════════════ */
-.seg{
-  display:flex; gap:2px; flex:none; padding:3px; border-radius:9px;
-  border:1px solid var(--chrome-border);
-  background:color-mix(in srgb,var(--text) 5%,transparent);
+.picker{position:relative; flex:none;}
+.look-btn{gap:8px; padding:0 10px 0 8px;}
+.look-btn[aria-expanded="true"]{background:color-mix(in srgb,var(--text) 10%,transparent);}
+.look-btn .chev{width:12px; height:12px; opacity:.6; transition:transform 220ms var(--arrive);}
+.look-btn[aria-expanded="true"] .chev{transform:rotate(180deg);}
+/* A swatch is the look's paper with its accent laid along the reading edge. */
+.swatch{
+  position:relative; flex:none; width:18px; height:18px; border-radius:5px; overflow:hidden;
+  background:var(--sw-paper); box-shadow:inset 0 0 0 1px rgba(128,128,128,.40);
 }
-.seg[hidden]{display:none;}
-.seg-item{
-  display:inline-flex; align-items:center; gap:7px; min-height:34px; padding:0 11px;
-  border:0; border-radius:7px; cursor:pointer; background:transparent;
-  color:var(--muted); font:500 .75rem var(--ui); white-space:nowrap;
-  transition:background-color 150ms linear, color 150ms linear;
+.swatch::after{content:""; position:absolute; inset-block:0; inset-inline-end:0; width:5px; background:var(--sw-accent);}
+.look-menu{
+  position:absolute; inset-inline-end:0; top:calc(100% + 8px); z-index:80;
+  width:248px; padding:6px; border-radius:13px;
+  background:var(--chrome-bg); border:1px solid var(--chrome-border); box-shadow:var(--sh-float);
+  transform-origin:var(--menu-origin, top right);
+  animation:menu-in 200ms var(--arrive);
 }
-.seg-item:hover{color:var(--text);}
-/* The selected segment lifts onto the paper itself — one selected item per
-   control, and it reads as the sheet the page is already using. */
-.seg-item[aria-checked="true"]{
-  background:var(--paper-bg); color:var(--accent); font-weight:600;
-  box-shadow:0 1px 2px rgba(0,0,0,.12);
+[dir="rtl"] .look-menu{--menu-origin:top left;}
+.look-menu[hidden]{display:none;}
+@keyframes menu-in{from{opacity:0; transform:translateY(-4px) scale(.97);}}
+.look-item{
+  display:flex; align-items:center; gap:11px; width:100%; min-height:44px; padding:6px 8px;
+  border:0; border-radius:9px; background:transparent; color:var(--text); cursor:pointer;
+  font:500 .8125rem var(--ui); text-align:start;
+  transition:background-color 150ms linear;
 }
-.seg-chip{
-  width:12px; height:12px; border-radius:3px; flex:none;
-  box-shadow:inset 0 0 0 1px rgba(128,128,128,.38);
-}
-.seg-item:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
-/* Arabic is never letterspaced or faux-bolded, and takes one step up in size. */
-[data-lang="ar"] .seg-item{letter-spacing:0; font-size:.8125rem;}
-/* Where there is no hover there is a finger, and a finger needs the full target. */
-@media (hover:none){.seg-item{min-height:42px; padding:0 13px;}}
+.look-item:hover,.look-item:focus-visible{background:color-mix(in srgb,var(--text) 7%,transparent); outline:none;}
+.look-item .swatch{width:46px; height:30px; border-radius:6px; background:var(--sw-paper) var(--sw-art, none) center / cover;}
+.look-item .swatch::after{width:7px;}
+.look-item .tick{margin-inline-start:auto; width:16px; height:16px; color:var(--accent-ink); opacity:0;}
+.look-item[aria-checked="true"]{font-weight:600;}
+.look-item[aria-checked="true"] .tick{opacity:1;}
+[data-lang="ar"] .look-item{font-size:.875rem;}
 /* Arabic never gets letterspacing or faux-bold — kit rule 4 */
 [data-lang="ar"] .tool{letter-spacing:0;}
+.tool[aria-expanded]{min-height:34px;}
 
 :where(a,button,summary):focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px;}
 
@@ -198,13 +275,13 @@ body{
 .mast-rule span:last-child{width:60px; height:1px; background:linear-gradient(to right,color-mix(in srgb,var(--text) 26%,transparent),transparent);}
 .mast-dot{font-size:.625rem; line-height:1; color:var(--gilt);}
 .mast h1{
-  margin:0 0 14px; font:600 clamp(1.5rem,3.4vw,2.125rem)/1.28 var(--display);
+  margin:0 0 14px; font:600 clamp(1.75rem,3.9vw,2.5rem)/1.22 var(--display);
   text-wrap:balance; letter-spacing:-.01em;
 }
-.mast .lede{margin:0 auto; max-width:56ch; font:400 clamp(.9375rem,1.4vw,1.0625rem)/1.72 var(--ui); color:var(--muted); text-wrap:pretty;}
+.mast .lede{margin:0 auto; max-width:56ch; font:400 clamp(1rem,1.4vw,1.0625rem)/1.72 var(--ui); color:var(--ink-2); text-wrap:pretty;}
 .mast-meta{
-  margin-top:24px; display:flex; flex-wrap:wrap; gap:8px 10px; justify-content:center;
-  font:500 .6875rem var(--ui); color:var(--muted);
+  margin-top:30px; display:flex; flex-wrap:wrap; gap:8px 10px; justify-content:center;
+  font:500 .75rem var(--ui); color:var(--muted);
 }
 .mast-meta span{
   padding:5px 12px; border-radius:999px; border:1px solid var(--chrome-border);
@@ -212,8 +289,51 @@ body{
 }
 
 /* Arabic goes up one step in size and one in weight — kit rule 4 */
-[data-lang="ar"] .mast h1{font-weight:600; font-size:clamp(1.625rem,3.7vw,2.25rem); line-height:1.45;}
-[data-lang="ar"] .mast .lede{font-size:clamp(1rem,1.5vw,1.125rem); line-height:1.9;}
+[data-lang="ar"] .mast h1{font-weight:600; font-size:clamp(1.875rem,4.2vw,2.625rem); line-height:1.4;}
+[data-lang="ar"] .mast .lede{font-size:clamp(1.0625rem,1.5vw,1.125rem); line-height:1.9;}
+[data-lang="ar"] .mast-meta{font-size:.8125rem;}
+
+/* ═══ THE DOWNLOAD ════════════════════════════════════════════════════════
+   The one accent-filled action on the page, directly under the sentence that
+   says what Sard is. The link is the latest release page until the script has
+   asked GitHub for the newest installer; then it is the installer itself.
+   ═══════════════════════════════════════════════════════════════════════ */
+.get{margin:28px 0 0; scroll-margin-top:96px;}
+.get > div{display:flex; flex-direction:column; align-items:center;}
+.btn.btn-download{
+  min-height:52px; padding:0 28px; border-radius:11px; gap:10px;
+  font-size:.9375rem; letter-spacing:.005em;
+  box-shadow:0 10px 24px -14px color-mix(in srgb,var(--accent) 85%,transparent);
+  transition:background-color 160ms linear, box-shadow 240ms ease, transform 200ms var(--press);
+}
+.btn.btn-download:hover{transform:translateY(-2px); box-shadow:0 16px 30px -16px color-mix(in srgb,var(--accent) 95%,transparent);}
+.btn.btn-download:active{transform:translateY(0) scale(.985); transition-duration:90ms;}
+.btn-download svg{width:18px; height:18px;}
+.btn-download .dl-done{display:none;}
+.btn-download.is-started .dl-get{display:none;}
+.btn-download.is-started .dl-done{display:block;}
+.get-meta{
+  margin:13px 0 0; display:flex; flex-wrap:wrap; justify-content:center; gap:4px 0;
+  font:500 .8125rem var(--ui); color:var(--muted);
+}
+.get-meta span + span::before{content:"·"; margin-inline:9px; opacity:.7;}
+.get-meta b{font-weight:600; color:var(--text);}
+.get-note{
+  margin:0; max-height:0; overflow:hidden; opacity:0;
+  font:600 .8125rem/1.5 var(--ui); color:var(--accent-ink);
+  transition:max-height 360ms var(--arrive), opacity 260ms ease, margin 360ms var(--arrive);
+}
+.get-note.is-on{max-height:3em; opacity:1; margin-top:8px;}
+.get-alt{margin:12px 0 0; display:flex; flex-wrap:wrap; justify-content:center; gap:4px 18px; font:500 .8125rem var(--ui);}
+.get-alt a{
+  color:var(--muted); text-decoration:none; padding:2px 0;
+  background:linear-gradient(currentColor,currentColor) no-repeat 0 100% / 0 1px;
+  transition:color 160ms linear, background-size 260ms var(--arrive);
+}
+[dir="rtl"] .get-alt a{background-position:100% 100%;}
+.get-alt a:hover{color:var(--accent-ink); background-size:100% 1px;}
+[data-lang="ar"] .btn.btn-download{font-size:1rem; letter-spacing:0;}
+[data-lang="ar"] .get-meta,[data-lang="ar"] .get-alt,[data-lang="ar"] .get-note{font-size:.875rem;}
 
 /* ═══ DOCUMENT CARDS (homepage) ═══════════════════════════════════════════ */
 .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(266px,1fr)); gap:16px; margin:0 0 12px;}
@@ -233,60 +353,160 @@ body{
   width:38px; height:38px; border-radius:9px; display:grid; place-items:center; margin-bottom:3px;
   border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);
   background:color-mix(in srgb,var(--accent) 10%,transparent);
-  color:var(--accent);
+  color:var(--accent-ink);
 }
 .card-ico svg{width:19px; height:19px;}
-.card h2{margin:0; font:600 1.0625rem/1.35 var(--display); letter-spacing:-.005em;}
-.card p{margin:0; font-size:.875rem; line-height:1.6; color:var(--muted); max-width:none;}
+.card-ico{transition:transform 320ms var(--arrive), background-color 160ms linear;}
+.card:hover .card-ico{transform:translateY(-2px) rotate(-5deg); background:color-mix(in srgb,var(--accent) 16%,transparent);}
+/* Scoped through `.cards` so they outrank `.doc h2`, `.doc p` and `.doc a`, which
+   would otherwise give the titles a section heading's size and top margin and
+   paint the whole card in the link colour. */
+.cards .card{color:var(--text);}
+.cards .card h2{margin:0; font:600 1.125rem/1.35 var(--display); letter-spacing:-.005em; transition:color 160ms linear;}
+.cards .card:hover h2{color:var(--accent-ink);}
+.cards .card p{margin:0; font-size:.9375rem; line-height:1.6; color:var(--ink-2); max-width:none;}
 .card-go{
-  margin-top:4px; font:600 .75rem var(--ui); color:var(--accent);
+  margin-top:4px; font:600 .8125rem var(--ui); color:var(--accent-ink);
   display:inline-flex; align-items:center; gap:6px;
 }
-/* A chevron means direction, so it mirrors with the interface — kit §10.2 */
-.card-go svg{width:13px; height:13px;}
+/* A chevron means direction, so it mirrors with the interface — kit §10.2.
+   On hover it steps onward, which is also mirrored. */
+.card-go svg{width:13px; height:13px; transition:transform 260ms var(--arrive);}
+.card:hover .card-go svg{transform:translateX(3px);}
 [dir="rtl"] .card-go svg{transform:scaleX(-1);}
-[data-lang="ar"] .card h2{font-size:1.125rem; line-height:1.5;}
-[data-lang="ar"] .card p{font-size:.9375rem; line-height:1.85;}
+[dir="rtl"] .card:hover .card-go svg{transform:scaleX(-1) translateX(3px);}
+[data-lang="ar"] .cards .card h2{font-size:1.1875rem; line-height:1.5;}
+[data-lang="ar"] .cards .card p{font-size:1rem; line-height:1.85;}
 
-/* ═══ THE READER SPECIMEN ═════════════════════════════════════════════════
-   The page resting on the desk, built from the same tokens as everything else,
-   so choosing a paper repaints it along with the rest of the site.
-   It is the one place these pages show what Sard actually is.
+/* ═══ THE LOOKS SECTION ═══════════════════════════════════════════════════
+   One chip per look, then the application wearing it: the library large, a
+   page of a book laid over its corner. Choosing a chip repaints this page too.
    ═══════════════════════════════════════════════════════════════════════ */
-.specimen{margin:0; padding:0;}
-.specimen-desk{
-  background:var(--app-bg); border:1px solid var(--chrome-border); border-radius:11px;
-  padding:clamp(16px,3vw,26px) clamp(14px,3vw,30px);
-  transition:background-color 200ms linear;
+.looks-body{margin-top:22px;}
+.look-chips{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; margin:0 0 18px;}
+.look-chip{
+  display:flex; flex-direction:column; gap:7px; padding:6px 6px 9px; min-width:0;
+  border:1px solid var(--chrome-border); border-radius:11px; cursor:pointer;
+  background:color-mix(in srgb,var(--text) 3%,transparent); color:var(--text);
+  font:600 .75rem var(--ui); text-align:start;
+  transition:border-color 160ms linear, background-color 160ms linear, transform 200ms var(--press);
 }
-/* A two-pixel corner is a statement: it makes the sheet read as paper against
-   the 9–16 px world of chrome around it. Never round this to 8. */
-.specimen-page{
-  background:var(--paper-bg); border-radius:3px; box-shadow:var(--sh-raise);
-  padding:clamp(20px,3.4vw,32px) clamp(18px,3.4vw,34px);
-  max-width:520px; margin:0 auto;
-  transition:background-color 200ms linear, box-shadow 200ms linear;
+.look-chip:hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent); transform:translateY(-2px);}
+.look-chip:active{transform:scale(.98);}
+.look-chip[aria-checked="true"]{border-color:var(--accent); background:color-mix(in srgb,var(--accent) 9%,transparent);}
+.look-chip img{display:block; width:100%; aspect-ratio:16/10; height:auto; object-fit:cover; border-radius:6px; background:var(--sw-paper);}
+.look-chip span{display:flex; align-items:center; gap:7px; padding-inline:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.look-chip span i{flex:none; width:8px; height:8px; border-radius:50%; background:var(--sw-accent); box-shadow:0 0 0 1px rgba(128,128,128,.35);}
+.look-chip:focus-visible{outline:2px solid var(--accent-ink); outline-offset:2px;}
+[data-lang="ar"] .look-chip{font-size:.8125rem;}
+
+.look-stage{position:relative; padding-bottom:clamp(40px,9vw,96px);}
+.look-frame{position:relative; margin:0; overflow:hidden; border-radius:10px; background:#111; box-shadow:var(--sh-float);}
+.look-frame img{display:block; width:100%; height:auto; aspect-ratio:16/10; object-fit:cover;}
+/* The next look's screen is laid over the current one and fades in only once it
+   has fully loaded, so the frame is never empty and never flashes between them. */
+.look-frame .look-next{position:absolute; inset:0; height:100%; opacity:0; transition:opacity 380ms ease;}
+.look-frame .look-next.is-in{opacity:1;}
+/* The page of a book is laid over the library's corner, on the reading edge. */
+.look-read{
+  position:absolute; inset-inline-end:clamp(-18px,-2vw,-8px); bottom:0; width:46%;
+  border-radius:8px; box-shadow:0 0 0 1px rgba(255,255,255,.08), var(--sh-float);
+  transition:transform 500ms var(--arrive);
 }
-.specimen-line{
-  margin:0; font-family:var(--book); color:var(--text);
-  font-size:clamp(.9375rem,1.6vw,1.0625rem); line-height:1.6; text-wrap:pretty;
+.look-stage:hover .look-read{transform:translateY(-6px);}
+.look-note{margin:14px 0 0; max-width:64ch; font-size:.9375rem; line-height:1.6; color:var(--ink-2);}
+.look-note b{color:var(--text); font-weight:600;}
+.doc .look-note{margin:14px 0 0;}
+[data-lang="ar"] .look-note{font-size:1rem; line-height:1.85;}
+/* The note that a reader is free to make their own look. An accent-tinted
+   aside, like `.note`, with the palette as its supporting tile. */
+.look-own{
+  display:flex; gap:14px; align-items:flex-start; margin:24px 0 0; padding:16px 18px;
+  border-radius:11px; border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  background:color-mix(in srgb,var(--accent) 8%,transparent);
 }
-/* Arabic reads at 1.15 zoom and 1.9 leading by default — the application's own
-   per-script reading defaults, not a nudge invented here. */
-.specimen-line.ar{
-  font-size:clamp(1.0625rem,1.9vw,1.25rem); line-height:1.9; margin-top:18px;
-  padding-top:18px; border-top:1px solid color-mix(in srgb,var(--text) 9%,transparent);
+.look-own-ico{
+  flex:none; width:38px; height:38px; border-radius:9px; display:grid; place-items:center;
+  color:var(--accent-ink); background:color-mix(in srgb,var(--accent) 14%,transparent);
 }
-/* One highlighted phrase, inked the way the application inks a highlight. */
-.specimen-line mark{
-  background:color-mix(in srgb,var(--accent) 22%,transparent);
-  color:inherit; border-radius:2px; padding:.06em .1em;
+.look-own-ico svg{width:20px; height:20px; max-width:20px; max-height:20px;}
+.looks .look-own p{margin:0; max-width:72ch; font-size:.9375rem; line-height:1.65; color:var(--ink-2);}
+.look-own b{color:var(--text); font-weight:600;}
+[data-lang="ar"] .looks .look-own p{font-size:1rem; line-height:1.9;}
+@media (max-width:420px){.look-own{padding:14px 15px; gap:12px;} .look-own-ico{width:34px; height:34px;}}
+@media (max-width:720px){
+  .look-chips{grid-template-columns:repeat(3,minmax(0,1fr));}
+  /* Three to a row leaves too little width for a long name on one line, so it wraps. */
+  .look-chip span{white-space:normal; align-items:flex-start; line-height:1.3;}
+  .look-chip span i{margin-top:.3em;}
+  .look-read{width:52%; inset-inline-end:-4px;}
 }
-.specimen figcaption{
-  margin-top:12px; font-size:.75rem; line-height:1.6; color:var(--muted); text-wrap:pretty;
+
+/* ═══ THE TOUR ════════════════════════════════════════════════════════════
+   Real screens from the application, set on the desk the way the specimen's
+   page is: the desk colour around, the screen raised on it. The tabs are the
+   theme control's segmented style, with one sliding piece of paper under the
+   chosen tab.
+   ═══════════════════════════════════════════════════════════════════════ */
+.tour{margin-top:22px;}
+.tour-tabs{
+  position:relative; display:flex; gap:2px; width:max-content; max-width:100%;
+  margin:0 0 14px; padding:4px; border-radius:11px; overflow-x:auto; scrollbar-width:none;
+  border:1px solid var(--chrome-border); background:color-mix(in srgb,var(--text) 5%,transparent);
 }
-.specimen figcaption b{color:var(--text); font-weight:600;}
-[data-lang="ar"] .specimen figcaption{font-size:.8125rem; line-height:1.85;}
+.tour-tabs::-webkit-scrollbar{display:none;}
+.tour-tab{
+  position:relative; z-index:1; flex:none; min-height:36px; padding:0 14px;
+  border:0; border-radius:8px; background:transparent; cursor:pointer; white-space:nowrap;
+  color:var(--ink-2); font:600 .8125rem var(--ui);
+  transition:color 180ms ease;
+}
+.tour-tab:hover{color:var(--text);}
+.tour-tab[aria-selected="true"]{color:var(--accent-ink);}
+.tour-tab:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+.tour-pill{
+  position:absolute; z-index:0; top:0; left:0; width:0; height:0; border-radius:8px;
+  background:var(--paper-bg); box-shadow:0 1px 2px rgba(0,0,0,.12);
+}
+.tour-pill.is-placed{transition:transform 460ms var(--arrive), width 460ms var(--arrive), height 460ms var(--arrive);}
+/* On the night paper the sheet is darker than the tab bar around it, so the
+   chosen tab is lifted a step towards the ink instead. */
+[data-theme="dark"] .tour-pill{background:color-mix(in srgb,var(--text) 14%,var(--paper-bg)); box-shadow:none;}
+[data-lang="ar"] .tour-tab{font-size:.875rem;}
+@media (hover:none){.tour-tab{min-height:42px;}}
+
+.tour-desk{
+  background:var(--app-bg); border:1px solid var(--chrome-border); border-radius:13px;
+  padding:clamp(8px,1.8vw,16px);
+}
+/* The screens are the application's own night theme, so the frame behind them
+   is the same near-black whichever paper this page is on. */
+.tour-frame{
+  display:grid; aspect-ratio:16/10; overflow:hidden; border-radius:8px;
+  background:#141414; box-shadow:var(--sh-float);
+}
+.tour-shot{grid-area:1/1; min-width:0;}
+.tour-shot img{display:block; width:100%; height:100%; object-fit:cover;}
+/* Without script only the first screen exists; with it, all are stacked in
+   one cell and the chosen one fades up over the rest. */
+.tour-shot:not(.is-active){display:none;}
+.tour.is-live .tour-shot{
+  display:block; opacity:0; visibility:hidden;
+  transition:opacity 420ms ease, visibility 0s linear 420ms;
+}
+.tour.is-live .tour-shot.is-active{opacity:1; visibility:visible; transition:opacity 420ms ease;}
+.tour.is-live .tour-shot img{transform:scale(1.03); transition:transform 1100ms var(--settle);}
+.tour.is-live .tour-shot.is-active img{transform:none;}
+
+.tour-notes{display:grid; margin-top:14px;}
+.tour .tour-note{grid-area:1/1; margin:0; max-width:64ch; font-size:.9375rem; line-height:1.6; color:var(--ink-2);}
+.tour-note b{color:var(--text); font-weight:600;}
+.tour .tour-note:not(.is-active){display:none;}
+.tour.is-live .tour-note{display:block; opacity:0; visibility:hidden; transform:translateY(4px);
+  transition:opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;}
+.tour.is-live .tour-note.is-active{opacity:1; visibility:visible; transform:none;
+  transition:opacity 360ms ease 120ms, transform 420ms var(--arrive) 120ms;}
+[data-lang="ar"] .tour .tour-note{font-size:1rem; line-height:1.85;}
 
 /* ═══ READING PROGRESS ════════════════════════════════════════════════════
    A hairline of how far through the document you are. It occupies no reading
@@ -305,7 +525,7 @@ body{
    rather than being unreachable.
    ═══════════════════════════════════════════════════════════════════════ */
 .anchor{
-  margin-inline-start:.45em; font-size:.75em; font-weight:400; color:var(--accent);
+  margin-inline-start:.45em; font-size:.75em; font-weight:400; color:var(--accent-ink);
   text-decoration:none; opacity:0; transition:opacity 150ms linear;
   vertical-align:.06em;
 }
@@ -326,18 +546,19 @@ body{
 }
 .btn svg{width:16px; height:16px; flex:none;}
 .btn:hover{transform:translateY(-1px);}
+.btn:active{transform:scale(.98); transition-duration:80ms;}
 /* Doubled class on purpose. These buttons sit inside `.doc`, and `.doc a` sets a
    colour at specificity (0,1,1) — a single `.btn-primary` (0,1,0) loses to it and
    the label ends up painted accent-on-accent, which is invisible. `.btn.btn-*`
    is (0,2,0) and wins. Do not simplify these selectors. */
-.btn.btn-primary{background:var(--accent); color:var(--paper-bg); border-color:var(--accent);}
-.btn.btn-primary:hover{background:color-mix(in srgb,var(--accent) 86%, var(--text)); color:var(--paper-bg);}
+.btn.btn-primary{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
+.btn.btn-primary:hover{background:color-mix(in srgb,var(--accent) 86%, var(--text)); color:var(--on-accent);}
 .btn.btn-ghost{background:transparent; color:var(--text); border-color:var(--chrome-border);}
-.btn.btn-ghost:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent); color:var(--accent);}
+.btn.btn-ghost:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent); color:var(--accent-ink);}
 /* The third level: a bare action with no box at all, for the secondary
    destination in a panel that already has a filled or outlined primary. */
 .btn.btn-quiet{background:transparent; color:var(--muted); border-color:transparent; padding-inline:10px;}
-.btn.btn-quiet:hover{color:var(--accent); background:color-mix(in srgb,var(--accent) 10%,transparent);}
+.btn.btn-quiet:hover{color:var(--accent-ink); background:color-mix(in srgb,var(--accent) 10%,transparent);}
 .btn[aria-disabled="true"]{opacity:.45; pointer-events:none;}
 [data-lang="ar"] .btn{font-size:.9375rem; letter-spacing:0;}
 
@@ -361,28 +582,43 @@ body{
   width:40px; height:40px; border-radius:9px; flex:none; display:grid; place-items:center;
   border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);
   background:color-mix(in srgb,var(--accent) 9%,transparent);
-  color:var(--accent);
+  color:var(--accent-ink);
 }
 /* A hard ceiling, so no future edit can turn the mark back into a poster. */
 .panel-ico svg{width:20px; height:20px; max-width:20px; max-height:20px;}
 .panel-body{min-width:0; flex:1 1 auto;}
-.panel h2{margin:0 0 6px; font:600 1.0625rem/1.35 var(--display); letter-spacing:-.005em;}
+/* Scoped through `.panels` for the same reason as the cards. */
+.panels .panel h2{margin:0 0 6px; font:600 1.0625rem/1.35 var(--display); letter-spacing:-.005em;}
 .panel .eyebrow{margin-bottom:5px;}
-.panel p{margin:0; color:var(--muted); font-size:.875rem; line-height:1.6; max-width:44ch;}
+.panels .panel p{margin:0; color:var(--ink-2); font-size:.9375rem; line-height:1.6; max-width:44ch;}
+/* The headings of the latest release's own notes, one per line. They arrive
+   one after another when the release has been read. */
+.panel .news{list-style:none; margin:10px 0 0; padding:0; max-width:none;}
+.panel .news li{
+  position:relative; margin:0 0 5px; padding-inline-start:16px;
+  font-size:.9375rem; line-height:1.5; color:var(--text);
+  animation:news-in 520ms var(--arrive) both; animation-delay:calc(var(--i,0) * 70ms);
+}
+.panel .news li::before{
+  content:""; position:absolute; inset-inline-start:2px; top:.62em;
+  width:6px; height:6px; border-radius:50%; background:var(--accent);
+}
+@keyframes news-in{from{opacity:0; transform:translateY(6px);}}
+[data-lang="ar"] .panel .news li{font-size:1rem; line-height:1.75;}
 /* Tight enough that a primary and a quiet action share one line inside a
    two-up column — the two panels then read as a matched pair rather than one
    wrapping and the other not. */
 .panel .actions{margin-top:14px; gap:6px;}
 .panel .btn{min-height:36px; padding:0 12px; font-size:.8125rem;}
 .panel .btn.btn-quiet{padding-inline:8px;}
-.panel .meta{
-  margin:10px 0 0; font:500 .6875rem var(--ui); color:var(--muted);
+.panels .panel .meta{
+  margin:10px 0 0; font:500 .75rem var(--ui); color:var(--muted);
   display:flex; flex-wrap:wrap; gap:4px 12px; max-width:none;
 }
-[data-lang="ar"] .panel h2{font-size:1.125rem; line-height:1.5;}
-[data-lang="ar"] .panel p{font-size:.9375rem; line-height:1.85;}
+[data-lang="ar"] .panels .panel h2{font-size:1.125rem; line-height:1.5;}
+[data-lang="ar"] .panels .panel p{font-size:1rem; line-height:1.85;}
 [data-lang="ar"] .panel .btn{font-size:.875rem;}
-[data-lang="ar"] .panel .meta{font-size:.75rem;}
+[data-lang="ar"] .panels .panel .meta{font-size:.8125rem;}
 /* Below the two-up breakpoint the mark stays beside the text, not above it —
    stacking it is what made the section tall in the first place. */
 @media (max-width:420px){
@@ -462,13 +698,45 @@ body{
 .handoff p:last-child{margin-bottom:0;}
 .handoff b{color:var(--text); font-weight:600;}
 [data-lang="ar"] .handoff p{font-size:.9375rem; line-height:1.85;}
-.copied{font:600 .75rem var(--ui); color:var(--accent);}
+.copied{font:600 .75rem var(--ui); color:var(--accent-ink);}
+
+/* ═══ DRAWN ARABIC HEADINGS ═════════════════════════════════════════════════
+   The Arabic headings are Thmanyah Serif Display, with its own long swash
+   finals on chosen words, drawn as outlines by tools/arabic-headings.py — the
+   face's licence allows it in a website's design but not as a hosted font
+   file. The real text sits beside each drawing for screen readers, search and
+   copying. The drawing is sized from the heading's own font size: --a is its
+   width over its height, and 1.42em is the face's line box at that size.
+   ═══════════════════════════════════════════════════════════════════════ */
+.vh{position:absolute !important; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden;
+  clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0;}
+.ar-type{display:block; --ar-h:calc(1.42em * var(--ar-scale, 1.08));}
+.ar-display{display:block; width:calc(var(--a) * var(--ar-h)); max-width:100%; height:auto; overflow:visible;}
+.mast .ar-display{margin-inline:auto;}
+.ar-narrow{display:none;}
+.mast .ar-type{--ar-scale:1.12; margin-block:-.12em -.06em;}
+.doc h2 .ar-type{--ar-scale:1.14; margin-block:-.18em -.1em;}
+.cards .card h2 .ar-type,.panels .panel h2 .ar-type{--ar-scale:1.1; margin-block:-.16em -.12em;}
+@media (max-width:600px){
+  .mast .ar-wide{display:none;}
+  .mast .ar-narrow{display:block;}
+  .mast .ar-narrow .ar-display + .ar-display{margin-top:-.32em;}
+}
+@media (forced-colors:active){.ar-display path{fill:CanvasText;}}
 
 /* ═══ DOCUMENT BODY ═══════════════════════════════════════════════════════ */
 .doc{padding:clamp(30px,4vw,44px) 0 0; max-width:var(--measure);}
+/* A section that uses the sheet's whole width — cards, panels, the tour. */
+.doc.doc-wide{max-width:none;}
+/* The tour, being the first thing after the masthead, gets more air above. */
+#inside{padding-top:clamp(36px,5vw,56px);}
+/* An eyebrow already opens the section, so the heading under it does not. */
+.doc span.eyebrow + h2{margin-top:0;}
+.doc .fineprint{font-size:.9375rem; color:var(--muted);}
+[data-lang="ar"] .doc .fineprint{font-size:1rem;}
 .eyebrow{
   font:700 .6875rem var(--ui); letter-spacing:.16em; text-transform:uppercase;
-  color:var(--accent); display:block; margin-bottom:9px;
+  color:var(--accent-ink); display:block; margin-bottom:9px;
 }
 /* Arabic is never uppercased or letterspaced — kit §10.2 */
 [data-lang="ar"] .eyebrow{text-transform:none; letter-spacing:0; font-size:.8125rem;}
@@ -477,13 +745,15 @@ body{
   margin:40px 0 12px; font:600 1.3125rem/1.35 var(--display);
   letter-spacing:-.005em; scroll-margin-top:88px;
 }
-.doc h2:first-of-type{margin-top:26px;}
+/* :where() keeps this at the weight of `.doc h2`, so a component's own heading
+   rule (the cards, the panels) is not overruled by a first-of-type count. */
+.doc h2:where(:first-of-type){margin-top:26px;}
 .doc h3{margin:26px 0 9px; font:600 .9375rem/1.4 var(--ui);}
 .doc p{margin:0 0 14px; max-width:var(--measure); text-wrap:pretty;}
 .doc ul{margin:0 0 16px; padding-inline-start:1.2rem; max-width:var(--measure);}
 .doc li{margin-bottom:8px;}
-.doc li::marker{color:var(--accent);}
-.doc a{color:var(--accent); text-underline-offset:2px;}
+.doc li::marker{color:var(--accent-ink);}
+.doc a{color:var(--accent-ink); text-underline-offset:2px;}
 
 /* ---- The project's accounts ----------------------------------------------------
    Inside the panel the page already gives the Contact eyebrow to, rather than in a
@@ -509,13 +779,13 @@ a.account{
   color:var(--text); font:600 .9375rem var(--ui);
   transition:color 160ms linear;
 }
-a.account svg{width:17px; height:17px; flex:none; color:var(--accent);}
+a.account svg{width:17px; height:17px; flex:none; color:var(--accent-ink);}
 a.account .account-name{text-underline-offset:3px;}
-a.account:hover{color:var(--accent);}
+a.account:hover{color:var(--accent-ink);}
 a.account:hover .account-name{text-decoration:underline;}
 a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
 .doc strong{font-weight:600; color:var(--text);}
-.doc .lede{margin:0 0 4px; font-size:1.0625rem; line-height:1.75; color:var(--muted); text-wrap:pretty;}
+.doc .lede{margin:0 0 4px; font-size:1.0625rem; line-height:1.75; color:var(--ink-2); text-wrap:pretty;}
 .doc code{
   font-family:ui-monospace,"Cascadia Mono",Consolas,monospace; font-size:.8125em;
   background:color-mix(in srgb,var(--text) 7%,transparent); padding:.14em .4em; border-radius:4px;
@@ -549,7 +819,7 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
   font-size:.9375rem; line-height:1.65;
 }
 .note p:last-child{margin-bottom:0;}
-.note b{color:var(--accent);}
+.note b{color:var(--accent-ink);}
 [data-lang="ar"] .note{font-size:1rem; line-height:1.9;}
 
 /* A TODO — deliberately visible. Colour is never the only signal, so it also
@@ -577,7 +847,7 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
   flex:none; width:19px; height:19px; margin-top:2px; border-radius:50%;
   display:grid; place-items:center; font-size:.6875rem; font-weight:700;
 }
-.facts .yes{background:color-mix(in srgb,var(--accent) 16%,transparent); color:var(--accent);}
+.facts .yes{background:color-mix(in srgb,var(--accent) 16%,transparent); color:var(--accent-ink);}
 .facts .no{background:color-mix(in srgb,var(--text) 8%,transparent); color:var(--muted);}
 .facts .mark svg{width:11px; height:11px;}
 [data-lang="ar"] .facts li{font-size:1rem; line-height:1.85;}
@@ -589,12 +859,14 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
   padding:26px clamp(20px,5vw,64px) 34px;
   border-top:1px solid var(--chrome-border);
   display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; justify-content:space-between;
-  font-size:.75rem; color:var(--muted);
+  font-size:.8125rem; color:var(--muted);
 }
 .foot a{color:var(--muted); text-decoration:none; border-bottom:1px solid transparent; transition:color 150ms linear, border-color 150ms linear;}
-.foot a:hover{color:var(--accent); border-bottom-color:color-mix(in srgb,var(--accent) 40%,transparent);}
+.foot a:hover{color:var(--accent-ink); border-bottom-color:color-mix(in srgb,var(--accent) 40%,transparent);}
 .foot-links{display:flex; flex-wrap:wrap; gap:8px 16px;}
-[data-lang="ar"] .foot{font-size:.8125rem;}
+.foot .credits{margin:6px 0 0; max-width:60ch; font-size:.6875rem; line-height:1.55; opacity:.85;}
+[data-lang="ar"] .foot .credits{font-size:.75rem;}
+[data-lang="ar"] .foot{font-size:.875rem;}
 
 /* ═══ LANGUAGE SWITCHING ══════════════════════════════════════════════════
    Both languages ship in the document so a single URL serves both — which is
@@ -603,6 +875,87 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
 [data-lang="en"] .lang-ar{display:none;}
 [data-lang="ar"] .lang-en{display:none;}
 
+/* ═══ MOTION ══════════════════════════════════════════════════════════════
+   Three kinds, each with a job.
+
+   The masthead arrives in a little over a second on load: the hoopoe rises,
+   the lockup follows, the rule is drawn outward from its diamond, then the
+   sentence and the download. Pure CSS, so it needs no script, and everything
+   is painted on the first frame.
+
+   Below it, each section arrives once as it reaches the reader, its parts in
+   reading order. The starting state lives under `html.reveal`, which the
+   script sets before first paint and removes again if it fails to wire the
+   observer — content is never left hidden. Animations use `backwards` fill,
+   so once one ends the element is back to its own styles and hover lifts
+   work exactly as before.
+
+   And the paper itself: choosing a theme spreads the new paper from the point
+   that was clicked (a view transition, where the browser has them).
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:no-preference){
+  .mast-hero{animation:rise 1000ms var(--settle) both;}
+  .lockup{animation:rise 900ms var(--settle) 110ms both;}
+  .mast-rule span:not(.mast-dot){animation:draw 900ms var(--settle) 260ms both;}
+  .mast-rule span:first-child{transform-origin:100% 50%;}
+  .mast-rule span:last-child{transform-origin:0 50%;}
+  .mast-dot{animation:pop 640ms var(--arrive) 200ms both;}
+  .mast h1{animation:rise 900ms var(--settle) 220ms both;}
+  .mast .lede{animation:rise 900ms var(--settle) 300ms both;}
+  .get{animation:rise 900ms var(--settle) 380ms both;}
+  .mast-meta{animation:rise 800ms var(--settle) 460ms both;}
+
+  /* After arriving, the hoopoe keeps a slow breath — the one thing on the page
+     that moves on its own, and slow enough to read past. */
+  .mast-bird{animation:hover-bird 6.5s ease-in-out 1.1s infinite alternate;}
+  .mast-halo{animation:glow 6.5s ease-in-out 1.1s infinite alternate;}
+
+  /* The download arrow drops into the tray while the pointer rests on it, and
+     the tick draws itself once a download has started. */
+  .btn-download:hover .dl-arrow{animation:drop 1100ms var(--slide) infinite;}
+  .btn-download.is-started .dl-done{animation:pop 420ms var(--arrive) both;}
+  .btn-download.is-started .dl-done path{stroke-dasharray:24; animation:tick 520ms var(--arrive) 60ms both;}
+
+  /* Sections arriving */
+  .reveal [data-reveal]:not(.is-in) [data-r]{opacity:0;}
+  .reveal [data-reveal].is-in [data-r]{animation:rise 820ms var(--settle) backwards; animation-delay:calc(var(--i,0) * 85ms);}
+  .reveal [data-reveal].is-in [data-r="settle"]{animation-name:settle; animation-duration:1100ms;}
+  .reveal [data-reveal].is-in [data-r="row"]{animation-name:row; animation-duration:640ms; animation-delay:calc(var(--i,0) * 70ms);}
+  .reveal [data-reveal].is-in [data-r="row"] .mark{animation:pop 520ms var(--arrive) backwards; animation-delay:calc(var(--i,0) * 70ms + 180ms);}
+
+}
+
+/* The tour's screen tips up into place as it is scrolled into view, tied to
+   the scrollbar rather than to a timer. Only where scroll-driven animation
+   exists; elsewhere it arrives like everything else. */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .tour-desk{transform-origin:50% 100%;}
+    .reveal .tour[data-reveal] .tour-desk[data-r]{
+      opacity:1; animation:tip linear both;
+      animation-timeline:view(); animation-range:entry 0% cover 38%;
+    }
+  }
+}
+
+@keyframes rise{from{opacity:0; transform:translateY(22px);}}
+@keyframes settle{from{opacity:0; transform:translateY(18px) scale(.97);}}
+@keyframes row{from{opacity:0; transform:translateY(10px);}}
+@keyframes draw{from{transform:scaleX(0);}}
+@keyframes pop{from{opacity:0; transform:scale(.4);}}
+@keyframes tick{from{stroke-dashoffset:24;}}
+@keyframes ink{from{background-size:0 100%;}}
+@keyframes drop{0%{transform:translateY(0);} 45%{transform:translateY(3px);} 100%{transform:translateY(0);}}
+@keyframes hover-bird{to{transform:translateY(-5px) rotate(-1.5deg);}}
+@keyframes glow{to{opacity:.72; transform:translate(-50%,-50%) scale(1.07);}}
+@keyframes tip{from{opacity:.55; transform:perspective(1600px) rotateX(11deg) translateY(28px) scale(.95);}}
+
+/* The paper spreads from the click: the new view is revealed by a growing
+   circle (driven from sard.js), so the browser's own cross-fade is turned off
+   for this one transition, and nothing transitions underneath it. */
+:root.vt-theme::view-transition-old(root),
+:root.vt-theme::view-transition-new(root){animation:none; mix-blend-mode:normal;}
+:root.vt-theme *{transition:none !important;}
 /* ═══ MOTION — reduced-motion turns movement off, keeps feedback ═══════════ */
 /* The response is specific rather than a blanket switch-off: movement goes,
    feedback stays. Hover lifts are removed but their colour change is kept, and
@@ -611,7 +964,10 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
   .card:hover{transform:none;}
-  .btn:hover{transform:none;}
+  .btn:hover,.btn:active,.btn.btn-download:hover,.btn.btn-download:active{transform:none;}
+  .card:hover .card-ico,.card:hover .card-go svg{transform:none;}
+  [dir="rtl"] .card:hover .card-go svg{transform:scaleX(-1);}
+  .tour.is-live .tour-shot img{transform:none;}
 }
 
 /* ═══ FORCED COLOURS — the decoration turns off completely ════════════════ */
@@ -619,27 +975,43 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
    and leave the reader's own configuration untouched. The theme control is
    hidden outright: choosing a paper is meaningless when the system is painting. */
 @media (forced-colors:active){
-  .grain,.mast-halo,.rail{display:none;}
-  .card,.note,.todo,.tool,.specimen-desk,.specimen-page,
-  .panel,.btn,.choice,.input,.textarea,.handoff{border:1px solid CanvasText;}
-  .seg{display:none !important;}
-  .specimen-page{box-shadow:none;}
+  .grain,.mast-halo,.rail,.tour-pill{display:none;}
+  .card,.note,.todo,.tool,.look-chip,.look-menu,.look-own,
+  .panel,.btn,.choice,.input,.textarea,.handoff,.tour-desk{border:1px solid CanvasText;}
+  .picker,.look-chips{display:none !important;}
+  .look-frame,.tour-frame,.btn.btn-download{box-shadow:none;}
+  .tour-tab[aria-selected="true"]{outline:2px solid Highlight;}
 }
 
 /* ═══ NARROW ══════════════════════════════════════════════════════════════ */
 @media (max-width:560px){
-  .chrome{min-height:56px; gap:8px; padding-block:8px;}
-  .nav{order:3; flex-basis:100%;}
+  /* Two rows, not three: the mark and the tools share the first, and the
+     documents run along the second, scrolling sideways if they must. The bar
+     is sticky, so every row it keeps is a row of reading lost on a phone. */
+  .chrome{min-height:56px; gap:6px 8px; padding-block:6px 0;}
+  /* On a phone the bar is two rows, so it scrolls away with the page rather than
+     holding a slice of the screen; the look picker is back the moment you scroll up. */
+  .sheet > .chrome{position:relative;}
+  .chrome-tools{margin-inline-start:auto;}
+  .nav{order:3; flex-basis:100%; margin-inline:-7px; padding-bottom:6px;}
+  .nav a{padding:8px 6px; font-size:.75rem;}
+  /* The mark beside it already leads home, so on a phone the Home link gives
+     its room to the three documents and they fit on one line. */
+  .nav a[href="./"]{display:none;}
+  [data-lang="ar"] .nav a{font-size:.8125rem;}
+  /* In the bar the look shows as its swatch alone; the name stays for screen readers. */
+  .look-btn .look-name{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
   .mast-bird{height:76px;}
   .foot{flex-direction:column; align-items:flex-start;}
-  /* Both names still fit at this width; only the padding gives way. */
-  .seg-item{padding:0 9px; gap:6px;}
+  .btn.btn-download{width:100%; max-width:340px;}
+  .tour-tabs{flex-wrap:wrap; width:auto;}
+  .tour-tab{padding:0 11px;}
 }
 
 /* ═══ PRINT — the desk falls away, the page remains ═══════════════════════ */
 @media print{
   body{background:#fff; color:#000;}
-  .chrome,.foot,.grain,.mast-halo,.chrome-tools{display:none;}
+  .chrome,.foot,.grain,.mast-halo,.chrome-tools,.get,.look-chips,.tour-tabs{display:none;}
   .sheet{box-shadow:none; max-width:none; padding:0;}
   .doc{max-width:none;}
   .card{break-inside:avoid;}

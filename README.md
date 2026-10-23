@@ -22,42 +22,112 @@ Three static pages, one stylesheet, one small script. No build step, no framewor
 manager — editing a file and pushing it is the whole workflow.
 
 ```
-index.html          Home — introduces Sard, links to both documents, Get Sard, contact
+index.html          Home — Sard, the download, the looks, the tour, both documents, what's new, contact
 terms.html          Terms of Service
 privacy.html        Privacy Policy
 report.html         Composes a report and hands it to GitHub prefilled
 .github/ISSUE_TEMPLATE/  The issue forms those reports land in
 assets/sard.css     Sard's design tokens and every component on these pages
-assets/sard.js      Language, the theme control, the reading rail, clause anchors
+assets/sard.js      Language, the looks, the latest release, the tour, arrival, the reading rail,
+                    clause anchors
 assets/fonts/       The application's own faces, subset to web weight
 assets/sard-bird.png  The hoopoe mark
+assets/shots/       Screens from the application, for the tour on the home page
+assets/looks/       The application in each look, the chip thumbnails, and the looks' paintings
+tools/arabic-headings.py  Redraws the Arabic display headings (see below); not needed to publish
 ```
 
 ## Interaction
 
-Four things move, and each earns its place. Everything else is static on purpose — these are legal
-documents first.
+The legal documents stay still on purpose: on those pages only the theme control, the reading rail
+and the clause anchors move. The home page is the product's front door as well, so it does a little
+more, and each piece still has a job.
 
-- **The theme control** in the top bar offers **two papers**: **Sard**, the default, and
-  **Charcoal**, the night alternative. Both are defined in the stylesheet, so applying one is a single
-  `data-theme` attribute and the tokens have exactly one home. Sard's values are the application's
-  Ivory set (its `DEFAULT_LIGHT`), shown here under the product's own name.
+- **The look picker** in the top bar offers **six looks**: **Sard**, the default, **Charcoal**, the
+  night paper, and four looks with pictures — **Ember & Iron**, **RedRose**, **Ninth Wave** and
+  **Sierra**. Every look's colours are defined in the stylesheet under `data-theme-id`, so applying
+  one is a single attribute and the tokens have exactly one home; `data-theme="dark"` adds what all
+  the night papers share. A look with a picture shows it on the desk, behind the sheet, the way the
+  application shows it behind the library.
   The site **always opens on Sard**, whatever the visitor's system is set to — there is deliberately
   no `prefers-color-scheme` default, because the opening paper is a decision rather than an
-  inheritance. A chosen theme is remembered and carries across pages.
-- **The reader specimen** on the home page shows the page resting on the desk, with a Latin line in
-  Literata and an Arabic line in Amiri. It repaints with the theme, which is what makes the control
-  worth having. It is also the only place these pages show what Sard actually is.
+  inheritance. A chosen look is remembered and carries across pages.
+  Where the browser has view transitions, the new paper **spreads from the point that was clicked**
+  across the old one; elsewhere, and for anyone who asks for reduced motion, it simply changes.
+  A change of mind never waits for the sweep: while one runs the browser sends every press to
+  `<html>`, so a press during a sweep ends it and its click is replayed on whatever is really under
+  the pointer.
+  The top bar is **sticky** on wider screens, so the picker is always in reach; on a phone, where the
+  bar is two rows, it scrolls away with the page.
+- **The looks section**, directly under the masthead, is the same choice made large: a chip per look,
+  and then the application itself wearing the chosen look — its library, with a page of a book laid
+  over the corner — in the reader's interface language. Choosing a chip repaints the whole page as
+  well, so the section shows what a look is by doing it. Hovering a chip fetches its screens ahead
+  of the click, and the new screens are laid over the old ones and fade in only once decoded, so the
+  frame is never empty between two looks. A note under the screens (`.look-own`) says plainly that
+  every colour, the pictures behind the library and the page, the fonts and the marks are the
+  reader's to set, and the result is theirs to keep or share. It does not call the looks on this
+  page a starting set: apart from Sard and Charcoal they are not bundled with the application.
 - **The reading rail** is a two-pixel hairline of progress through the Terms and the Privacy Policy.
   It occupies no reading space and shifts nothing when it moves.
 - **Clause anchors** make every numbered section linkable, because legal text gets quoted. A heading
   carries `data-section="7"` rather than an `id`: both languages are in the document at once, so an
   `id` would collide. The hash `#s7` is resolved against whichever language is showing, so one link
   serves both readers.
+- **The download** sits under the masthead's sentence and is the one accent-filled button on the
+  page. It downloads the newest installer in one click — see below for how it knows which file that
+  is. Once a download has started the button says so, because the page itself does not change.
+- **The tour** shows what Sard does once a book is open — read aloud, notes, spoiler-safe search and
+  photo cards — chosen by tabs, with a sliding piece of paper under the chosen tab. Where the browser
+  supports scroll-driven animation, the screen tips up into place as it is scrolled to.
+- **What's new** lists the headings of the latest release's own notes, in the reader's language.
+- **Arrival.** The masthead arrives in a little over a second on load (pure CSS), and each section
+  below rises into place once as it reaches the reader, its parts in reading order. The hoopoe
+  keeps a slow breath afterwards — the one thing that moves on its own. Switching language
+  cross-fades rather than jumps.
 
-All four are progressive enhancements. With scripting off the theme control is hidden, the site
-renders in Sard, the rail and the anchors never appear, and the documents read exactly as they
-always did.
+All of it is a progressive enhancement. With scripting off the look pickers are hidden, the site
+renders in Sard and the looks section shows Sard's own screens, the rail and the anchors never
+appear, the download links to the latest release page, the tour shows its first screen on its own,
+and the documents read exactly as they always did.
+The hidden starting state of an arriving section exists only under `html.reveal`, which the script
+sets before first paint and takes off again if it never wires the observer, so a failure can never
+leave content invisible. `prefers-reduced-motion` keeps every finished state and drops the travel.
+
+## The download, and why it asks GitHub
+
+The installer's file name carries the version — `Sard_1.4.1_x64-setup.exe` — so there is no fixed
+`/releases/latest/download/<name>` address that always means "the newest installer". GitHub's API
+is what knows the current name.
+
+So every download link is written in the HTML as `github.com/Limitless-Soul1/Sard/releases/latest`,
+which always works, and `assets/sard.js` then asks
+`api.github.com/repos/Limitless-Soul1/Sard/releases/latest` and swaps in:
+
+- the `x64-setup.exe` asset for the download buttons (`data-download`),
+- the `.msi` asset for the MSI link (`data-download-msi`),
+- the release's own page for "Release notes" (`data-release-notes`),
+- the version, the installer's size and the release date (`data-release="version|size|date"`),
+- the headings of the release notes for What's new (`data-release-list`).
+
+Publishing a new release in the application repository therefore updates this site with no change
+here. Drafts and pre-releases are never offered, because the API's `latest` excludes them.
+
+A few things keep it safe and cheap:
+
+- **Only URLs inside `github.com/Limitless-Soul1/Sard/releases/` are accepted.** Anything else in
+  the response is ignored and the link stays on the release page.
+- **The answer is kept for half an hour** in `localStorage` and reused across pages. Unauthenticated
+  API calls are limited to 60 an hour per visitor; one page view costs at most one.
+- **Failure is silent.** Offline, rate-limited or slow (eight seconds), the page uses a stale cached
+  answer if it has one and otherwise leaves the links on the release page.
+- Everything taken from the release is set with `textContent`, never as HTML.
+
+**The release notes are a format.** What's new reads the notes as short titled paragraphs — a
+heading line, then its paragraph, separated by blank lines — with the English first, a line holding
+only `⁂`, and then the Arabic. Notes written another way are not guessed at: the list stays hidden
+and the panel keeps its plain sentence. If the asset naming ever changes, `pickAsset` in
+`assets/sard.js` is the one place that needs to know.
 
 ## Reporting, and why the form does not submit
 
@@ -98,12 +168,19 @@ the Get Sard section at **5418px** instead of 320, and the document at **25565px
 A CSS `width` always beats the attribute, so styled rendering is identical; the attribute only
 decides what a reader sees when the CSS is missing. Do not remove them from new icons.
 
-**Get Sard and Contact are a matched pair, not two stacked posters.** They sit side by side directly
-under the document cards, so the four things a visitor needs — what Sard is, where to download it,
-where the source is, where to report — are all within the first screen and a half. The mark in each
-panel is a **40px supporting tile beside the content**, capped with `max-width`/`max-height` so it
-cannot grow back into artwork; the heading, the sentence and the actions are the section. Actions run
-primary -> ghost -> quiet, with exactly one accent-filled button on the page.
+**The download is on the first screen, and it is the only accent-filled button.** It sits directly
+under the sentence that says what Sard is, so what Sard is and how to get it are read together.
+Every other action on the page is ghost or quiet.
+
+**What's new and Contact are a matched pair, not two stacked posters.** They sit side by side under
+the document cards. The mark in each panel is a **40px supporting tile beside the content**, capped
+with `max-width`/`max-height` so it cannot grow back into artwork; the heading, the sentence and the
+actions are the section. Actions run ghost -> quiet.
+
+**Component rules are scoped through their container** — `.cards .card h2`, `.panels .panel p`,
+`.tour .tour-note`. These all sit inside `.doc`, whose `h2`, `p` and `a` rules would otherwise win on
+order and give a card title a section heading's size and margin, or paint a whole card in the link
+colour. Do not shorten these selectors.
 
 ## Design
 
@@ -112,15 +189,47 @@ read as part of the application:
 
 - **Sard** (the default) is the application's Ivory token set, its `DEFAULT_LIGHT`; **Charcoal** is
   the night theme. Both are real Sard themes, taken from `src/theme/themes.ts` in the application
-  repository — not approximations. The site offers these two and no others.
+  repository — not approximations. The other four are real looks too, each with the eight colours of
+  its own profile; where a look's accent is too dark or too light to read as text on its own paper
+  it also names `--accent-ink` (for text) and `--on-accent` (for a label on an accent fill).
 - The **desk-and-page** model: the browser background is the desk, the centred opaque sheet is the
   page, and the grain overlay sits on top of it.
 - Typography is the application's: **IBM Plex Sans** and **IBM Plex Sans Arabic** for the interface,
-  routed per script by `unicode-range`, with **Literata** for display and **Amiri** for the Arabic
-  line of the reader specimen. All are OFL-licensed; the notices are kept beside the fonts in
-  `assets/fonts/`.
+  routed per script by `unicode-range`, with **Literata** for display. All are OFL-licensed; the
+  notices are kept beside the fonts in `assets/fonts/`. The Arabic display headings are drawn — see
+  the next section.
 - The visual source of truth is the Sard Theme Kit. Where these pages and the kit ever disagree, the
   kit is right.
+
+## The Arabic display headings
+
+The Arabic headings — the masthead line, the section headings, the card and panel titles — are set
+in **Thmanyah Serif Display Bold**, with the face's own long swash finals (`ss01`) on chosen words, so
+the endings of words like «تبقى» and «جهازك» sweep out.
+
+They are **drawn, not served as a webfont**, and that is a licensing decision rather than a
+technical one. Thmanyah's licence allows the face in websites and design work, but forbids hosting
+the font file or making it available in any way a visitor could extract it — which a `.woff2` on a
+public site is. So `tools/arabic-headings.py` shapes each heading with HarfBuzz and writes it into
+the page as one SVG path. No font file is published; the real text sits beside each drawing (`.vh`)
+for screen readers, search and copying, and the drawing takes its colour from `currentColor`, so it
+repaints with every look. The masthead line has a second, two-line drawing for narrow screens.
+
+To change a heading, edit its text inside `<span class="vh">`, then redraw:
+
+```
+pip install fonttools uharfbuzz
+python tools/arabic-headings.py --font "<path to thmanyahserifdisplay-Bold.otf>" index.html
+```
+
+`data-swash` on the heading names the words (0-based) whose finals take the swash; `data-break` on
+the masthead names the word the narrow version breaks before.
+
+**Milan Display is not used.** Its embedded licence reads "Free for personal use only, modification
+is not allowed", and its embedding flags forbid subsetting, so it can neither appear on a public site
+nor be merged with another face. Thmanyah's own swash set gives the long endings without it. If a
+commercial licence for Milan that allows web use and modification is ever obtained, the drawing tool
+is the place to bring it in.
 
 ## Bilingual, in one document
 
@@ -143,10 +252,52 @@ onward depends on the direction. Note that this is a **deliberate departure** fr
 which mirrors the bird inside the application so it faces into the content; the kit governs the
 application, and this is the decision for this site.
 
-A reader's language and theme choice is kept in `localStorage`. A link may also force a language
+A reader's language and look are kept in `localStorage`. A link may also force a language
 with `?lang=ar` or `?lang=en`.
 
-## Rebuilding the fonts
+## The screens in the tour
+
+`assets/shots/` holds screens from the application repository's `docs/screenshots/`, cropped to
+16:10 and saved as WebP at two widths: the full one (at most 1600px) and an `-800` one for phones,
+chosen by `srcset`. Every one is lazy-loaded.
+
+| File | Source |
+| --- | --- |
+| `listen` | `in-book-en-with-background-and-TTS-working.png` |
+| `notes` | `notes.png` |
+| `search` | `search-feature.png` |
+| `cards` | `quote.png` |
+
+The frame is 16:10 whatever the source, so switching tabs never moves the page. A replacement should
+be cropped to the same ratio.
+
+## The looks, and how their screens were made
+
+`assets/looks/` holds, for each look id (`sard`, `charcoal`, `ember`, `redrose`, `ninthwave`,
+`sierra`):
+
+- `<id>-library-<en|ar>.webp` and `<id>-reading-<en|ar>.webp` — the application wearing the look, at
+  1600x1000, with an `-800` copy of each for phones;
+- `<id>-thumb.webp` — the chip, a 320x200 crop of the English library;
+- `art-<id>.webp` — the look's picture for the desk, for the four looks that have one.
+
+Only the chosen look's files are ever fetched. The screens were taken from a development build of
+the application running on a **throwaway library**: `SARD_DATA_DIR` (honoured only by debug builds)
+and `WEBVIEW2_USER_DATA_FOLDER` point it at empty folders, so a real library is never opened. The
+books in them are public-domain: *Alice's Adventures in Wonderland*, *Dracula* and *The Count of
+Monte Cristo* in their Standard Ebooks editions, and classical Arabic texts — «رسالة الغفران»،
+«مقدمة ابن خلدون»، «تلخيص السفسطة»، «الضروري في المنطق».
+
+**The pictures.** Ninth Wave is built on Ivan Aivazovsky's *The Ninth Wave* (1850) and Sierra on
+Albert Bierstadt's *Among the Sierra Nevada, California* (1868), both public domain via Wikimedia
+Commons and credited in the footer. Ember & Iron and RedRose carry the pictures of the looks they
+were made from; keep the rights to those in mind before swapping in anything else.
+
+To add a look: give it a token block under `:root[data-theme-id="<id>"]` in `assets/sard.css`
+(plus the `:is(...)` lists there if it has a picture), an entry in `THEMES` in `assets/sard.js`, and
+the files above.
+
+## Rebuilding the fonts## Rebuilding the fonts
 
 The `.woff2` files are subsets of the faces bundled with the application, cut down to the Latin and
 Arabic ranges these pages use — about 2 MB of TTF becomes about 320 KB. All OpenType shaping and
@@ -158,16 +309,6 @@ They only need rebuilding if the pages start using a character outside the subse
 ```
 pyftsubset <source.ttf> --unicodes=<ranges> --layout-features='*' --flavor=woff2 \
   --desubroutinize --output-file=assets/fonts/<name>.woff2
-```
-
-**Amiri is the exception.** It sets exactly one line — the Arabic line of the reader specimen — so it
-is cut to that line's characters with `--text=` rather than to the whole Arabic block, which costs
-34 KB instead of 119 KB. **If you change the Arabic specimen text in `index.html`, the new characters
-will not be in the font** and will fall back to a system face. Re-subset with the new string:
-
-```
-pyftsubset Amiri-Regular.ttf --text="<the specimen line>" --layout-features='*' \
-  --flavor=woff2 --desubroutinize --output-file=assets/fonts/amiri-400.woff2
 ```
 
 Dropping `--layout-features='*'` produces a font in which Arabic does not join at all. Always check a
