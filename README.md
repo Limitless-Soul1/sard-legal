@@ -271,6 +271,18 @@ chosen by `srcset`. Every one is lazy-loaded.
 The frame is 16:10 whatever the source, so switching tabs never moves the page. A replacement should
 be cropped to the same ratio.
 
+**On a phone the tour is its own composition.** A whole desktop screen shrunk to a phone's width is
+too small to read, so each screen also has a portrait (4:5) close-up of the feature it names —
+`<name>-m.webp`, cut from the full-resolution source and served through `<picture>` below 600px:
+the highlighted sentence and the playback bar, the note's margin panel, the search panel with its
+sealed card, the photo card itself. The four tabs become an even two-by-two grid there.
+
+Elsewhere on a phone: the look chips go two to a row so every name fits on one line, the page of
+the book sits under the library instead of over it, and the hero's four facts sit two by two. The
+top bar is two rows — the mark and the tools, then the three documents as an even strip across the
+bar's full width, split in equal thirds by hairlines, with the page you are on underlined in the
+look's accent.
+
 ## The looks, and how their screens were made
 
 `assets/looks/` holds, for each look id (`sard`, `charcoal`, `ember`, `redrose`, `ninthwave`,
@@ -292,6 +304,10 @@ Monte Cristo* in their Standard Ebooks editions, and classical Arabic texts — 
 Albert Bierstadt's *Among the Sierra Nevada, California* (1868), both public domain via Wikimedia
 Commons and credited in the footer. Ember & Iron and RedRose carry the pictures of the looks they
 were made from; keep the rights to those in mind before swapping in anything else.
+
+Every look is named in the page's own language — `name.en` and `name.ar` in `THEMES` — so the
+Arabic page never shows an English name: Ember & Iron is «جمرٌ وحديد» there and RedRose
+«الوردة الحمراء».
 
 To add a look: give it a token block under `:root[data-theme-id="<id>"]` in `assets/sard.css`
 (plus the `:is(...)` lists there if it has a picture), an entry in `THEMES` in `assets/sard.js`, and

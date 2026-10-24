@@ -441,6 +441,17 @@ body{
   .look-chip span i{margin-top:.3em;}
   .look-read{width:52%; inset-inline-end:-4px;}
 }
+/* ON A PHONE: two chips to a row, so every name fits on one line and every chip is
+   the same height; and the page of the book sits under the library instead of over
+   it, both at the full width, so neither screen hides part of the other. */
+@media (max-width:480px){
+  .look-chips{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;}
+  .look-chip span{white-space:nowrap; align-items:center;}
+  .look-chip span i{margin-top:0;}
+  .look-stage{padding-bottom:0;}
+  .look-read{position:static; width:100%; margin-top:10px; border-radius:10px;}
+  .look-stage:hover .look-read{transform:none;}
+}
 
 /* ═══ THE TOUR ════════════════════════════════════════════════════════════
    Real screens from the application, set on the desk the way the specimen's
@@ -985,28 +996,55 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
 
 /* ═══ NARROW ══════════════════════════════════════════════════════════════ */
 @media (max-width:560px){
-  /* Two rows, not three: the mark and the tools share the first, and the
-     documents run along the second, scrolling sideways if they must. The bar
-     is sticky, so every row it keeps is a row of reading lost on a phone. */
-  .chrome{min-height:56px; gap:6px 8px; padding-block:6px 0;}
+  /* Two rows: the mark and the tools share the first, and the three documents
+     sit under them as an even strip — the bar's full width, split in three
+     equal parts with a hairline between them, so the second row lines up with
+     the edges of the first instead of trailing off from one side. */
+  .chrome{min-height:56px; gap:8px; padding-block:8px 0;}
   /* On a phone the bar is two rows, so it scrolls away with the page rather than
      holding a slice of the screen; the look picker is back the moment you scroll up. */
   .sheet > .chrome{position:relative;}
   .chrome-tools{margin-inline-start:auto;}
-  .nav{order:3; flex-basis:100%; margin-inline:-7px; padding-bottom:6px;}
-  .nav a{padding:8px 6px; font-size:.75rem;}
+  .nav{
+    order:3; flex-basis:100%; display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+    margin-inline:calc(-1 * clamp(14px,4vw,26px)); border-top:1px solid var(--chrome-border);
+  }
+  .nav a{
+    display:flex; align-items:center; justify-content:center; min-height:42px; padding:0 4px;
+    border-radius:0; font-size:.75rem; text-align:center; white-space:nowrap;
+  }
   /* The mark beside it already leads home, so on a phone the Home link gives
-     its room to the three documents and they fit on one line. */
+     its room to the three documents. */
   .nav a[href="./"]{display:none;}
+  .nav a:not([href="./"]) + a{border-inline-start:1px solid var(--chrome-border);}
+  /* The page you are on is marked the way the look picker marks its choice. */
+  .nav a[aria-current="page"]{color:var(--accent-ink); box-shadow:inset 0 -2px 0 var(--accent);}
+  .nav a:hover{background:color-mix(in srgb,var(--accent) 8%,transparent);}
   [data-lang="ar"] .nav a{font-size:.8125rem;}
   /* In the bar the look shows as its swatch alone; the name stays for screen readers. */
   .look-btn .look-name{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
   .mast-bird{height:76px;}
   .foot{flex-direction:column; align-items:flex-start;}
   .btn.btn-download{width:100%; max-width:340px;}
-  .tour-tabs{flex-wrap:wrap; width:auto;}
-  .tour-tab{padding:0 11px;}
+  /* The download's details wrap on a phone, and a separator dot would then open the
+     second line; spacing alone separates them here. */
+  .get-meta{gap:2px 14px;}
+  .get-meta span + span::before{content:none;}
+  /* The four facts sit two by two, rather than three and one left on its own. */
+  .mast-meta{display:grid; grid-template-columns:repeat(2,max-content); justify-content:center;}
+  .mast-meta span{text-align:center;}
 }
+
+/* ON A PHONE the tour is its own composition. The four tabs are an even two-by-two
+   grid; and each screen is a portrait close-up of the feature it names, cut from
+   the full screenshot (`<picture>` in index.html), because a whole desktop screen
+   shrunk to a phone's width is too small to read. */
+@media (max-width:600px){
+  .tour-tabs{display:grid; grid-template-columns:1fr 1fr; width:100%; gap:2px;}
+  .tour-tab{padding:0 8px; text-align:center;}
+  .tour-frame{aspect-ratio:4/5;}
+}
+.tour-shot picture{display:block; height:100%;}
 
 /* ═══ PRINT — the desk falls away, the page remains ═══════════════════════ */
 @media print{

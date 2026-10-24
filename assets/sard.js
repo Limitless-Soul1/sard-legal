@@ -54,9 +54,9 @@
 
      Sard's values are the application's Ivory set (its DEFAULT_LIGHT), shown
      under the product's name; Charcoal is the application's night theme. Ember
-     & Iron and RedRose are looks made in Sard and keep the names they were
-     shared under; Ninth Wave and Sierra are built on public-domain paintings,
-     credited in the footer. */
+     & Iron and RedRose are looks made in Sard; Ninth Wave and Sierra are built
+     on public-domain paintings, credited in the footer. Every look is named in
+     the page's own language, so an Arabic page never shows an English name. */
   var THEMES = [
     { id: "sard", dark: false, paper: "#F5EEDD", accent: "#9C5A3C",
       name: { en: "Sard", ar: "سَرْد" },
@@ -67,11 +67,11 @@
       note: { en: "The night paper — a soft charcoal that keeps the page quiet after dark.",
               ar: "ورق الليل: فحميّ ليّن يُبقي الصفحة هادئة بعد العتمة." } },
     { id: "ember", dark: true, paper: "#000000", accent: "#C98A5E",
-      name: { en: "Ember & Iron", ar: "Ember & Iron" },
+      name: { en: "Ember & Iron", ar: "جمرٌ وحديد" },
       note: { en: "True black with ember accents, over a station at dusk.",
               ar: "أسود خالص بلمسات الجمر، فوق محطّةٍ عند الغروب." } },
     { id: "redrose", dark: true, paper: "#2B3540", accent: "#CE2D2D",
-      name: { en: "RedRose", ar: "RedRose" },
+      name: { en: "RedRose", ar: "الوردة الحمراء" },
       note: { en: "Slate and crimson, with a rider through the poppies.",
               ar: "أردوازيّ وقرمزيّ، وفارسٌ يعبر حقل الخشخاش." } },
     { id: "ninthwave", dark: true, paper: "#101B1A", accent: "#E8783C",
