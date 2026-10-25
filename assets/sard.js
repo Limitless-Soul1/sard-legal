@@ -581,17 +581,24 @@
      newest installer itself, so one click downloads it, and fills in the
      version, its size, its date and the headings of its notes.
 
-     The asset names carry the version (Sard_1.4.1_x64-setup.exe), so a fixed
+     The asset names carry the version (Sard_1.4.2_x64-setup.exe), so a fixed
      /releases/latest/download/<name> link cannot exist; the API is what knows
-     the current name. It allows 60 unauthenticated requests an hour per
-     visitor, so the answer is kept for half an hour and reused across pages.
-     Only URLs inside this one repository's releases are ever accepted. */
+     the current name. Only URLs inside this one repository's releases are ever
+     accepted.
+
+     A NEW RELEASE SHOWS ON THE NEXT PAGE, NOT HALF AN HOUR LATER. The last
+     answer is kept and shown at once, then checked again in the background
+     whenever it is more than a few minutes old; if the release has changed, the
+     page is filled in again. The API allows 60 unauthenticated requests an hour
+     per visitor, but a check that comes back unchanged (a 304, which the
+     browser asks for itself from the response's ETag) does not count against
+     it, so checking often costs nothing. */
   var APP_REPO = "Limitless-Soul1/Sard";
   var RELEASE_API = "https://api.github.com/repos/" + APP_REPO + "/releases/latest";
   var RELEASE_PAGE = "https://github.com/" + APP_REPO + "/releases/";
   var ASSET_ROOT = RELEASE_PAGE + "download/";
   var RELEASE_KEY = "sard-legal-release";
-  var RELEASE_TTL = 30 * 60 * 1000;
+  var RELEASE_RECHECK = 5 * 60 * 1000;
 
   var D = {
     en: { mb: "MB", started: "Sard {v} is downloading — open the installer when it finishes." },
@@ -630,8 +637,11 @@
   function loadRelease(done) {
     var cached = null;
     try { cached = JSON.parse(read(RELEASE_KEY) || "null"); } catch (e) { drop(RELEASE_KEY); }
-    var fresh = cached && cached.release && Date.now() - cached.at < RELEASE_TTL;
-    if (fresh) { done(cached.release); return; }
+    var known = cached && cached.release ? cached.release : null;
+    if (known) {
+      done(known);
+      if (Date.now() - cached.at < RELEASE_RECHECK) return;
+    }
     if (!window.fetch) return;
 
     var ctl = window.AbortController ? new AbortController() : null;
@@ -642,11 +652,13 @@
         var rel = slimRelease(json);
         if (!rel) throw new Error("no installer");
         write(RELEASE_KEY, JSON.stringify({ at: Date.now(), release: rel }));
-        done(rel);
+        /* Filled in again only when something changed, so an unchanged check
+           does not redraw What's new under the reader's eyes. */
+        if (!known || known.version !== rel.version || known.exe.url !== rel.exe.url) done(rel);
       })
-      /* Rate-limited or offline: a stale answer is still better than none, and
+      /* Rate-limited or offline: the last answer is already on the page, and
          with no answer at all the links simply stay on the release page. */
-      .catch(function () { if (cached && cached.release) done(cached.release); })
+      .catch(function () { /* nothing to undo */ })
       .then(function () { if (timer) clearTimeout(timer); });
   }
 

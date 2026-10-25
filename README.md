@@ -96,7 +96,7 @@ leave content invisible. `prefers-reduced-motion` keeps every finished state and
 
 ## The download, and why it asks GitHub
 
-The installer's file name carries the version — `Sard_1.4.1_x64-setup.exe` — so there is no fixed
+The installer's file name carries the version — `Sard_1.4.2_x64-setup.exe` — so there is no fixed
 `/releases/latest/download/<name>` address that always means "the newest installer". GitHub's API
 is what knows the current name.
 
@@ -117,8 +117,11 @@ A few things keep it safe and cheap:
 
 - **Only URLs inside `github.com/Limitless-Soul1/Sard/releases/` are accepted.** Anything else in
   the response is ignored and the link stays on the release page.
-- **The answer is kept for half an hour** in `localStorage` and reused across pages. Unauthenticated
-  API calls are limited to 60 an hour per visitor; one page view costs at most one.
+- **A new release shows on the next page a visitor opens.** The last answer is kept in
+  `localStorage` and shown at once, then checked again in the background whenever it is more than
+  five minutes old; if the release has changed, the page is filled in again. Unauthenticated API
+  calls are limited to 60 an hour per visitor, but a check that comes back unchanged — a `304`,
+  which the browser asks for itself from the response's `ETag` — does not count against the limit.
 - **Failure is silent.** Offline, rate-limited or slow (eight seconds), the page uses a stale cached
   answer if it has one and otherwise leaves the links on the release page.
 - Everything taken from the release is set with `textContent`, never as HTML.
