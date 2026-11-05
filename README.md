@@ -10,6 +10,7 @@ each document — the Discord Developer Portal among them.
 | Home | `/` |
 | Terms of Service | `/terms.html` |
 | Privacy Policy | `/privacy.html` |
+| Privacy Policy for Sard on Android | `/privacy-android.html` |
 
 This repository is **independent of the Sard application repository**. It holds no application code
 and is not a dependency of the build.
@@ -25,6 +26,7 @@ manager — editing a file and pushing it is the whole workflow.
 index.html          Home — Sard, the download, the looks, the tour, both documents, what's new, contact
 terms.html          Terms of Service
 privacy.html        Privacy Policy
+privacy-android.html  Privacy Policy for Sard on Android
 report.html         Composes a report and hands it to GitHub prefilled
 .github/ISSUE_TEMPLATE/  The issue forms those reports land in
 assets/sard.css     Sard's design tokens and every component on these pages
@@ -359,6 +361,13 @@ so that it can state which revision it contains and fail loudly if the two ever 
 Anything that cannot be stated accurately is marked with a visible `TODO` block rather than filled
 in with a guess. There are none open at the time of writing — the governing law in section 10 of the
 Terms was the last, and it is now settled.
+
+### The Android page stands apart
+
+`privacy-android.html` has its own version and is not part of `revision.json`: the Android app has no acceptance gate and
+vendors nothing. `terms.html` and `privacy.html` are different. The Windows release checks its vendored snapshot against
+their `<article>` text as it stands now, so a change there stops the next Windows release until the snapshot is
+regenerated, and that release then asks every reader to accept again. Anything about the phone goes on the Android page.
 
 ## Publishing
 
