@@ -334,21 +334,34 @@ body{
 .get-alt a:hover{color:var(--accent-ink); background-size:100% 1px;}
 [data-lang="ar"] .btn.btn-download{font-size:1rem; letter-spacing:0;}
 
-/* The Android beta, under the download: outlined rather than filled, so Windows' installer stays the one accent
-   action, and marked as a test version on the button itself and in the line under it. */
+/* The Android beta, under the download: as large and as solid as Windows' button, filled with the
+   look's ink rather than its accent so the two never read as one, and marked as a test version on
+   the button itself and in the line under it. */
 .get-beta{
-  margin:22px 0 0; padding-top:20px; width:min(100%,460px);
+  margin:30px 0 0; width:min(100%,460px);
   display:flex; flex-direction:column; align-items:center;
-  border-top:1px solid var(--chrome-border);
 }
-.btn.btn-beta{min-height:46px; padding:0 18px 0 20px; border-radius:10px; gap:9px;}
-[dir="rtl"] .btn.btn-beta{padding:0 20px 0 18px;}
+.btn.btn-beta{
+  min-height:52px; padding:0 14px 0 24px; border-radius:11px; gap:10px;
+  font-size:.9375rem; letter-spacing:.005em;
+  background:var(--text); color:var(--paper-bg); border-color:var(--text);
+  box-shadow:0 10px 24px -14px color-mix(in srgb,var(--text) 80%,transparent);
+  transition:background-color 160ms linear, box-shadow 240ms ease, transform 200ms var(--press);
+}
+[dir="rtl"] .btn.btn-beta{padding:0 24px 0 14px;}
+.btn.btn-beta:hover{
+  transform:translateY(-2px); color:var(--paper-bg);
+  background:color-mix(in srgb,var(--text) 86%,var(--accent)); border-color:color-mix(in srgb,var(--text) 86%,var(--accent));
+  box-shadow:0 16px 30px -16px color-mix(in srgb,var(--text) 90%,transparent);
+}
+.btn.btn-beta:active{transform:translateY(0) scale(.985); transition-duration:90ms;}
 .btn-beta svg{width:18px; height:18px;}
+/* The two downloads stand one above the other at one width, as a pair. */
+.btn.btn-download,.btn.btn-beta{min-width:264px;}
 .beta-pill{
-  padding:2px 8px; border-radius:999px;
-  font:700 .6875rem/1.4 var(--ui); letter-spacing:.02em;
-  color:var(--accent-ink); background:color-mix(in srgb,var(--accent) 14%,transparent);
-  border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);
+  margin-inline-start:4px; padding:3px 10px; border-radius:999px;
+  font:700 .75rem/1.35 var(--ui); letter-spacing:.02em;
+  color:var(--on-accent); background:var(--accent);
 }
 .get-meta .beta-tag{color:var(--accent-ink); font-weight:600;}
 .get-beta-why{
@@ -356,8 +369,8 @@ body{
   font:400 .8125rem/1.65 var(--ui); color:var(--muted);
 }
 .get-beta-why a{color:var(--accent-ink);}
-[data-lang="ar"] .btn.btn-beta{font-size:.9375rem;}
-[data-lang="ar"] .beta-pill{font-size:.75rem; letter-spacing:0;}
+[data-lang="ar"] .btn.btn-beta{font-size:1rem; letter-spacing:0;}
+[data-lang="ar"] .beta-pill{font-size:.8125rem; letter-spacing:0;}
 [data-lang="ar"] .get-beta-why{font-size:.875rem; line-height:1.85;}
 [data-lang="ar"] .get-meta,[data-lang="ar"] .get-alt,[data-lang="ar"] .get-note{font-size:.875rem;}
 
@@ -1001,7 +1014,7 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
   .card:hover{transform:none;}
-  .btn:hover,.btn:active,.btn.btn-download:hover,.btn.btn-download:active{transform:none;}
+  .btn:hover,.btn:active,.btn.btn-download:hover,.btn.btn-download:active,.btn.btn-beta:hover,.btn.btn-beta:active{transform:none;}
   .card:hover .card-ico,.card:hover .card-go svg{transform:none;}
   [dir="rtl"] .card:hover .card-go svg{transform:scaleX(-1);}
   .tour.is-live .tour-shot img{transform:none;}
@@ -1016,7 +1029,7 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
   .card,.note,.todo,.tool,.look-chip,.look-menu,.look-own,
   .panel,.btn,.choice,.input,.textarea,.handoff,.tour-desk{border:1px solid CanvasText;}
   .picker,.look-chips{display:none !important;}
-  .look-frame,.tour-frame,.btn.btn-download{box-shadow:none;}
+  .look-frame,.tour-frame,.btn.btn-download,.btn.btn-beta{box-shadow:none;}
   .tour-tab[aria-selected="true"]{outline:2px solid Highlight;}
 }
 
@@ -1051,7 +1064,7 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
   .look-btn .look-name{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
   .mast-bird{height:76px;}
   .foot{flex-direction:column; align-items:flex-start;}
-  .btn.btn-download{width:100%; max-width:340px;}
+  .btn.btn-download,.btn.btn-beta{width:100%; max-width:340px;}
   /* The download's details wrap on a phone, and a separator dot would then open the
      second line; spacing alone separates them here. */
   .get-meta{gap:2px 14px;}
