@@ -270,10 +270,11 @@ body{
 .lockup-latin{font:600 clamp(2.125rem,5.5vw,3rem)/1 var(--display); letter-spacing:.01em;}
 .lockup-bar{width:1px; height:clamp(32px,4.6vw,46px); background:var(--text); opacity:.28;}
 .lockup-ar{font:600 clamp(2.375rem,6.4vw,3.5rem)/1 "SardUIArabic",sans-serif; transform:translateY(-2px);}
-.mast-rule{display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:20px;}
-.mast-rule span:first-child{width:60px; height:1px; background:linear-gradient(to left,color-mix(in srgb,var(--text) 26%,transparent),transparent);}
-.mast-rule span:last-child{width:60px; height:1px; background:linear-gradient(to right,color-mix(in srgb,var(--text) 26%,transparent),transparent);}
-.mast-dot{font-size:.625rem; line-height:1; color:var(--gilt);}
+/* One plain line under the lockup, softening only at its two ends. */
+.mast-rule{
+  width:150px; height:1px; margin:5px auto 24px;
+  background:linear-gradient(to right,transparent,color-mix(in srgb,var(--text) 26%,transparent) 22%,color-mix(in srgb,var(--text) 26%,transparent) 78%,transparent);
+}
 .mast h1{
   margin:0 0 14px; font:600 clamp(1.75rem,3.9vw,2.5rem)/1.22 var(--display);
   text-wrap:balance; letter-spacing:-.01em;
@@ -928,7 +929,7 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
    Three kinds, each with a job.
 
    The masthead arrives in a little over a second on load: the hoopoe rises,
-   the lockup follows, the rule is drawn outward from its diamond, then the
+   the lockup follows, the rule is drawn outward from its middle, then the
    sentence and the download. Pure CSS, so it needs no script, and everything
    is painted on the first frame.
 
@@ -945,10 +946,7 @@ a.account:focus-visible{outline:2px solid var(--accent); outline-offset:3px; bor
 @media (prefers-reduced-motion:no-preference){
   .mast-hero{animation:rise 1000ms var(--settle) both;}
   .lockup{animation:rise 900ms var(--settle) 110ms both;}
-  .mast-rule span:not(.mast-dot){animation:draw 900ms var(--settle) 260ms both;}
-  .mast-rule span:first-child{transform-origin:100% 50%;}
-  .mast-rule span:last-child{transform-origin:0 50%;}
-  .mast-dot{animation:pop 640ms var(--arrive) 200ms both;}
+  .mast-rule{animation:draw 900ms var(--settle) 260ms both;}
   .mast h1{animation:rise 900ms var(--settle) 220ms both;}
   .mast .lede{animation:rise 900ms var(--settle) 300ms both;}
   .get{animation:rise 900ms var(--settle) 380ms both;}
