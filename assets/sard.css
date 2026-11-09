@@ -333,6 +333,32 @@ body{
 [dir="rtl"] .get-alt a{background-position:100% 100%;}
 .get-alt a:hover{color:var(--accent-ink); background-size:100% 1px;}
 [data-lang="ar"] .btn.btn-download{font-size:1rem; letter-spacing:0;}
+
+/* The Android beta, under the download: outlined rather than filled, so Windows' installer stays the one accent
+   action, and marked as a test version on the button itself and in the line under it. */
+.get-beta{
+  margin:22px 0 0; padding-top:20px; width:min(100%,460px);
+  display:flex; flex-direction:column; align-items:center;
+  border-top:1px solid var(--chrome-border);
+}
+.btn.btn-beta{min-height:46px; padding:0 18px 0 20px; border-radius:10px; gap:9px;}
+[dir="rtl"] .btn.btn-beta{padding:0 20px 0 18px;}
+.btn-beta svg{width:18px; height:18px;}
+.beta-pill{
+  padding:2px 8px; border-radius:999px;
+  font:700 .6875rem/1.4 var(--ui); letter-spacing:.02em;
+  color:var(--accent-ink); background:color-mix(in srgb,var(--accent) 14%,transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);
+}
+.get-meta .beta-tag{color:var(--accent-ink); font-weight:600;}
+.get-beta-why{
+  margin:8px 0 0; max-width:46ch; text-align:center; text-wrap:pretty;
+  font:400 .8125rem/1.65 var(--ui); color:var(--muted);
+}
+.get-beta-why a{color:var(--accent-ink);}
+[data-lang="ar"] .btn.btn-beta{font-size:.9375rem;}
+[data-lang="ar"] .beta-pill{font-size:.75rem; letter-spacing:0;}
+[data-lang="ar"] .get-beta-why{font-size:.875rem; line-height:1.85;}
 [data-lang="ar"] .get-meta,[data-lang="ar"] .get-alt,[data-lang="ar"] .get-note{font-size:.875rem;}
 
 /* ═══ DOCUMENT CARDS (homepage) ═══════════════════════════════════════════ */

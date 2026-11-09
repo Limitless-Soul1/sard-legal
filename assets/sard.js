@@ -762,6 +762,111 @@
     loadRelease(fillRelease);
   }
 
+  /* ═══ THE ANDROID BETA ════════════════════════════════════════════════════
+     A second, quieter download under Windows': the newest test build of Sard for
+     phones. Every Android build is published as a pre-release, which GitHub's
+     /releases/latest never names, so the list of releases is asked for and the
+     newest one carrying an APK is taken. Until then, or without script, the link
+     is the beta's releases page, which always works. Only URLs inside that one
+     repository's releases are accepted, and the answer is kept and checked again
+     as the desktop's is. */
+  var BETA_REPO = "Limitless-Soul1/sard-mobile-beta";
+  var BETA_API = "https://api.github.com/repos/" + BETA_REPO + "/releases?per_page=10";
+  var BETA_ROOT = "https://github.com/" + BETA_REPO + "/releases/download/";
+  var BETA_KEY = "sard-legal-beta";
+
+  var B = {
+    en: { started: "The Android beta {v} is downloading — open the file on your phone to install it." },
+    ar: { started: "يجري تنزيل النسخة التجريبية {v}، افتح الملف على جوالك لتثبيته." }
+  };
+
+  /* The newest release in the list with an APK of this repository's own. */
+  function slimBeta(list) {
+    if (!Array.isArray(list)) return null;
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i];
+      if (!r || r.draft || !r.assets) continue;
+      for (var j = 0; j < r.assets.length; j++) {
+        var a = r.assets[j];
+        if (a && /\.apk$/i.test(a.name) && typeof a.browser_download_url === "string" &&
+            a.browser_download_url.indexOf(BETA_ROOT) === 0) {
+          return {
+            version: String(r.tag_name || "").replace(/^v/i, ""),
+            apk: { name: a.name, size: a.size, url: a.browser_download_url }
+          };
+        }
+      }
+    }
+    return null;
+  }
+
+  function loadBeta(done) {
+    var cached = null;
+    try { cached = JSON.parse(read(BETA_KEY) || "null"); } catch (e) { drop(BETA_KEY); }
+    var known = cached && cached.beta ? cached.beta : null;
+    if (known) {
+      done(known);
+      if (Date.now() - cached.at < RELEASE_RECHECK) return;
+    }
+    if (!window.fetch) return;
+
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = ctl && setTimeout(function () { ctl.abort(); }, 8000);
+    fetch(BETA_API, { headers: { Accept: "application/vnd.github+json" }, signal: ctl ? ctl.signal : undefined })
+      .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
+      .then(function (json) {
+        var beta = slimBeta(json);
+        if (!beta) throw new Error("no apk");
+        write(BETA_KEY, JSON.stringify({ at: Date.now(), beta: beta }));
+        if (!known || known.version !== beta.version || known.apk.url !== beta.apk.url) done(beta);
+      })
+      /* Rate-limited or offline: the link stays on the beta's releases page. */
+      .catch(function () { /* nothing to undo */ })
+      .then(function () { if (timer) clearTimeout(timer); });
+  }
+
+  function fillBeta(beta) {
+    each("[data-beta-download]", function (a) {
+      a.href = beta.apk.url;
+      a.title = beta.apk.name;
+      a.setAttribute("data-ready", "");
+    });
+    each("[data-beta]", function (el) {
+      var key = el.getAttribute("data-beta");
+      el.textContent = key === "version" ? beta.version : key === "size" ? formatSize(beta.apk.size, langOf(el)) : "";
+    });
+    each("[data-beta-show]", function (el) {
+      var filled = el.querySelector("[data-beta]") || el;
+      if (filled.textContent) el.hidden = false;
+    });
+  }
+
+  function buildBeta() {
+    var buttons = document.querySelectorAll("[data-beta-download]");
+    if (!buttons.length) return;
+    /* Once the link is the APK itself, the click starts a download and the page
+       stays put, so it says so. */
+    Array.prototype.forEach.call(buttons, function (a) {
+      var timer;
+      a.addEventListener("click", function (e) {
+        if (!a.hasAttribute("data-ready") || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var l = langOf(a);
+        var block = a.closest(".get-beta") || a.parentNode;
+        var note = block.querySelector("[data-beta-note]");
+        var version = (block.querySelector('[data-beta="version"]') || {}).textContent || "";
+        clearTimeout(timer);
+        if (note) {
+          /* Kept left to right inside the Arabic sentence, or "0.1.0-beta.5" reads "beta.5-0.1.0". */
+          var shown = version ? "\u2066" + version + "\u2069" : "";
+          note.textContent = B[l].started.replace("{v}", shown).replace("  ", " ");
+          note.classList.add("is-on");
+          timer = setTimeout(function () { note.classList.remove("is-on"); }, 9000);
+        }
+      });
+    });
+    loadBeta(fillBeta);
+  }
+
   /* ═══ THE TOUR ════════════════════════════════════════════════════════════
      Real screens from the application, one at a time, chosen by tabs. Without
      script the first screen shows on its own and the tabs never appear. The
@@ -1068,6 +1173,7 @@
     var measureRail = buildRail();
     var syncTour = buildTour();
     buildRelease();
+    buildBeta();
     buildChrome();
     buildReveal();
     /* Both languages of the report page are in the document at once, so each
