@@ -368,7 +368,6 @@ body{
   margin:8px 0 0; max-width:46ch; text-align:center; text-wrap:pretty;
   font:400 .8125rem/1.65 var(--ui); color:var(--muted);
 }
-.get-beta-why a{color:var(--accent-ink);}
 [data-lang="ar"] .btn.btn-beta{font-size:1rem; letter-spacing:0;}
 [data-lang="ar"] .beta-pill{font-size:.8125rem; letter-spacing:0;}
 [data-lang="ar"] .get-beta-why{font-size:.875rem; line-height:1.85;}
